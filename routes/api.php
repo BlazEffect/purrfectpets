@@ -25,6 +25,7 @@ Route::prefix('v1')->group(function () {
     Route::controller(SectionController::class)->group(function () {
         Route::get('/sections', 'getSections');
         Route::get('/section/{sectionId}', 'getChildSections');
+        Route::get('/section/{sectionId}/products', 'getProducts');
     });
 
     Route::middleware('auth:sanctum')->group(function (){

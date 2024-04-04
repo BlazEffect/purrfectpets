@@ -30,4 +30,19 @@ class SectionController extends BaseController
 
         return $this->sendResponse($section->childSections()->active()->get(), '');
     }
+
+    /**
+     * @param int $sectionId
+     * @return JsonResponse
+     */
+    public function getProducts(int $sectionId): JsonResponse
+    {
+        $section = CatalogSection::find($sectionId);
+
+        if ($section === null) {
+            return $this->sendError('Раздел не найден');
+        }
+
+        return $this->sendResponse($section->products()->active()->get(), '');
+    }
 }
