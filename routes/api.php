@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\ProductController;
+use App\Http\Controllers\Api\v1\SectionController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +16,13 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::controller(AuthController::class)->prefix('auth')->group(function(){
-    Route::post('register', 'register')->name('register');
-    Route::post('login', 'login')->name('login');
-});
+Route::prefix('v1')->group(function () {
+    Route::controller(AuthController::class)->prefix('auth')->group(function(){
+        Route::post('register', 'register')->name('register');
+        Route::post('login', 'login')->name('login');
+    });
 
-Route::middleware('auth:sanctum')->group(function (){
-    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+    });
 });

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Api\BaseController;
+use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +29,7 @@ class AuthController extends BaseController
             'FIO' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Ошибки валидации.', $validator->errors()->toArray());
         }
 
@@ -45,7 +46,7 @@ class AuthController extends BaseController
         ];
         UserProfile::create($profileData);
 
-        $success['token'] =  $user->createToken('auth_token')->plainTextToken;
+        $success['token'] = $user->createToken('auth_token')->plainTextToken;
 
         return $this->sendResponse($success, 'Пользователь успешно зарегистрирован.');
     }
@@ -58,14 +59,14 @@ class AuthController extends BaseController
      */
     public function login(Request $request): JsonResponse
     {
-        if(Auth::attempt(['email' => $request->post('email'), 'password' => $request->post('password')])){
+        if (Auth::attempt(['email' => $request->post('email'), 'password' => $request->post('password')])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('auth_token')->plainTextToken;
+            $success['token'] = $user->createToken('auth_token')->plainTextToken;
 
             return $this->sendResponse($success, 'Пользователь успешно вошел.');
         }
 
-        return $this->sendError('Неверные данные', ['error'=>'Не авторизован']);
+        return $this->sendError('Неверные данные', ['error' => 'Не авторизован']);
     }
 
     public function logout(): JsonResponse
