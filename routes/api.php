@@ -22,6 +22,8 @@ Route::prefix('v1')->group(function () {
         Route::post('login', 'login')->name('login');
     });
 
+    Route::get('/product/{productId}', [ProductController::class, 'getProduct']);
+
     Route::controller(SectionController::class)->group(function () {
         Route::get('/sections', 'getSections');
         Route::get('/section/{sectionId}', 'getChildSections');

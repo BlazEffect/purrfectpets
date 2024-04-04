@@ -20,6 +20,27 @@ class CatalogProduct extends Model
         );
     }
 
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'product_id', 'id');
+    }
+
+    public function propertyValues(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            CatalogProductProperty::class,
+            'catalog_product_properties_values',
+            'product_id',
+            'property_id'
+        )
+            ->withPivot('value');
+    }
+
     public function scopeActive(Builder $query): void
     {
         $query->where('active', 1);
