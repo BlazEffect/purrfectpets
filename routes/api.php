@@ -22,6 +22,11 @@ Route::prefix('v1')->group(function () {
         Route::post('login', 'login')->name('login');
     });
 
+    Route::controller(SectionController::class)->group(function () {
+        Route::get('/sections', 'getSections');
+        Route::get('/section/{sectionId}', 'getChildSections');
+    });
+
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
     });
