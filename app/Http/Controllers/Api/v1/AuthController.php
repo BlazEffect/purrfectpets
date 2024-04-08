@@ -22,7 +22,7 @@ class AuthController extends BaseApiController
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'email' => 'required|email',
+            'email' => 'required|unique:users|email',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
             'FIO' => 'required',
