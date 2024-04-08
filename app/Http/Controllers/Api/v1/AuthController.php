@@ -8,11 +8,67 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use OpenApi\Annotations as OA;
 
 class AuthController extends BaseApiController
 {
     /**
      * Register api
+     *
+     * @OA\Post (
+     *      path="/auth/register",
+     *      tags={"Auth"},
+     *      summary="Регистрация пользователя",
+     *      description="Регистрация пользователя",
+     *      @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              allOf={
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                          property="FIO",
+     *                          type="string",
+     *                          example="Морозов Николай Михайлович"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="email",
+     *                          type="string",
+     *                          example="morozov@test.com"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="password",
+     *                          type="string",
+     *                          example="morozov123"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="confirm_password",
+     *                          type="string",
+     *                          example="morozov123"
+     *                      ),
+     *                  )
+     *              }
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=200,
+     *           description="Успешно",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="success", type="boolean", example="true"),
+     *               @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="access_token", type="string", example="randomtokenasfhaj398rureuuhfdshk")
+     *               ),
+     *               @OA\Property(property="message", type="string", example="Пользователь успешно зарегистрирован.")
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=422,
+     *           description="Ошибка валидации",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="success", type="boolean", example="false"),
+     *               @OA\Property(property="message", type="string", example="Ошибка валидации."),
+     *               @OA\Property(property="data", type="object", example={})
+     *           )
+     *       )
+     *  )
      *
      * @param Request $request
      * @return JsonResponse
@@ -41,7 +97,6 @@ class AuthController extends BaseApiController
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        $fio = explode(' ', $input['FIO']);
         $profileData = [
             'user_id' => $user->id,
             'first_name' => $fio[1],
@@ -59,6 +114,53 @@ class AuthController extends BaseApiController
     /**
      * Login api
      *
+     * @OA\Post (
+     *     path="/auth/login",
+     *     tags={"Auth"},
+     *     summary="Авторизация пользователя",
+     *     description="Авторизация пользователя",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             allOf={
+     *                 @OA\Schema(
+     *                     @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="morozov@test.com"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="password",
+     *                         type="string",
+     *                         example="morozov123"
+     *                     )
+     *                 )
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="token", type="string", example="randomtokenasfhaj398rureuuhfdshk")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Пользователь успешно вошел.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Ошибка валидации",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Неверные данные."),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="error", type="string", example="Не авторизован")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @param Request $request
      * @return JsonResponse
      */
@@ -71,9 +173,33 @@ class AuthController extends BaseApiController
             return $this->sendResponse($success, 'Пользователь успешно вошел.');
         }
 
-        return $this->sendError('Неверные данные', ['error' => 'Не авторизован']);
+        return $this->sendError('Неверные данные.', ['error' => 'Не авторизован']);
     }
 
+    /**
+     * Logout Api
+     *
+     * @OA\Post(
+     *     path="/auth/logout",
+     *     tags={"Auth"},
+     *     summary="Выход с аккаунта",
+     *     description="Выход с аккаунта",
+     *     security={
+     *         { "Bearer":{} }
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="object", example={}),
+     *             @OA\Property(property="message", type="string", example="Пользователь успешно вышел.")
+     *         )
+     *     )
+     * )
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         Auth()->user()->tokens()->delete();
