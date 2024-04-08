@@ -32,6 +32,12 @@ class AuthController extends BaseApiController
             return $this->sendError('Ошибки валидации.', $validator->errors()->toArray());
         }
 
+        $fio = explode(' ', $input['FIO']);
+
+        if (count($fio) !== 3) {
+            return $this->sendError('Ошибки валидации.', ['FIO' => 'Вы ввели некорректно ФИО.']);
+        }
+
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
