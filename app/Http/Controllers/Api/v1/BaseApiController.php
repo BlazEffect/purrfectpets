@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-class BaseController extends Controller
+class BaseApiController extends Controller
 {
     /**
      * Success response method.

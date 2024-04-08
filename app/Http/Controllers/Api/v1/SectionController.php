@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Api\BaseController;
 use App\Models\CatalogSection;
 use Illuminate\Http\JsonResponse;
 
-class SectionController extends BaseController
+class SectionController extends BaseApiController
 {
     /**
      * @return JsonResponse
