@@ -62,9 +62,9 @@ class SectionController extends BaseApiController
      *
      * @return ApiSuccessResponse
      */
-    public function getSections(): JsonResponse
+    public function getSections(): ApiSuccessResponse
     {
-        return $this->sendResponse(CatalogSection::active()->get(), '');
+        return new ApiSuccessResponse(CatalogSection::active()->get(), '');
     }
 
     /**
@@ -104,17 +104,17 @@ class SectionController extends BaseApiController
      * )
      *
      * @param int $sectionId
-     * @return JsonResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getChildSections(int $sectionId): JsonResponse
+    public function getChildSections(int $sectionId): ApiSuccessResponse|ApiErrorResponse
     {
         $section = CatalogSection::find($sectionId);
 
         if ($section === null) {
-            return $this->sendError('Раздел не найден');
+            return new ApiErrorResponse('Раздел не найден.');
         }
 
-        return $this->sendResponse($section->childSections()->active()->get(), '');
+        return new ApiSuccessResponse($section->childSections()->active()->get(), '');
     }
 
     /**
@@ -154,16 +154,16 @@ class SectionController extends BaseApiController
      * )
      *
      * @param int $sectionId
-     * @return JsonResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getProducts(int $sectionId): JsonResponse
+    public function getProducts(int $sectionId): ApiSuccessResponse|ApiErrorResponse
     {
         $section = CatalogSection::find($sectionId);
 
         if ($section === null) {
-            return $this->sendError('Раздел не найден');
+            return new ApiErrorResponse('Раздел не найден');
         }
 
-        return $this->sendResponse($section->products()->active()->get(), '');
+        return new ApiSuccessResponse($section->products()->active()->get(), '');
     }
 }

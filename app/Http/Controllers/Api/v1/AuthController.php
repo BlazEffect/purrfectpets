@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Responses\ApiErrorResponse;
+use App\Http\Responses\ApiSuccessResponse;
 use App\Models\User;
 use App\Models\UserProfile;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -71,9 +72,9 @@ class AuthController extends BaseApiController
      *  )
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function register(Request $request): JsonResponse
+    public function register(Request $request): ApiSuccessResponse|ApiErrorResponse
     {
         $input = $request->all();
 
@@ -85,13 +86,13 @@ class AuthController extends BaseApiController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Ошибки валидации.', $validator->errors()->toArray());
+            return new ApiErrorResponse('Ошибки валидации.', $validator->errors()->toArray());
         }
 
         $fio = explode(' ', $input['FIO']);
 
         if (count($fio) !== 3) {
-            return $this->sendError('Ошибки валидации.', ['FIO' => 'Вы ввели некорректно ФИО.']);
+            return new ApiErrorResponse('Ошибки валидации.', ['FIO' => 'Вы ввели некорректно ФИО.']);
         }
 
         $input['password'] = bcrypt($input['password']);
@@ -108,7 +109,7 @@ class AuthController extends BaseApiController
 
         $success['token'] = $user->createToken('auth_token')->plainTextToken;
 
-        return $this->sendResponse($success, 'Пользователь успешно зарегистрирован.');
+        return new ApiSuccessResponse($success, 'Пользователь успешно зарегистрирован.');
     }
 
     /**
@@ -162,18 +163,18 @@ class AuthController extends BaseApiController
      * )
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request): ApiSuccessResponse|ApiErrorResponse
     {
         if (Auth::attempt(['email' => $request->post('email'), 'password' => $request->post('password')])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('auth_token')->plainTextToken;
 
-            return $this->sendResponse($success, 'Пользователь успешно вошел.');
+            return new ApiSuccessResponse($success, 'Пользователь успешно вошел.');
         }
 
-        return $this->sendError('Неверные данные.', ['error' => 'Не авторизован']);
+        return new ApiErrorResponse('Неверные данные.', ['error' => 'Не авторизован']);
     }
 
     /**
@@ -198,12 +199,12 @@ class AuthController extends BaseApiController
      *     )
      * )
      *
-     * @return JsonResponse
+     * @return ApiSuccessResponse
      */
-    public function logout(): JsonResponse
+    public function logout(): ApiSuccessResponse
     {
         Auth()->user()->tokens()->delete();
 
-        return $this->sendResponse([], 'Пользователь успешно вышел.');
+        return new ApiSuccessResponse([], 'Пользователь успешно вышел.');
     }
 }

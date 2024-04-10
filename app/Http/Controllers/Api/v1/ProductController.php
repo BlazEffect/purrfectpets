@@ -89,16 +89,16 @@ class ProductController extends BaseApiController
      * )
      *
      * @param int $productId
-     * @return JsonResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getProduct(int $productId): JsonResponse
+    public function getProduct(int $productId): ApiSuccessResponse|ApiErrorResponse
     {
         $product = CatalogProduct::find($productId);
 
         if ($product === null) {
-            return $this->sendError('Товар не найден');
+            return new ApiErrorResponse('Товар не найден.');
         }
 
-        return $this->sendResponse($product->with('brand', 'comments', 'propertyValues')->get(), '');
+        return new ApiSuccessResponse($product->with('brand', 'comments', 'propertyValues')->first(), '');
     }
 }
