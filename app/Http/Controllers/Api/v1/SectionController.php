@@ -118,6 +118,41 @@ class SectionController extends BaseApiController
     }
 
     /**
+     * @OA\Get (
+     *     path="/section/{sectionId}/products",
+     *     tags={"Section"},
+     *     summary="Получение дочерних элементов раздела",
+     *     description="Получение дочерних элементов раздела",
+     *     @OA\Parameter(
+     *         name="sectionId",
+     *         description="ID раздела",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Product")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Раздел не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Раздел не найден."),
+     *         )
+     *     )
+     * )
+     *
      * @param int $sectionId
      * @return JsonResponse
      */
