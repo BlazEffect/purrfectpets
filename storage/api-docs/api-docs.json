@@ -241,9 +241,839 @@
                     }
                 ]
             }
+        },
+        "/menus": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Получение списка меню",
+                "description": "Получение списка меню",
+                "operationId": "3351020861e75cd8eb8c476cbb0f6708",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Menu"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menu/{menuKey}/items": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Получение списка элементов меню",
+                "description": "Получение списка элементов меню",
+                "operationId": "b5208f0246bc9ba81d6ecfafa9735898",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MenuItem"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getPage/{page:url}": {
+            "get": {
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Получение статической страницы из бд",
+                "description": "Получение статической страницы из бд",
+                "operationId": "705a276174816c3ce693eb9f8f28f5ac",
+                "parameters": [
+                    {
+                        "name": "page:url",
+                        "in": "path",
+                        "description": "Url страницы",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Название страницы"
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "example": "Url страницы"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "Содержание страницы"
+                                                },
+                                                "active": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "order": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-08 00:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-08 00:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Страницы не существует"
+                    }
+                }
+            }
+        },
+        "/product/{productId}": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Получение товара по ID",
+                "description": "Получение товара по ID",
+                "operationId": "715b192318eada5fd69b71093ad17ee4",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID продукта",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Товар"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "tovar"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Описание товара"
+                                                },
+                                                "brand_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "price": {
+                                                    "type": "string",
+                                                    "example": "1.00"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "active": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "order": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-08 00:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-08 00:00:00"
+                                                },
+                                                "brand": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Бренд"
+                                                        },
+                                                        "slug": {
+                                                            "type": "string",
+                                                            "example": "brend"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Описание бренда"
+                                                        },
+                                                        "active": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-04-08 00:00:00"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-04-08 00:00:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "comments": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "product_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "user_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "status": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Краткое название"
+                                                        },
+                                                        "advantages": {
+                                                            "type": "string",
+                                                            "example": "Преимущества"
+                                                        },
+                                                        "disadvantages": {
+                                                            "type": "string",
+                                                            "example": "Недостатки"
+                                                        },
+                                                        "text": {
+                                                            "type": "string",
+                                                            "example": "Более подробное описание"
+                                                        },
+                                                        "rating_value": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-04-08 00:00:00"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-04-08 00:00:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "property_values": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Название свойства"
+                                                        },
+                                                        "privot": {
+                                                            "properties": {
+                                                                "product_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "property_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "value": {
+                                                                    "type": "string",
+                                                                    "example": "Значение свойства"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Товара не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Товар не найден."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sections": {
+            "get": {
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Получение списка разделов",
+                "description": "Получение списка разделов",
+                "operationId": "b0074e18f03fc646e24853811b861e59",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Section"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/section/{sectionId}/children": {
+            "get": {
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Получение дочерних элементов раздела",
+                "description": "Получение дочерних элементов раздела",
+                "operationId": "b119347b33f770c413e01c58535daf06",
+                "parameters": [
+                    {
+                        "name": "sectionId",
+                        "in": "path",
+                        "description": "ID раздела",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Section"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Раздел не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Раздел не найден."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/section/{sectionId}/products": {
+            "get": {
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Получение дочерних элементов раздела",
+                "description": "Получение дочерних элементов раздела",
+                "operationId": "b1f165a6107eb62c2bf8c89f79be8be8",
+                "parameters": [
+                    {
+                        "name": "sectionId",
+                        "in": "path",
+                        "description": "ID раздела",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Раздел не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Раздел не найден."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
+        "schemas": {
+            "Menu": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Раздел"
+                    },
+                    "key": {
+                        "type": "string",
+                        "example": "razdel"
+                    },
+                    "active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "MenuItem": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "menu_type_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Товар"
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "http://zooshop.local:7542"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChildMenuItem"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ChildMenuItem": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "menu_type_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Товар"
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "http://zooshop.local:7542"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "Section": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Раздел"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "razdel"
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Описание раздела"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Товар"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "tovar"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Описание товара"
+                    },
+                    "brand_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "price": {
+                        "type": "string",
+                        "example": "1.00"
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object"
+            }
+        },
         "securitySchemes": {
             "Bearer": {
                 "type": "apiKey",

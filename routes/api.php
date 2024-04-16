@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\MenuController;
+use App\Http\Controllers\Api\v1\PageController;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\SectionController;
 use Illuminate\Support\Facades\Route;
@@ -42,4 +43,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
     });
+
+    Route::get('/getPage/{page:url}', [PageController::class, 'index'])
+        ->where('page', '.*');
 });
