@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\MenuController;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\SectionController;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +27,16 @@ Route::prefix('v1')->group(function () {
 
     Route::controller(SectionController::class)->group(function () {
         Route::get('/sections', 'getSections');
-        Route::get('/section/{sectionId}', 'getChildSections');
-        Route::get('/section/{sectionId}/products', 'getProducts');
+
+        Route::prefix('/section/{sectionId}')->group(function () {
+            Route::get('/children', 'getChildSections');
+            Route::get('/products', 'getProducts');
+        });
+    });
+
+    Route::controller(MenuController::class)->group(function () {
+        Route::get('menus', 'getMenus');
+        Route::get('/menu/{menuKey}/items', 'getMenuItems');
     });
 
     Route::middleware('auth:sanctum')->group(function (){
