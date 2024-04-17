@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
 
         Route::controller(OrderController::class)->prefix('order')->group(function () {
             Route::post('/create', 'createOrder');
+            Route::post('/{orderId}/cancel', 'cancelOrder');
         });
     });
 

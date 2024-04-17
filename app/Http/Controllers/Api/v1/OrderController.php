@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\CatalogProduct;
 use App\Models\Order;
@@ -98,5 +99,59 @@ class OrderController extends BaseApiController
         $order->properties()->create($request->get('orderProperties'));
 
         return new ApiSuccessResponse(['orderId' => $order->id], 'Заказ успешно создан.');
+    }
+
+    /**
+     * @OA\Post (
+     *     path="/order/{orderId}/cancel",
+     *     tags={"Order"},
+     *     summary="Отмена заказа",
+     *     description="Отмена заказа",
+     *     security={
+     *         { "Bearer":{} }
+     *     },
+     *     @OA\Parameter(
+     *         name="orderId",
+     *         description="ID заказа",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="object", example={}),
+     *             @OA\Property(property="message", type="string", example="Заказ успешно отменён.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Заказ не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Заказ не найден.")
+     *         )
+     *     )
+     * )
+     *
+     * @param int $orderId
+     * @return ApiSuccessResponse|ApiErrorResponse
+     */
+    public function cancelOrder(int $orderId): ApiSuccessResponse|ApiErrorResponse
+    {
+        $order = Order::find($orderId);
+
+        if ($order === null) {
+            return new ApiErrorResponse('Заказ не найден.');
+        }
+
+        $order->status = 1;
+        $order->save();
+
+        return new ApiSuccessResponse([], 'Заказ успешно отменён.');
     }
 }
