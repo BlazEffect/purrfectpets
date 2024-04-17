@@ -318,6 +318,98 @@
                 }
             }
         },
+        "/order/create": {
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Создание заказа",
+                "description": "Создание заказа",
+                "operationId": "c1e40c5476093f70df5112136f2ddd32",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "orderProperties": {
+                                                "properties": {
+                                                    "FIO": {
+                                                        "type": "string",
+                                                        "example": "Морозов Николай Михайлович"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "morozov@test.com"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "+7(999)999-99-99"
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "example": "Москва, ул. Ленина, д. 1"
+                                                    },
+                                                    "comment": {
+                                                        "type": "string",
+                                                        "example": "Комментарий"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "products": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/OrderProduct"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "orderId": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Заказ успешно создан."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/getPage/{page:url}": {
             "get": {
                 "tags": [
@@ -959,6 +1051,23 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderProduct": {
+                "required": [
+                    "productId",
+                    "count"
+                ],
+                "properties": {
+                    "productId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "count": {
+                        "type": "integer",
+                        "example": 1
                     }
                 },
                 "type": "object"
