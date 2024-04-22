@@ -56,6 +56,10 @@ return [
             'throw' => false,
         ],
 
+        'banners' => [
+            'driver' => 'local',
+            'root' => storage_path('app/banners'),
+        ]
     ],
 
     /*
