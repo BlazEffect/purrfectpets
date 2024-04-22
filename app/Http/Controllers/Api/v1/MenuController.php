@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\MenuType;
@@ -51,7 +50,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="updated_at", type="datetime", example="2024-04-08 00:00:00"),
  * )
  */
-class MenuController extends Controller
+class MenuController extends BaseApiController
 {
     /**
      * @OA\Get (

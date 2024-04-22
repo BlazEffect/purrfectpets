@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Page;
 use OpenApi\Annotations as OA;
 
-class PageController extends Controller
+class PageController extends BaseApiController
 {
     /**
      * @OA\Get (
