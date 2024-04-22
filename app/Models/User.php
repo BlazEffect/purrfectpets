@@ -63,7 +63,8 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->active === 1 &&
+            ($this->hasRole(Utils::getSuperAdminName()) || $this->hasRole(Utils::getPanelUserRoleName()));
     }
 
     public function getFilamentName(): string
