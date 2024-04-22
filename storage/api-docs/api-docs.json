@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://zooshop.local:7542/api/v1",
+            "url": "https://api.zooshop.local:8443/api/v1",
             "description": "API Server"
         }
     ],
@@ -240,6 +240,44 @@
                         "Bearer": []
                     }
                 ]
+            }
+        },
+        "/banners": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Получение баннеров из бд",
+                "description": "Получение баннеров из бд",
+                "operationId": "199a9d4cd861f8c9a07fb796c61563ca",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Banner"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/menus": {
@@ -984,6 +1022,57 @@
     },
     "components": {
         "schemas": {
+            "Banner": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Название для администратора"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Отображаемое название"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "Картинка "
+                    },
+                    "link": {
+                        "type": "string",
+                        "example": "Ссылка баннера"
+                    },
+                    "text": {
+                        "type": "text",
+                        "example": "Текст баннера"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
             "Menu": {
                 "required": [
                     "id",
