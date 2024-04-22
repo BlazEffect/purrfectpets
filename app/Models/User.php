@@ -54,11 +54,15 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasOne(UserProfile::class);
     }
 
-    public function getUserNameAndSurname(): string
+    protected function userNameAndSurname(): Attribute
     {
-        $userProfile = $this->profile()->first();
+        return Attribute::make(
+            get: function () {
+                $userProfile = $this->profile()->first();
 
-        return $userProfile->first_name . ' ' . $userProfile->surname;
+                return $userProfile->first_name . ' ' . $userProfile->surname;
+            }
+        );
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -69,6 +73,6 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function getFilamentName(): string
     {
-        return $this->getUserNameAndSurname();
+        return $this->user_name_and_surname;
     }
 }
