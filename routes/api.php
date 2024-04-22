@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\BannerController;
 use App\Http\Controllers\Api\v1\MenuController;
 use App\Http\Controllers\Api\v1\OrderController;
 use App\Http\Controllers\Api\v1\PageController;
@@ -24,6 +25,8 @@ Route::prefix('v1')->group(function () {
         Route::post('register', 'register')->name('register');
         Route::post('login', 'login')->name('login');
     });
+
+    Route::get('/banners', [BannerController::class, 'getBanners']);
 
     Route::get('/product/{productId}', [ProductController::class, 'getProduct']);
 
