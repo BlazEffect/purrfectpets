@@ -10,8 +10,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CatalogProduct extends Model
 {
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'brand_id',
+        'image',
+        'price',
+        'quantity',
+        'active',
+        'order'
+    ];
+
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
+        'image' => 'array'
     ];
 
     public function sections(): BelongsToMany
