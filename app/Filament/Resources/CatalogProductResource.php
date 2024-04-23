@@ -17,12 +17,13 @@ use Illuminate\Support\Str;
 class CatalogProductResource extends Resource
 {
     protected static ?string $model = CatalogProduct::class;
+    protected static ?string $navigationGroup = 'Каталог';
     protected static ?string $modelLabel = 'продукт';
     protected static ?string $navigationLabel = 'Продукты';
     protected static ?string $pluralModelLabel = 'Продукты';
     protected static ?string $breadcrumb = 'Продукты';
     protected static bool $hasTitleCaseModelLabel = false;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {
