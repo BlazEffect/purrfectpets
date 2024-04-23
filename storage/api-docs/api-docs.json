@@ -670,8 +670,8 @@
                                                     "example": 1
                                                 },
                                                 "active": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "boolean",
+                                                    "example": true
                                                 },
                                                 "order": {
                                                     "type": "integer",
@@ -706,8 +706,8 @@
                                                             "example": "Описание бренда"
                                                         },
                                                         "active": {
-                                                            "type": "integer",
-                                                            "example": 1
+                                                            "type": "boolean",
+                                                            "example": true
                                                         },
                                                         "order": {
                                                             "type": "integer",
