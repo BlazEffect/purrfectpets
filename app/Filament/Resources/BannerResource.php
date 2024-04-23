@@ -14,6 +14,7 @@ use Filament\Tables\Table;
 class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
+    protected static ?string $navigationGroup = 'Главная';
     protected static ?string $modelLabel = 'баннера';
     protected static ?string $navigationLabel = 'Баннеры';
     protected static ?string $pluralModelLabel = 'Баннеры';
