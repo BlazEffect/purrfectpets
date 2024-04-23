@@ -38,7 +38,7 @@ class ProductController extends BaseApiController
      *                 @OA\Property(property="image", type="string", example=""),
      *                 @OA\Property(property="price", type="string", example="1.00"),
      *                 @OA\Property(property="quantity", type="integer", example=1),
-     *                 @OA\Property(property="active", type="integer", example=1),
+     *                 @OA\Property(property="active", type="boolean", example=true),
      *                 @OA\Property(property="order", type="integer", example=1),
      *                 @OA\Property(property="created_at", type="datetime", example="2024-04-08 00:00:00"),
      *                 @OA\Property(property="updated_at", type="datetime", example="2024-04-08 00:00:00"),
@@ -47,7 +47,7 @@ class ProductController extends BaseApiController
      *                     @OA\Property(property="name", type="string", example="Бренд"),
      *                     @OA\Property(property="slug", type="string", example="brend"),
      *                     @OA\Property(property="description", type="string", example="Описание бренда"),
-     *                     @OA\Property(property="active", type="integer", example=1),
+     *                     @OA\Property(property="active", type="boolean", example=true),
      *                     @OA\Property(property="order", type="integer", example=1),
      *                     @OA\Property(property="created_at", type="datetime", example="2024-04-08 00:00:00"),
      *                     @OA\Property(property="updated_at", type="datetime", example="2024-04-08 00:00:00")

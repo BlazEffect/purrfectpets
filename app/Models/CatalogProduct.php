@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CatalogProduct extends Model
 {
+    protected $casts = [
+        'active' => 'boolean'
+    ];
+
     public function sections(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -43,6 +47,6 @@ class CatalogProduct extends Model
 
     public function scopeActive(Builder $query): void
     {
-        $query->where('active', 1);
+        $query->where('active', true);
     }
 }
