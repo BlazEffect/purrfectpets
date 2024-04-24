@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MenuItem extends Model
 {
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function children(): HasMany
     {
         return $this->hasMany(__CLASS__, 'parent_id');
@@ -15,6 +19,6 @@ class MenuItem extends Model
 
     public function scopeActive(Builder $query): void
     {
-        $query->where('active', 1);
+        $query->where('active', true);
     }
 }
