@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,21 +30,46 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make()
-                            ->schema([
-                                Forms\Components\TextInput::make('user_name_and_surname')
-                                    ->label('Имя пользователя')
-                                    ->required(),
-                                Forms\Components\TextInput::make('email')
-                                    ->label('Email')
-                                    ->email()
-                                    ->required(),
-                                Forms\Components\Select::make('roles')
-                                    ->label('Роли')
-                                    ->relationship('roles', 'name')
-                                    ->multiple()
-                                    ->preload()
-                                    ->searchable()
+                        Tabs::make('Tabs')
+                            ->tabs([
+                                Tabs\Tab::make('Основная информация')
+                                    ->schema([
+                                        Forms\Components\Section::make()
+                                            ->schema([
+                                                Forms\Components\TextInput::make('password')
+                                                    ->label('Пароль')
+                                                    ->revealable()
+                                                    ->visible(fn(?User $record) => $record === null),
+                                                Forms\Components\Select::make('roles')
+                                                    ->label('Роли')
+                                                    ->relationship('roles', 'name')
+                                                    ->multiple()
+                                                    ->preload()
+                                                    ->searchable()
+                                            ])
+                                    ]),
+
+                                Tabs\Tab::make('Профиль пользователя')
+                                    ->schema([
+                                        Forms\Components\Section::make()
+                                            ->schema([
+                                                Forms\Components\TextInput::make('first_name')
+                                                    ->label('Имя')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('surname')
+                                                    ->label('Фамилия')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('last_name')
+                                                    ->label('Отчество'),
+                                                Forms\Components\TextInput::make('email')
+                                                    ->label('Email')
+                                                    ->email()
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('phone')
+                                                    ->label('Телефон')
+                                                    ->tel(),
+                                            ])
+                                    ]),
                             ])
                     ])
                     ->columnSpan(['lg' => 2]),

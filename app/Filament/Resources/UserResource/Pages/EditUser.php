@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -21,9 +20,13 @@ class EditUser extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $user = User::find($data['id']);
+        $user = $this->getModel()::find($data['id']);
+        $userProfile = $user->profile()->first();
 
-        $data['user_name_and_surname'] = $user->user_name_and_surname;
+        $data['first_name'] = $userProfile['first_name'];
+        $data['surname'] = $userProfile['surname'];
+        $data['last_name'] = $userProfile['last_name'];
+        $data['phone'] = $userProfile['phone'];
 
         return $data;
     }
@@ -32,11 +35,14 @@ class EditUser extends EditRecord
     {
         $record->update($data);
 
-        $nameAndSurname = explode(' ', $data['user_name_and_surname']);
-        $record->profile()->update([
-            'first_name' => $nameAndSurname[0],
-            'surname' => $nameAndSurname[1],
-        ]);
+        $userProfile = [
+            'first_name' => $data['first_name'],
+            'surname' => $data['surname'],
+            'last_name' => $data['last_name'],
+            'phone' => $data['phone'],
+        ];
+
+        $record->profile()->update($userProfile);
 
         return $record;
     }
