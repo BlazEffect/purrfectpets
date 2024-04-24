@@ -302,7 +302,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Menu"
+                                                "$ref": "#/components/schemas/MenuType"
                                             }
                                         },
                                         "message": {
@@ -1073,149 +1073,6 @@
                 },
                 "type": "object"
             },
-            "Menu": {
-                "required": [
-                    "id",
-                    "name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Раздел"
-                    },
-                    "key": {
-                        "type": "string",
-                        "example": "razdel"
-                    },
-                    "active": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    }
-                },
-                "type": "object"
-            },
-            "MenuItem": {
-                "required": [
-                    "id",
-                    "name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "menu_type_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Товар"
-                    },
-                    "parent_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "active": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "order": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "icon": {
-                        "type": "string",
-                        "example": ""
-                    },
-                    "url": {
-                        "type": "string",
-                        "example": "http://zooshop.local:7542"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "children": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ChildMenuItem"
-                        }
-                    }
-                },
-                "type": "object"
-            },
-            "ChildMenuItem": {
-                "required": [
-                    "id",
-                    "name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "menu_type_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Товар"
-                    },
-                    "parent_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "active": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "order": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "icon": {
-                        "type": "string",
-                        "example": ""
-                    },
-                    "url": {
-                        "type": "string",
-                        "example": "http://zooshop.local:7542"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    }
-                },
-                "type": "object"
-            },
             "OrderProduct": {
                 "required": [
                     "productId",
@@ -1264,8 +1121,8 @@
                         "example": ""
                     },
                     "active": {
-                        "type": "integer",
-                        "example": 1
+                        "type": "boolean",
+                        "example": true
                     },
                     "order": {
                         "type": "integer",
@@ -1323,8 +1180,8 @@
                         "example": 1
                     },
                     "active": {
-                        "type": "integer",
-                        "example": 1
+                        "type": "boolean",
+                        "example": true
                     },
                     "order": {
                         "type": "integer",
@@ -1342,6 +1199,183 @@
                     }
                 },
                 "type": "object"
+            },
+            "ChildMenuItem": {
+                "title": "ChildMenuItem",
+                "description": "Menu item model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "menu_type_id": {
+                        "title": "Menu type ID",
+                        "description": "$menu_type_id",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of menu item",
+                        "type": "string",
+                        "example": "Catalog"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "icon": {
+                        "title": "Icon",
+                        "description": "An icon that will be displayed next to the text",
+                        "type": "string",
+                        "example": "fa-catalog",
+                        "nullable": true
+                    },
+                    "url": {
+                        "title": "Url",
+                        "description": "Link where the menu item will lead",
+                        "type": "string",
+                        "example": "/catalog",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ChildMenuItem"
+                }
+            },
+            "MenuItem": {
+                "title": "MenuItem",
+                "description": "Menu item model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "menu_type_id": {
+                        "title": "Menu type ID",
+                        "description": "$menu_type_id",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of menu item",
+                        "type": "string",
+                        "example": "Catalog"
+                    },
+                    "parent_id": {
+                        "title": "Menu parent ID",
+                        "description": "$parent_id",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "icon": {
+                        "title": "Icon",
+                        "description": "An icon that will be displayed next to the text",
+                        "type": "string",
+                        "example": "fa-catalog",
+                        "nullable": true
+                    },
+                    "url": {
+                        "title": "Url",
+                        "description": "Link where the menu item will lead",
+                        "type": "string",
+                        "example": "/catalog",
+                        "nullable": true
+                    },
+                    "children": {
+                        "title": "Children",
+                        "description": "Children menu items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChildMenuItem"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "MenuItem"
+                }
+            },
+            "MenuType": {
+                "title": "MenuType",
+                "description": "Menu type model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new menu",
+                        "type": "string",
+                        "example": "Header menu"
+                    },
+                    "key": {
+                        "title": "Key",
+                        "description": "Key of the new menu",
+                        "type": "string",
+                        "example": "header_menu"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "MenuType"
+                }
             }
         },
         "securitySchemes": {
