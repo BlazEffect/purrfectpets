@@ -73,14 +73,14 @@ class CatalogProductResource extends Resource
 
                                                 Forms\Components\Select::make('brand_id')
                                                     ->label('Бренд')
-                                                    ->relationship(name: 'brand', titleAttribute: 'name')
+                                                    ->relationship('brand', 'name')
                                                     ->searchable()
                                                     ->preload(),
 
                                                 Forms\Components\Select::make('sections')
                                                     ->label('Разделы')
                                                     ->multiple()
-                                                    ->relationship(name: 'sections', titleAttribute: 'name')
+                                                    ->relationship('sections', 'name')
                                                     ->searchable()
                                                     ->preload(),
                                             ]),
