@@ -17,7 +17,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="parent_id", type="integer", example=1),
  *     @OA\Property(property="description", type="string", example="Описание раздела"),
  *     @OA\Property(property="image", type="string", example=""),
- *     @OA\Property(property="active", type="integer", example=1),
+ *     @OA\Property(property="active", type="boolean", example=true),
  *     @OA\Property(property="order", type="integer", example=1),
  *     @OA\Property(property="created_at", type="string", format="date-time", example="2024-04-08 00:00:00"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-04-08 00:00:00")
@@ -33,7 +33,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="image", type="string", example=""),
  *     @OA\Property(property="price", type="string", example="1.00"),
  *     @OA\Property(property="quantity", type="integer", example=1),
- *     @OA\Property(property="active", type="integer", example=1),
+ *     @OA\Property(property="active", type="boolean", example=true),
  *     @OA\Property(property="order", type="integer", example=1),
  *     @OA\Property(property="created_at", type="datetime", example="2024-04-08 00:00:00"),
  *     @OA\Property(property="updated_at", type="datetime", example="2024-04-08 00:00:00")
