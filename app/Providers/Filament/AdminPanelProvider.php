@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->brandName('Zooshop')
+            ->brandName('PurfectPets')
             ->id('admin')
             ->path('admin')
             ->login()
