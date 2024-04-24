@@ -5,63 +5,63 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class BannerPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any users.
+     * Determine whether the user can view any banners.
      *
      * @param User $user
      * @return bool
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_user');
+        return $user->can('view_any_banner');
     }
 
     /**
-     * Determine whether the user can view the user.
+     * Determine whether the user can view the banner.
      *
      * @param User $user
      * @return bool
      */
     public function view(User $user): bool
     {
-        return $user->can('view_user');
+        return $user->can('view_banner');
     }
 
     /**
-     * Determine whether the user can create users.
+     * Determine whether the user can create banners.
      *
      * @param User $user
      * @return bool
      */
     public function create(User $user): bool
     {
-        return $user->can('create_user');
+        return $user->can('create_banner');
     }
 
     /**
-     * Determine whether the user can update the user.
+     * Determine whether the user can update the banner.
      *
      * @param User $user
      * @return bool
      */
     public function update(User $user): bool
     {
-        return $user->can('update_user');
+        return $user->can('update_banner');
     }
 
     /**
-     * Determine whether the user can delete the user.
+     * Determine whether the user can delete the banner.
      *
      * @param User $user
      * @return bool
      */
     public function delete(User $user): bool
     {
-        return $user->can('delete_user');
+        return $user->can('delete_banner');
     }
 
     /**
@@ -72,6 +72,6 @@ class UserPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_user');
+        return $user->can('delete_any_banner');
     }
 }
