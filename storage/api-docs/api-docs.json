@@ -364,6 +364,52 @@
                 }
             }
         },
+        "/brand/{brandId}/products": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Получение продуктов бренда",
+                "description": "Получение продуктов бренда",
+                "operationId": "fce2f788e90200e83730d251af5caf03",
+                "parameters": [
+                    {
+                        "name": "brandId",
+                        "in": "path",
+                        "description": "ID бренда",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BrandWithProducts"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/menus": {
             "get": {
                 "tags": [
@@ -1067,7 +1113,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Product"
+                                                "$ref": "#/components/schemas/CatalogProduct"
                                             }
                                         },
                                         "message": {
@@ -1225,71 +1271,13 @@
                 },
                 "type": "object"
             },
-            "Product": {
-                "required": [
-                    "id",
-                    "name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Товар"
-                    },
-                    "slug": {
-                        "type": "string",
-                        "example": "tovar"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Описание товара"
-                    },
-                    "brand_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "image": {
-                        "type": "string",
-                        "example": ""
-                    },
-                    "price": {
-                        "type": "string",
-                        "example": "1.00"
-                    },
-                    "quantity": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "active": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "order": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    }
-                },
-                "type": "object"
-            },
             "Brand": {
                 "title": "Brand",
                 "description": "Brand model",
                 "required": [
                     "id",
                     "name",
+                    "slug",
                     "active",
                     "order"
                 ],
@@ -1350,6 +1338,182 @@
                 "type": "object",
                 "xml": {
                     "name": "Brand"
+                }
+            },
+            "BrandWithProducts": {
+                "title": "BrandWithProducts",
+                "description": "Brand model",
+                "required": [
+                    "id",
+                    "name",
+                    "active",
+                    "order",
+                    "products"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new brand",
+                        "type": "string",
+                        "example": "Royal Canin"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Slug of the new brnad",
+                        "type": "string",
+                        "example": "royal_canin"
+                    },
+                    "decription": {
+                        "title": "Decription",
+                        "description": "Decription of the new brnad",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aut consequuntur delectus",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "products": {
+                        "title": "Products",
+                        "description": "$products",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CatalogProduct"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "BrandWithProducts"
+                }
+            },
+            "CatalogProduct": {
+                "title": "CatalogProduct",
+                "description": "Catalog product model",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "price",
+                    "quantity",
+                    "active",
+                    "order"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new product",
+                        "type": "string",
+                        "example": "Royal Canin"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Slug of the new product",
+                        "type": "string",
+                        "example": "royal_canin"
+                    },
+                    "decription": {
+                        "title": "Decription",
+                        "description": "Decription of the new product",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aut consequuntur delectus",
+                        "nullable": true
+                    },
+                    "brand_id": {
+                        "title": "Brand id",
+                        "description": "ID of the brand the product belongs to",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "image": {
+                        "title": "Price",
+                        "description": "Price",
+                        "type": "string",
+                        "example": "gnuithiugh598.png",
+                        "nullable": true
+                    },
+                    "price": {
+                        "title": "Price",
+                        "description": "Price",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "title": "Quantity",
+                        "description": "Quantity",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 0
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CatalogProduct"
                 }
             },
             "ChildMenuItem": {

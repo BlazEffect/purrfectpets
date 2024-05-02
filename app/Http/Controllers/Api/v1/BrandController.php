@@ -75,4 +75,40 @@ class BrandController extends BaseApiController
 
         return new ApiSuccessResponse($banner, '');
     }
+
+    /**
+     * @OA\Get (
+     *     path="/brand/{brandId}/products",
+     *     tags={"Brands"},
+     *     summary="Получение продуктов бренда",
+     *     description="Получение продуктов бренда",
+     *     @OA\Parameter(
+     *         name="brandId",
+     *         description="ID бренда",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/BrandWithProducts"),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     )
+     * )
+     *
+     * @param int $brandId
+     * @return ApiSuccessResponse
+     */
+    public function getProductsByBrandId(int $brandId)
+    {
+        $banner = Brand::find($brandId);
+
+        return new ApiSuccessResponse($banner->products(), '');
+    }
 }

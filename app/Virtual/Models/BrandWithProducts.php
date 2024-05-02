@@ -7,15 +7,15 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     title="Brand",
+ *     title="BrandWithProducts",
  *     description="Brand model",
- *     required={"id", "name", "slug", "active", "order"},
+ *     required={"id", "name", "active", "order", "products"},
  *     @OA\Xml(
- *         name="Brand"
+ *         name="BrandWithProducts"
  *     )
  * )
  */
-class Brand
+class BrandWithProducts
 {
     /**
      * @OA\Property(
@@ -108,4 +108,13 @@ class Brand
      * @var DateTime|null $updated_at
      */
     private ?DateTime $updated_at;
+
+    /**
+     * @OA\Property(
+     *     title="Products",
+     * )
+     *
+     * @var CatalogProduct[] $products
+     */
+    public array $products;
 }

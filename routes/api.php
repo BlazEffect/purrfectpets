@@ -36,6 +36,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('brand')->group(function () {
             Route::get('/{brandId}', 'getBrandById');
+            Route::get('/{brandId}/products', 'getProductsByBrandId');
         });
     });
 
