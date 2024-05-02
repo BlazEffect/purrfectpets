@@ -1405,7 +1405,7 @@
                     },
                     "products": {
                         "title": "Products",
-                        "description": "$products",
+                        "description": "Products that belong to the brand",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/CatalogProduct"

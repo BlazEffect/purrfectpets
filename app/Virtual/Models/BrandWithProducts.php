@@ -112,6 +112,7 @@ class BrandWithProducts
     /**
      * @OA\Property(
      *     title="Products",
+     *     description="Products that belong to the brand"
      * )
      *
      * @var CatalogProduct[] $products
