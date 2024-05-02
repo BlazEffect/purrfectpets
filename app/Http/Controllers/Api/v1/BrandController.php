@@ -31,13 +31,13 @@ class BrandController extends BaseApiController
      */
     public function getBrands(): ApiSuccessResponse
     {
-        $banners = Brand::query()
+        $brand = Brand::query()
             ->active()
             ->orderBy('order')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return new ApiSuccessResponse($banners, '');
+        return new ApiSuccessResponse($brand, '');
     }
 
     /**
@@ -69,11 +69,11 @@ class BrandController extends BaseApiController
      * @param int $brandId
      * @return ApiSuccessResponse
      */
-    public function getBrandById(int $brandId)
+    public function getBrandById(int $brandId): ApiSuccessResponse
     {
-        $banner = Brand::find($brandId);
+        $brand = Brand::find($brandId);
 
-        return new ApiSuccessResponse($banner, '');
+        return new ApiSuccessResponse($brand, '');
     }
 
     /**
@@ -105,10 +105,10 @@ class BrandController extends BaseApiController
      * @param int $brandId
      * @return ApiSuccessResponse
      */
-    public function getProductsByBrandId(int $brandId)
+    public function getProductsByBrandId(int $brandId): ApiSuccessResponse
     {
-        $banner = Brand::find($brandId);
+        $brandWithProducts = Brand::with('products')->find($brandId);
 
-        return new ApiSuccessResponse($banner->products(), '');
+        return new ApiSuccessResponse($brandWithProducts, '');
     }
 }
