@@ -33,6 +33,10 @@ Route::prefix('v1')->group(function () {
 
     Route::controller(BrandController::class)->group(function () {
         Route::get('/brands', 'getBrands');
+
+        Route::prefix('brand')->group(function () {
+            Route::get('/{brandId}', 'getBrandById');
+        });
     });
 
     Route::controller(SectionController::class)->group(function () {

@@ -318,6 +318,52 @@
                 }
             }
         },
+        "/brand/{brandId}": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Получение бренда по id из бд",
+                "description": "Получение бренда по id из бд",
+                "operationId": "c20dee99dc727bdff05dece665728481",
+                "parameters": [
+                    {
+                        "name": "brandId",
+                        "in": "path",
+                        "description": "ID бренда",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Brand"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/menus": {
             "get": {
                 "tags": [
