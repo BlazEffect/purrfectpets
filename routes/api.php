@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\BannerController;
+use App\Http\Controllers\Api\v1\BrandController;
 use App\Http\Controllers\Api\v1\MenuController;
 use App\Http\Controllers\Api\v1\OrderController;
 use App\Http\Controllers\Api\v1\PageController;
@@ -29,6 +30,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/banners', [BannerController::class, 'getBanners']);
 
     Route::get('/product/{productId}', [ProductController::class, 'getProduct']);
+
+    Route::controller(BrandController::class)->group(function () {
+        Route::get('/brands', 'getBrands');
+    });
 
     Route::controller(SectionController::class)->group(function () {
         Route::get('/sections', 'getSections');
