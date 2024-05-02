@@ -1287,6 +1287,12 @@
             "Brand": {
                 "title": "Brand",
                 "description": "Brand model",
+                "required": [
+                    "id",
+                    "name",
+                    "active",
+                    "order"
+                ],
                 "properties": {
                     "id": {
                         "title": "ID",

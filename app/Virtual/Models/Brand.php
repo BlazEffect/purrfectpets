@@ -9,6 +9,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     title="Brand",
  *     description="Brand model",
+ *     required={"id", "name", "active", "order"},
  *     @OA\Xml(
  *         name="Brand"
  *     )
