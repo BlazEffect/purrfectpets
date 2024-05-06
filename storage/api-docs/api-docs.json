@@ -1148,6 +1148,46 @@
                     }
                 }
             }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Получить информацию о пользователе",
+                "description": "Получить информацию о пользователе",
+                "operationId": "c0402e114969166ec83fd96d4f400126",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserWithProfile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1691,6 +1731,195 @@
                 "type": "object",
                 "xml": {
                     "name": "MenuType"
+                }
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "required": [
+                    "id",
+                    "email",
+                    "password",
+                    "active"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "morozov@test.com"
+                    },
+                    "email_verified_at": {
+                        "title": "Email verified at",
+                        "description": "Email verified at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "$password",
+                        "type": "string",
+                        "example": "gnijgheofjds094u645839gre3454"
+                    },
+                    "remember_token": {
+                        "title": "Remember token",
+                        "description": "$remember_token",
+                        "type": "string",
+                        "example": "ghkjgjhoifu9043u9isd;fewoi430y",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            },
+            "UserProfile": {
+                "title": "UserProfile",
+                "description": "User model",
+                "required": [
+                    "user_id",
+                    "first_name",
+                    "surname"
+                ],
+                "properties": {
+                    "user_id": {
+                        "title": "User id",
+                        "description": "User id",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "title": "First name",
+                        "description": "$first_name",
+                        "type": "string",
+                        "example": "Николай"
+                    },
+                    "surname": {
+                        "title": "Surname",
+                        "description": "$surname",
+                        "type": "string",
+                        "example": "Морозов"
+                    },
+                    "last_name": {
+                        "title": "Last name",
+                        "description": "$last_name",
+                        "type": "string",
+                        "example": "Михайлович",
+                        "nullable": true
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "$phone",
+                        "type": "string",
+                        "example": "+7(951)712-13-25",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserProfile"
+                }
+            },
+            "UserWithProfile": {
+                "title": "UserWithProfile",
+                "description": "User model",
+                "required": [
+                    "id",
+                    "email",
+                    "password",
+                    "active"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "morozov@test.com"
+                    },
+                    "email_verified_at": {
+                        "title": "Email verified at",
+                        "description": "Email verified at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "$password",
+                        "type": "string",
+                        "example": "gnijgheofjds094u645839gre3454"
+                    },
+                    "remember_token": {
+                        "title": "Remember token",
+                        "description": "$remember_token",
+                        "type": "string",
+                        "example": "ghkjgjhoifu9043u9isd;fewoi430y",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "profile": {
+                        "$ref": "#/components/schemas/UserProfile"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserWithProfile"
                 }
             }
         },

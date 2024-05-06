@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\v1\OrderController;
 use App\Http\Controllers\Api\v1\PageController;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\SectionController;
+use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::controller(AuthController::class)->prefix('auth')->group(function(){
+    Route::controller(AuthController::class)->prefix('auth')->group(function() {
         Route::post('register', 'register')->name('register');
         Route::post('login', 'login')->name('login');
     });
@@ -56,6 +57,10 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+
+        Route::controller(UserController::class)->prefix('user')->group(function () {
+            Route::get('/profile', 'getUserProfile');
+        });
 
         Route::controller(OrderController::class)->prefix('order')->group(function () {
             Route::post('/create', 'createOrder');
