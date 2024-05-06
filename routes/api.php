@@ -60,6 +60,7 @@ Route::prefix('v1')->group(function () {
 
         Route::controller(UserController::class)->prefix('user')->group(function () {
             Route::get('/profile', 'getUserProfile');
+            Route::patch('/profile', 'updateUserProfile');
         });
 
         Route::controller(OrderController::class)->prefix('order')->group(function () {

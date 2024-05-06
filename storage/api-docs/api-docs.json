@@ -1187,6 +1187,87 @@
                         "Bearer": []
                     }
                 ]
+            },
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Обновить информацию о пользователе",
+                "description": "Обновить информацию о пользователе",
+                "operationId": "d2f6371ef7c14141eb9f0294d671592a",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "first_name": {
+                                                "type": "string",
+                                                "example": "Николай"
+                                            },
+                                            "surname": {
+                                                "type": "string",
+                                                "example": "Морозов"
+                                            },
+                                            "last_name": {
+                                                "type": "string",
+                                                "example": "Михайлович"
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "+79999999999"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "morozov@test.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "morozov123"
+                                            },
+                                            "confirm_password": {
+                                                "type": "string",
+                                                "example": "morozov123"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserWithProfile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         }
     },
