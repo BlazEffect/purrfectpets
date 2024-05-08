@@ -10,6 +10,8 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'status',
+        'is_paid',
         'price'
     ];
 
@@ -21,5 +23,10 @@ class Order extends Model
     public function properties(): HasOne
     {
         return $this->hasOne(OrderProperty::class);
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

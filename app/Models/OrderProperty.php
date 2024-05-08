@@ -15,4 +15,6 @@ class OrderProperty extends Model
     ];
 
     public $timestamps = false;
+
+    protected $primaryKey = 'order_id';
 }
