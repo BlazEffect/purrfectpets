@@ -973,6 +973,44 @@
                 }
             }
         },
+        "/reviews": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Получение отзывов",
+                "description": "Получение отзывов",
+                "operationId": "f619a73bdc870a400639858f3af8b22b",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Review"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/sections": {
             "get": {
                 "tags": [
@@ -1908,6 +1946,74 @@
                 "type": "object",
                 "xml": {
                     "name": "OrderProduct"
+                }
+            },
+            "Review": {
+                "title": "Review",
+                "required": [
+                    "id",
+                    "user_id",
+                    "status",
+                    "name",
+                    "rating_value"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "title": "User ID",
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Status for review",
+                        "type": "boolean",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new review",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "text": {
+                        "title": "Text",
+                        "description": "Review text",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi laborum magnam maxime quia ut? Aperiam autem"
+                    },
+                    "rating_value": {
+                        "title": "Rating value",
+                        "description": "Rating",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Review"
                 }
             },
             "User": {

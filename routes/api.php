@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\MenuController;
 use App\Http\Controllers\Api\v1\OrderController;
 use App\Http\Controllers\Api\v1\PageController;
 use App\Http\Controllers\Api\v1\ProductController;
+use App\Http\Controllers\Api\v1\ReviewController;
 use App\Http\Controllers\Api\v1\SectionController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/banners', [BannerController::class, 'getBanners']);
 
     Route::get('/product/{productId}', [ProductController::class, 'getProduct']);
+
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/reviews', 'getReviews');
+    });
 
     Route::controller(BrandController::class)->group(function () {
         Route::get('/brands', 'getBrands');
