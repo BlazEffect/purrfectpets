@@ -1069,6 +1069,30 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ошибка валидации."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -1180,6 +1204,30 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Отзыв был изменён."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ошибка валидации."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
                                         }
                                     },
                                     "type": "object"

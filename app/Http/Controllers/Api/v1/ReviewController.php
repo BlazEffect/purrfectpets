@@ -65,6 +65,15 @@ class ReviewController extends BaseApiController
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/Review"),
      *             @OA\Property(property="message", type="string", example="Заказ успешно создан.")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Ошибка валидации",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Ошибка валидации."),
+     *             @OA\Property(property="data", type="object", example={})
+     *         )
      *     )
      * )
      *
@@ -119,6 +128,15 @@ class ReviewController extends BaseApiController
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/Review"),
      *             @OA\Property(property="message", type="string", example="Отзыв был изменён.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Ошибка валидации",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Ошибка валидации."),
+     *             @OA\Property(property="data", type="object", example={})
      *         )
      *     )
      * )
