@@ -9,7 +9,7 @@ use OpenApi\Annotations as OA;
  * @OA\OpenApi(
  *     @OA\Info(
  *         version="1.0.0",
- *         title="PurfectPets",
+ *         title="PurrfectPets",
  *         description="",
  *     ),
  *     @OA\Server(
