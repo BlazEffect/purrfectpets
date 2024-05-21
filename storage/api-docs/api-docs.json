@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "PurfectPets",
+        "title": "PurrfectPets",
         "description": "",
         "version": "1.0.0"
     },
@@ -1273,23 +1273,6 @@
     },
     "components": {
         "schemas": {
-            "OrderProduct": {
-                "required": [
-                    "productId",
-                    "count"
-                ],
-                "properties": {
-                    "productId": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "count": {
-                        "type": "integer",
-                        "example": 1
-                    }
-                },
-                "type": "object"
-            },
             "Banner": {
                 "title": "Banner",
                 "description": "Banner model",
@@ -1899,6 +1882,32 @@
                 "type": "object",
                 "xml": {
                     "name": "MenuType"
+                }
+            },
+            "OrderProduct": {
+                "title": "OrderProduct",
+                "required": [
+                    "product_id",
+                    "count"
+                ],
+                "properties": {
+                    "product_id": {
+                        "title": "Product ID",
+                        "description": "$product_id",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "count": {
+                        "title": "Count",
+                        "description": "$count",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderProduct"
                 }
             },
             "User": {

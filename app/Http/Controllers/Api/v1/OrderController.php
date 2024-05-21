@@ -10,14 +10,6 @@ use Auth;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Schema(
- *     schema="OrderProduct",
- *     required={"productId", "count"},
- *     @OA\Property(property="productId", type="integer", example=1),
- *     @OA\Property(property="count", type="integer", example=1),
- * ),
- */
 class OrderController extends BaseApiController
 {
     /**
