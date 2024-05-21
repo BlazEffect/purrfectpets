@@ -58,6 +58,11 @@ class CatalogProduct extends Model
             ->withPivot('value');
     }
 
+    public function properties(): hasMany
+    {
+        return $this->hasMany(CatalogProductPropertyValue::class, 'product_id', 'id');
+    }
+
     public function scopeActive(Builder $query): void
     {
         $query->where('active', true);

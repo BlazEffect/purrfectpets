@@ -100,9 +100,11 @@ class CatalogProductResource extends Resource
                                 Tabs\Tab::make('Каталог')
                                     ->schema([
                                         Forms\Components\TextInput::make('price')
-                                            ->label('Цена'),
+                                            ->label('Цена')
+                                            ->required(),
                                         Forms\Components\TextInput::make('quantity')
-                                            ->label('Количество товара'),
+                                            ->label('Количество товара')
+                                            ->default(0),
                                     ])
                             ])
                     ])
@@ -120,7 +122,8 @@ class CatalogProductResource extends Resource
                                     ->required(),
 
                                 Forms\Components\TextInput::make('order')
-                                    ->label('Порядок'),
+                                    ->label('Порядок')
+                                    ->default(0),
                             ]),
 
                         Forms\Components\Section::make()
@@ -167,6 +170,13 @@ class CatalogProductResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\PropertyValuesRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
