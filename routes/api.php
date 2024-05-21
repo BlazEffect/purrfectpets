@@ -37,6 +37,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/reviews', 'getReviews');
 
         Route::prefix('review')->group(function () {
+            Route::patch('/{reviewId}', 'editReview');
             Route::delete('/{reviewId}', 'deleteReview');
         });
     });
