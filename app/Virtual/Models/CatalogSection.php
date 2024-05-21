@@ -59,7 +59,7 @@ class CatalogSection
      *     example=1
      * )
      *
-     * @var null|int $parent_id
+     * @var int|null $parent_id
      */
     public ?int $parent_id;
 
