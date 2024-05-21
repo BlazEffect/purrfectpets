@@ -75,8 +75,8 @@ class CatalogProduct
 
     /**
      * @OA\Property(
-     *     title="Price",
-     *     description="Price",
+     *     title="Image",
+     *     description="Image",
      *     example="gnuithiugh598.png"
      * )
      *
