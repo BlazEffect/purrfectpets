@@ -1011,6 +1011,58 @@
                 }
             }
         },
+        "/review/{reviewId}": {
+            "delete": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Удаление отзывва",
+                "description": "Удаление отзыва",
+                "operationId": "0e414a9f52d45ed3b937569c93d55017",
+                "parameters": [
+                    {
+                        "name": "reviewId",
+                        "in": "path",
+                        "description": "ID отзыва",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Отзыв был удален"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/sections": {
             "get": {
                 "tags": [

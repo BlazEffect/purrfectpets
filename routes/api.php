@@ -35,6 +35,10 @@ Route::prefix('v1')->group(function () {
 
     Route::controller(ReviewController::class)->group(function () {
         Route::get('/reviews', 'getReviews');
+
+        Route::prefix('review')->group(function () {
+            Route::delete('/{reviewId}', 'deleteReview');
+        });
     });
 
     Route::controller(BrandController::class)->group(function () {
