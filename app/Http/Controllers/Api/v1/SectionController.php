@@ -7,22 +7,6 @@ use App\Http\Responses\ApiSuccessResponse;
 use App\Models\CatalogSection;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Schema(
- *     schema="Section",
- *     required={"id", "name"},
- *     @OA\Property(property="id", type="integer", example=1),
- *     @OA\Property(property="name", type="string", example="Раздел"),
- *     @OA\Property(property="slug", type="string", example="razdel"),
- *     @OA\Property(property="parent_id", type="integer", example=1),
- *     @OA\Property(property="description", type="string", example="Описание раздела"),
- *     @OA\Property(property="image", type="string", example=""),
- *     @OA\Property(property="active", type="boolean", example=true),
- *     @OA\Property(property="order", type="integer", example=1),
- *     @OA\Property(property="created_at", type="string", format="date-time", example="2024-04-08 00:00:00"),
- *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-04-08 00:00:00")
- * )
- */
 class SectionController extends BaseApiController
 {
     /**
@@ -37,7 +21,7 @@ class SectionController extends BaseApiController
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(ref="#/components/schemas/Section")
+     *                 @OA\Items(ref="#/components/schemas/CatalogSection")
      *             ),
      *             @OA\Property(property="message", type="string", example="")
      *         )
@@ -72,7 +56,7 @@ class SectionController extends BaseApiController
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(ref="#/components/schemas/Section")
+     *                 @OA\Items(ref="#/components/schemas/CatalogSection")
      *             ),
      *             @OA\Property(property="message", type="string", example="")
      *         )

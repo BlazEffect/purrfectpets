@@ -995,7 +995,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Section"
+                                                "$ref": "#/components/schemas/CatalogSection"
                                             }
                                         },
                                         "message": {
@@ -1044,7 +1044,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Section"
+                                                "$ref": "#/components/schemas/CatalogSection"
                                             }
                                         },
                                         "message": {
@@ -1216,7 +1216,7 @@
                                             },
                                             "phone": {
                                                 "type": "string",
-                                                "example": "+79999999999"
+                                                "example": "+7(951)712-13-25"
                                             },
                                             "email": {
                                                 "type": "string",
@@ -1337,57 +1337,6 @@
                     "count": {
                         "type": "integer",
                         "example": 1
-                    }
-                },
-                "type": "object"
-            },
-            "Section": {
-                "required": [
-                    "id",
-                    "name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Раздел"
-                    },
-                    "slug": {
-                        "type": "string",
-                        "example": "razdel"
-                    },
-                    "parent_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Описание раздела"
-                    },
-                    "image": {
-                        "type": "string",
-                        "example": ""
-                    },
-                    "active": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "order": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
                     }
                 },
                 "type": "object"
@@ -1585,8 +1534,8 @@
                         "nullable": true
                     },
                     "image": {
-                        "title": "Price",
-                        "description": "Price",
+                        "title": "Image",
+                        "description": "Image",
                         "type": "string",
                         "example": "gnuithiugh598.png",
                         "nullable": true
@@ -1635,6 +1584,90 @@
                 "type": "object",
                 "xml": {
                     "name": "CatalogProduct"
+                }
+            },
+            "CatalogSection": {
+                "title": "CatalogSection",
+                "description": "Catalog Section model",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "active",
+                    "order"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new catalog section",
+                        "type": "string",
+                        "example": "Раздел"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Slug of the new catalog section",
+                        "type": "string",
+                        "example": "razdel"
+                    },
+                    "parent_id": {
+                        "title": "parent ID",
+                        "description": "parent ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "decription": {
+                        "title": "Decription",
+                        "description": "Decription of the new section",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aut consequuntur delectus",
+                        "nullable": true
+                    },
+                    "image": {
+                        "title": "Image",
+                        "description": "Image",
+                        "type": "string",
+                        "example": "gnuithiugh598.png",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CatalogSection"
                 }
             },
             "ChildMenuItem": {
