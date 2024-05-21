@@ -8,7 +8,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     title="MenuItem",
  *     description="Menu item model",
- *     @OA\Xml(
+ *     required={"id", "menu_type_id", "name", "active", "order", "children"}, *     @OA\Xml(
  *         name="MenuItem"
  *     )
  * )

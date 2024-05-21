@@ -1273,57 +1273,6 @@
     },
     "components": {
         "schemas": {
-            "Banner": {
-                "required": [
-                    "id",
-                    "name"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Название для администратора"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Отображаемое название"
-                    },
-                    "image": {
-                        "type": "string",
-                        "example": "Картинка "
-                    },
-                    "link": {
-                        "type": "string",
-                        "example": "Ссылка баннера"
-                    },
-                    "text": {
-                        "type": "text",
-                        "example": "Текст баннера"
-                    },
-                    "active": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "order": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-04-08 00:00:00"
-                    }
-                },
-                "type": "object"
-            },
             "OrderProduct": {
                 "required": [
                     "productId",
@@ -1340,6 +1289,89 @@
                     }
                 },
                 "type": "object"
+            },
+            "Banner": {
+                "title": "Banner",
+                "description": "Banner model",
+                "required": [
+                    "id",
+                    "name",
+                    "image",
+                    "active",
+                    "order"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of banner",
+                        "type": "string",
+                        "example": "Название для администратора"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Title of banner",
+                        "type": "string",
+                        "example": "Отображаемое название",
+                        "nullable": true
+                    },
+                    "image": {
+                        "title": "Image",
+                        "description": "Image",
+                        "type": "string",
+                        "example": "gnuithiugh598.png"
+                    },
+                    "link": {
+                        "title": "Url",
+                        "description": "Link where the banner will lead",
+                        "type": "string",
+                        "example": "/catalog",
+                        "nullable": true
+                    },
+                    "text": {
+                        "title": "Text",
+                        "description": "Text of the new banner",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aut consequuntur delectus",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Banner"
+                }
             },
             "Brand": {
                 "title": "Brand",
@@ -1416,6 +1448,7 @@
                 "required": [
                     "id",
                     "name",
+                    "slug",
                     "active",
                     "order",
                     "products"
@@ -1673,6 +1706,13 @@
             "ChildMenuItem": {
                 "title": "ChildMenuItem",
                 "description": "Menu item model",
+                "required": [
+                    "id",
+                    "menu_type_id",
+                    "name",
+                    "active",
+                    "order"
+                ],
                 "properties": {
                     "id": {
                         "title": "ID",
@@ -1729,6 +1769,14 @@
             "MenuItem": {
                 "title": "MenuItem",
                 "description": "Menu item model",
+                "required": [
+                    "id",
+                    "menu_type_id",
+                    "name",
+                    "active",
+                    "order",
+                    "children"
+                ],
                 "properties": {
                     "id": {
                         "title": "ID",
@@ -1801,6 +1849,12 @@
             "MenuType": {
                 "title": "MenuType",
                 "description": "Menu type model",
+                "required": [
+                    "id",
+                    "name",
+                    "key",
+                    "active"
+                ],
                 "properties": {
                     "id": {
                         "title": "ID",
