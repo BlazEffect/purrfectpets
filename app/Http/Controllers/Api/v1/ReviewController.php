@@ -131,6 +131,14 @@ class ReviewController extends BaseApiController
      *         )
      *     ),
      *     @OA\Response(
+     *         response=404,
+     *         description="Отзыв не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Отзыв не найден.")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=422,
      *         description="Ошибка валидации",
      *         @OA\JsonContent(
@@ -157,6 +165,10 @@ class ReviewController extends BaseApiController
         }
 
         $review = Review::find($request->input('review_id'));
+
+        if ($review === null || $review->user_id !== auth()->user()->id) {
+            return new ApiErrorResponse('Отзыв не найден');
+        }
 
         $data = $request->all();
         $data['status'] = 0;
@@ -192,6 +204,14 @@ class ReviewController extends BaseApiController
      *             @OA\Property(property="data", type="string", example=""),
      *             @OA\Property(property="message", type="string", example="Отзыв был удален")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Отзыв не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Отзыв не найден.")
+     *         )
      *     )
      * )
      *
@@ -205,7 +225,7 @@ class ReviewController extends BaseApiController
         $review = Review::find($reviewId);
 
         if ($review === null || $review->user_id !== auth()->user()->id) {
-            return new ApiErrorResponse('Отзыв не был найден');
+            return new ApiErrorResponse('Отзыв не найден');
         }
 
         $review->delete();
