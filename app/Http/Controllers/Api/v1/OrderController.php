@@ -53,14 +53,14 @@ class OrderController extends BaseApiController
      * )
      *
      * @param Request $request
-     * @return ApiSuccessResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function createOrder(Request $request): ApiSuccessResponse
+    public function createOrder(Request $request): ApiSuccessResponse|ApiErrorResponse
     {
         $arrProducts = $request->get('products');
 
         $products = CatalogProduct::select(['id', 'price'])
-            ->whereIn('id', array_column($arrProducts, 'productId'))
+            ->whereIn('id', array_column($arrProducts, 'product_id'))
             ->pluck('price', 'id')
             ->toArray();
 
@@ -69,15 +69,19 @@ class OrderController extends BaseApiController
         $orderProduct = [];
 
         foreach ($arrProducts as $product) {
-            $price = $products[$product['productId']] * $product['count'];
+            if (isset($products[$product['product_id']])) {
+                $price = $products[$product['product_id']] * $product['count'];
 
-            $orderProduct[] = [
-                'product_id' => $product['productId'],
-                'count' => $product['count'],
-                'price' => $price
-            ];
+                $orderProduct[] = [
+                    'product_id' => $product['product_id'],
+                    'count' => $product['count'],
+                    'price' => $price
+                ];
 
-            $allPrice += $price;
+                $allPrice += $price;
+            } else {
+                return new ApiErrorResponse('Заказ не создан. Один или несколько товаров не найдено.');
+            }
         }
 
         $orderData = [
