@@ -145,6 +145,10 @@ class OrderController extends BaseApiController
             return new ApiErrorResponse('Заказ не найден.');
         }
 
+        if ($order->status === 1) {
+            return new ApiErrorResponse('Заказ уже отменён.');
+        }
+
         $order->status = 1;
         $order->save();
 
