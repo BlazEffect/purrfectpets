@@ -267,8 +267,8 @@
                 "tags": [
                     "Banner"
                 ],
-                "summary": "Получение баннеров из бд",
-                "description": "Получение баннеров из бд",
+                "summary": "Получение баннеров",
+                "description": "Получение баннеров",
                 "operationId": "199a9d4cd861f8c9a07fb796c61563ca",
                 "responses": {
                     "200": {

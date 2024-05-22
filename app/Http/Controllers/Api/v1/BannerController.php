@@ -12,8 +12,8 @@ class BannerController extends BaseApiController
      * @OA\Get (
      *     path="/banners",
      *     tags={"Banner"},
-     *     summary="Получение баннеров из бд",
-     *     description="Получение баннеров из бд",
+     *     summary="Получение баннеров",
+     *     description="Получение баннеров",
      *     @OA\Response(
      *         response=200,
      *         description="Успешно",
