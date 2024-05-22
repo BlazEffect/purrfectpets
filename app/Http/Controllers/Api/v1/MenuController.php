@@ -51,6 +51,14 @@ class MenuController extends BaseApiController
      *             ),
      *             @OA\Property(property="message", type="string", example="")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Меню не найдено.")
+     *         )
      *     )
      * )
      *
