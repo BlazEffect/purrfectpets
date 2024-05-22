@@ -13,8 +13,8 @@ class BrandController extends BaseApiController
      * @OA\Get (
      *     path="/brands",
      *     tags={"Brands"},
-     *     summary="Получение всех активных брендов из бд",
-     *     description="Получение всех активных брендов из бд",
+     *     summary="Получение всех активных брендов",
+     *     description="Получение всех активных брендов",
      *     @OA\Response(
      *         response=200,
      *         description="Успешно",
@@ -45,8 +45,8 @@ class BrandController extends BaseApiController
      * @OA\Get (
      *     path="/brand/{brandId}",
      *     tags={"Brands"},
-     *     summary="Получение бренда по id из бд",
-     *     description="Получение бренда по id из бд",
+     *     summary="Получение бренда по id",
+     *     description="Получение бренда по id",
      *     @OA\Parameter(
      *         name="brandId",
      *         description="ID бренда",
@@ -63,6 +63,14 @@ class BrandController extends BaseApiController
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/Brand"),
      *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Бренд не найден.")
      *         )
      *     )
      * )
@@ -103,6 +111,14 @@ class BrandController extends BaseApiController
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/BrandWithProducts"),
      *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Бренд не найден.")
      *         )
      *     )
      * )
