@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Requests\CreateReviewRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Review;
@@ -77,20 +78,12 @@ class ReviewController extends BaseApiController
      *     )
      * )
      *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
+     * @param CreateReviewRequest $request
+     * @return ApiSuccessResponse
      */
-    public function createReview(Request $request)
+    public function createReview(CreateReviewRequest $request): ApiSuccessResponse
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'string|required',
-            'text' => 'string|required',
-            'rating_value' => 'int|required',
-        ]);
-
-        if ($validator->fails()) {
-            return new ApiErrorResponse('Ошибки валидации.', $validator->errors()->toArray());
-        }
+        $request->validated();
 
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
