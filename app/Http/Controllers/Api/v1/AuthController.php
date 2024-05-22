@@ -50,8 +50,8 @@ class AuthController extends BaseApiController
      *           description="Ошибка валидации",
      *           @OA\JsonContent(
      *               @OA\Property(property="success", type="boolean", example="false"),
-     *               @OA\Property(property="message", type="string", example="Ошибка валидации."),
-     *               @OA\Property(property="data", type="object", example={})
+     *               @OA\Property(property="data", type="object", example={}),
+     *               @OA\Property(property="message", type="string", example="Ошибка валидации.")
      *           )
      *       )
      *  )
@@ -122,14 +122,14 @@ class AuthController extends BaseApiController
      *         )
      *     ),
      *     @OA\Response(
-     *         response=422,
-     *         description="Ошибка валидации",
+     *         response=401,
+     *         description="Неверные данные для авторизации",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
-     *             @OA\Property(property="message", type="string", example="Неверные данные."),
      *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="error", type="string", example="Не авторизован")
-     *             )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Неверные данные.")
      *         )
      *     )
      * )
@@ -146,7 +146,7 @@ class AuthController extends BaseApiController
             return new ApiSuccessResponse($success, 'Пользователь успешно вошел.');
         }
 
-        return new ApiErrorResponse('Неверные данные.', ['error' => 'Не авторизован']);
+        return new ApiErrorResponse('Неверные данные.', ['error' => 'Не авторизован'], Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -167,6 +167,14 @@ class AuthController extends BaseApiController
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="object", example={}),
      *             @OA\Property(property="message", type="string", example="Пользователь успешно вышел.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
      *         )
      *     )
      * )

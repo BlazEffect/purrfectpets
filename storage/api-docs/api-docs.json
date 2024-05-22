@@ -91,13 +91,13 @@
                                             "type": "boolean",
                                             "example": "false"
                                         },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Ошибка валидации."
-                                        },
                                         "data": {
                                             "type": "object",
                                             "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ошибка валидации."
                                         }
                                     },
                                     "type": "object"
@@ -169,8 +169,8 @@
                             }
                         }
                     },
-                    "422": {
-                        "description": "Ошибка валидации",
+                    "401": {
+                        "description": "Неверные данные для авторизации",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -178,10 +178,6 @@
                                         "success": {
                                             "type": "boolean",
                                             "example": "false"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Неверные данные."
                                         },
                                         "data": {
                                             "properties": {
@@ -191,6 +187,10 @@
                                                 }
                                             },
                                             "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Неверные данные."
                                         }
                                     },
                                     "type": "object"
@@ -227,6 +227,26 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Пользователь успешно вышел."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизирован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Вы не авторизованы."
                                         }
                                     },
                                     "type": "object"
@@ -513,7 +533,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Заказ успешно создан."
+                                            "example": ""
                                         }
                                     },
                                     "type": "object"
