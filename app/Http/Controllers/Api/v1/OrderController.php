@@ -36,7 +36,7 @@ class OrderController extends BaseApiController
      *
      * @return ApiSuccessResponse
      */
-    public function getOrders()
+    public function getOrders(): ApiSuccessResponse
     {
         $orders = Order::query()
             ->where('user_id', Auth::user()->id)
