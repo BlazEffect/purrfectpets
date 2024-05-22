@@ -29,19 +29,11 @@ Route::prefix('v1')->group(function () {
         Route::post('login', 'login')->name('login');
     });
 
+    Route::get('/reviews', [ReviewController::class, 'getReviews']);
+
     Route::get('/banners', [BannerController::class, 'getBanners']);
 
     Route::get('/product/{productId}', [ProductController::class, 'getProduct']);
-
-    Route::controller(ReviewController::class)->group(function () {
-        Route::get('/reviews', 'getReviews');
-
-        Route::prefix('review')->group(function () {
-            Route::patch('/create', 'createReview');
-            Route::patch('/{reviewId}', 'editReview');
-            Route::delete('/{reviewId}', 'deleteReview');
-        });
-    });
 
     Route::controller(BrandController::class)->group(function () {
         Route::get('/brands', 'getBrands');
@@ -68,6 +60,12 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+
+        Route::controller(ReviewController::class)->prefix('review')->group(function () {
+            Route::patch('/create', 'createReview');
+            Route::patch('/{reviewId}', 'editReview');
+            Route::delete('/{reviewId}', 'deleteReview');
+        });
 
         Route::controller(UserController::class)->prefix('user')->group(function () {
             Route::get('/profile', 'getUserProfile');
