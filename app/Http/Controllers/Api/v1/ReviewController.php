@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Requests\CreateReviewRequest;
+use App\Http\Requests\EditReviewRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Review;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use OpenApi\Annotations as OA;
 
 class ReviewController extends BaseApiController
@@ -142,20 +142,12 @@ class ReviewController extends BaseApiController
      *     )
      * )
      *
-     * @param Request $request
+     * @param EditReviewRequest $request
      * @return ApiErrorResponse|ApiSuccessResponse
      */
-    public function editReview(Request $request)
+    public function editReview(EditReviewRequest $request): ApiErrorResponse|ApiSuccessResponse
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'string|required',
-            'text' => 'string|required',
-            'rating_value' => 'int|required',
-        ]);
-
-        if ($validator->fails()) {
-            return new ApiErrorResponse('Ошибки валидации.', $validator->errors()->toArray());
-        }
+        $request->validated();
 
         $review = Review::find($request->input('review_id'));
 
