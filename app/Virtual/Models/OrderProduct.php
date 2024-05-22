@@ -7,6 +7,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Schema(
  *     title="OrderProduct",
+ *     description="Order model",
  *     required={"product_id", "count"},
  *     @OA\Xml(
  *         name="OrderProduct"

@@ -7,7 +7,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Schema(
  *     title="UserProfile",
- *     description="User model",
+ *     description="User profile model",
  *     required={"user_id", "first_name", "surname"},
  *     @OA\Xml(
  *         name="UserProfile"

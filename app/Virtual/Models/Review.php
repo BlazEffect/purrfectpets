@@ -8,6 +8,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Schema(
  *     title="Review",
+ *     description="Review model",
  *     required={"id", "user_id", "status", "name", "rating_value"},
  *     @OA\Xml(
  *         name="Review"
