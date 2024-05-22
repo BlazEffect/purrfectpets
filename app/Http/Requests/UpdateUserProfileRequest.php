@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class UpdateUserProfileRequest extends FormRequest
 {
@@ -37,7 +38,7 @@ class UpdateUserProfileRequest extends FormRequest
             'message' => 'Ошибки валидации.',
         ];
 
-        throw new HttpResponseException(response()->json($response, 422));
+        throw new HttpResponseException(response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 
     public function authorize(): bool
