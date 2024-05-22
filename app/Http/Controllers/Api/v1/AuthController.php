@@ -29,7 +29,7 @@ class AuthController extends BaseApiController
      *                      @OA\Property(property="FIO", type="string", example="Морозов Николай Михайлович"),
      *                      @OA\Property(property="email", type="string", example="morozov@test.com"),
      *                      @OA\Property(property="password", type="string", example="morozov123"),
-     *                      @OA\Property(property="confirm_password", type="string", example="morozov123"),
+     *                      @OA\Property(property="confirm_password", type="string", example="morozov123")
      *                  )
      *              }
      *           )
