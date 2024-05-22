@@ -141,7 +141,7 @@ class OrderController extends BaseApiController
     {
         $order = Order::find($orderId);
 
-        if ($order === null) {
+        if ($order === null || $order->user_id !== Auth::user()->id) {
             return new ApiErrorResponse('Заказ не найден.');
         }
 
