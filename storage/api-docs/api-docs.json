@@ -542,6 +542,26 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Меню не найдено."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -753,17 +773,17 @@
                 ]
             }
         },
-        "/getPage/{page:url}": {
+        "/getPage/{url}": {
             "get": {
                 "tags": [
                     "Page"
                 ],
-                "summary": "Получение статической страницы из бд",
-                "description": "Получение статической страницы из бд",
-                "operationId": "705a276174816c3ce693eb9f8f28f5ac",
+                "summary": "Получение статической страницы",
+                "description": "Получение статической страницы",
+                "operationId": "5d958fc286ddf155f167060b3bbc9eb4",
                 "parameters": [
                     {
-                        "name": "page:url",
+                        "name": "url",
                         "in": "path",
                         "description": "Url страницы",
                         "required": true,
@@ -784,43 +804,7 @@
                                             "example": "true"
                                         },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Название страницы"
-                                                },
-                                                "url": {
-                                                    "type": "string",
-                                                    "example": "Url страницы"
-                                                },
-                                                "content": {
-                                                    "type": "string",
-                                                    "example": "Содержание страницы"
-                                                },
-                                                "active": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "order": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-04-08 00:00:00"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-04-08 00:00:00"
-                                                }
-                                            },
-                                            "type": "object"
+                                            "$ref": "#/components/schemas/Page"
                                         },
                                         "message": {
                                             "type": "string",
@@ -833,7 +817,24 @@
                         }
                     },
                     "404": {
-                        "description": "Страницы не существует"
+                        "description": "Не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Страницы не найдено."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2299,7 +2300,7 @@
             },
             "Order": {
                 "title": "Order",
-                "description": "Menu type model",
+                "description": "Order model",
                 "required": [
                     "id",
                     "user_id",
@@ -2363,6 +2364,7 @@
             },
             "OrderProduct": {
                 "title": "OrderProduct",
+                "description": "Order model",
                 "required": [
                     "product_id",
                     "count"
@@ -2387,8 +2389,78 @@
                     "name": "OrderProduct"
                 }
             },
+            "Page": {
+                "title": "Page",
+                "description": "Page model",
+                "required": [
+                    "id",
+                    "name",
+                    "url",
+                    "active",
+                    "order"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new page",
+                        "type": "string",
+                        "example": "Название страницы"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "description": "Url of the new page",
+                        "type": "string",
+                        "example": "/page"
+                    },
+                    "content": {
+                        "title": "Content",
+                        "description": "Content of the new page",
+                        "type": "string",
+                        "example": "Содержание страницы",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "$active",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "order": {
+                        "title": "Order",
+                        "description": "Element display order",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Page"
+                }
+            },
             "Review": {
                 "title": "Review",
+                "description": "Review model",
                 "required": [
                     "id",
                     "user_id",
@@ -2526,7 +2598,7 @@
             },
             "UserProfile": {
                 "title": "UserProfile",
-                "description": "User model",
+                "description": "User profile model",
                 "required": [
                     "user_id",
                     "first_name",
