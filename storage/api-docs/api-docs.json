@@ -486,6 +486,49 @@
                 }
             }
         },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Получение заказов пользователя",
+                "description": "Получение заказов пользователя",
+                "operationId": "479e95fb191e4a4e1a912114996874bf",
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Заказ успешно создан."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/order/create": {
             "post": {
                 "tags": [
@@ -2192,6 +2235,70 @@
                 "type": "object",
                 "xml": {
                     "name": "MenuType"
+                }
+            },
+            "Order": {
+                "title": "Order",
+                "description": "Menu type model",
+                "required": [
+                    "id",
+                    "user_id",
+                    "status",
+                    "is_paid",
+                    "price"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "title": "User ID",
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Status for order",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_paid": {
+                        "title": "Active",
+                        "description": "$is_paid",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "price": {
+                        "title": "Price",
+                        "description": "Price",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Order"
                 }
             },
             "OrderProduct": {

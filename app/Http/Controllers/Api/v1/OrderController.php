@@ -13,6 +13,39 @@ use OpenApi\Annotations as OA;
 class OrderController extends BaseApiController
 {
     /**
+     * @OA\Get (
+     *     path="/orders",
+     *     tags={"Order"},
+     *     summary="Получение заказов пользователя",
+     *     description="Получение заказов пользователя",
+     *     security={
+     *         { "Bearer":{} }
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Order")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     )
+     * )
+     *
+     * @return ApiSuccessResponse
+     */
+    public function getOrders()
+    {
+        $orders = Order::query()
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        return new ApiSuccessResponse($orders, '');
+    }
+
+    /**
      * @OA\Post (
      *     path="/order/create",
      *     tags={"Order"},

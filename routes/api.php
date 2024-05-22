@@ -74,9 +74,13 @@ Route::prefix('v1')->group(function () {
             Route::patch('/profile', 'updateUserProfile');
         });
 
-        Route::controller(OrderController::class)->prefix('order')->group(function () {
-            Route::post('/create', 'createOrder');
-            Route::post('/{orderId}/cancel', 'cancelOrder');
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('/orders', 'getOrders');
+
+            Route::prefix('order')->group(function () {
+                Route::post('/create', 'createOrder');
+                Route::post('/{orderId}/cancel', 'cancelOrder');
+            });
         });
     });
 
