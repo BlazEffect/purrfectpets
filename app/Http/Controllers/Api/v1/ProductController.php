@@ -95,7 +95,7 @@ class ProductController extends BaseApiController
     {
         $product = CatalogProduct::find($productId);
 
-        if ($product === null) {
+        if ($product === null || $product->active === false) {
             return new ApiErrorResponse('Товар не найден.');
         }
 
