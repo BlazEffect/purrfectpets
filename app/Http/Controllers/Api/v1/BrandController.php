@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Brand;
 use OpenApi\Annotations as OA;
@@ -67,11 +68,15 @@ class BrandController extends BaseApiController
      * )
      *
      * @param int $brandId
-     * @return ApiSuccessResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getBrandById(int $brandId): ApiSuccessResponse
+    public function getBrandById(int $brandId): ApiSuccessResponse|ApiErrorResponse
     {
         $brand = Brand::find($brandId);
+
+        if ($brand === null) {
+            return new ApiErrorResponse('Бренд не найден.');
+        }
 
         return new ApiSuccessResponse($brand, '');
     }
@@ -103,11 +108,15 @@ class BrandController extends BaseApiController
      * )
      *
      * @param int $brandId
-     * @return ApiSuccessResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getProductsByBrandId(int $brandId): ApiSuccessResponse
+    public function getProductsByBrandId(int $brandId): ApiSuccessResponse|ApiErrorResponse
     {
         $brandWithProducts = Brand::with('products')->find($brandId);
+
+        if ($brandWithProducts === null) {
+            return new ApiErrorResponse('Бренд не найден.');
+        }
 
         return new ApiSuccessResponse($brandWithProducts, '');
     }

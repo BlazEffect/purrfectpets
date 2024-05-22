@@ -305,8 +305,8 @@
                 "tags": [
                     "Brands"
                 ],
-                "summary": "Получение всех активных брендов из бд",
-                "description": "Получение всех активных брендов из бд",
+                "summary": "Получение всех активных брендов",
+                "description": "Получение всех активных брендов",
                 "operationId": "0d7a2cd0d0182f3e667f8a7c1236922f",
                 "responses": {
                     "200": {
@@ -343,8 +343,8 @@
                 "tags": [
                     "Brands"
                 ],
-                "summary": "Получение бренда по id из бд",
-                "description": "Получение бренда по id из бд",
+                "summary": "Получение бренда по id",
+                "description": "Получение бренда по id",
                 "operationId": "c20dee99dc727bdff05dece665728481",
                 "parameters": [
                     {
@@ -374,6 +374,26 @@
                                         "message": {
                                             "type": "string",
                                             "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Бренд не найден."
                                         }
                                     },
                                     "type": "object"
@@ -420,6 +440,26 @@
                                         "message": {
                                             "type": "string",
                                             "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Бренд не найден."
                                         }
                                     },
                                     "type": "object"
