@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Requests\RegisterRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use OpenApi\Annotations as OA;
 
 class AuthController extends BaseApiController
@@ -55,23 +55,14 @@ class AuthController extends BaseApiController
      *       )
      *  )
      *
-     * @param Request $request
+     * @param RegisterRequest $request
      * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function register(Request $request): ApiSuccessResponse|ApiErrorResponse
+    public function register(RegisterRequest $request): ApiSuccessResponse|ApiErrorResponse
     {
+        $request->validated();
+
         $input = $request->all();
-
-        $validator = Validator::make($input, [
-            'email' => 'required|unique:users|email',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-            'FIO' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return new ApiErrorResponse('Ошибки валидации.', $validator->errors()->toArray());
-        }
 
         $fio = explode(' ', $input['FIO']);
 
