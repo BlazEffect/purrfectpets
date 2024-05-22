@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Responses\ApiErrorResponse;
+use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use OpenApi\Annotations as OA;
 
 class UserController extends BaseApiController
@@ -75,21 +73,12 @@ class UserController extends BaseApiController
      *     )
      * )
      *
-     * @param Request $request
-     * @return ApiSuccessResponse|ApiErrorResponse
+     * @param UpdateUserProfileRequest $request
+     * @return ApiSuccessResponse
      */
-    public function updateUserProfile(Request $request): ApiSuccessResponse|ApiErrorResponse
+    public function updateUserProfile(UpdateUserProfileRequest $request): ApiSuccessResponse
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'string|max:100',
-            'surname' => 'string|max:100',
-            'email' => 'unique:users|email',
-            'confirm_password' => 'same:password',
-        ]);
-
-        if ($validator->fails()) {
-            return new ApiErrorResponse('Ошибки валидации.', $validator->errors()->toArray());
-        }
+        $request->validated();
 
         $authUser = auth()->user();
         $user = User::find($authUser->id);
