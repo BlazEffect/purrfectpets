@@ -10,6 +10,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseApiController
 {
@@ -67,7 +68,11 @@ class AuthController extends BaseApiController
         $fio = explode(' ', $input['FIO']);
 
         if (count($fio) !== 3) {
-            return new ApiErrorResponse('Ошибки валидации.', ['FIO' => 'Вы ввели некорректно ФИО.']);
+            return new ApiErrorResponse(
+                'Ошибки валидации.',
+                ['FIO' => 'Вы ввели некорректно ФИО.'],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
         $input['password'] = bcrypt($input['password']);
