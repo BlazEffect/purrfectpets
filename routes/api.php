@@ -82,6 +82,5 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::get('/getPage/{page:url}', [PageController::class, 'index'])
-        ->where('page', '.*');
+    Route::get('/getPage/{url}', [PageController::class, 'index']);
 });

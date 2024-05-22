@@ -6,8 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    public function resolveRouteBinding($value, $field = null): Page|null
+    protected $fillable = [
+        'name',
+        'url',
+        'content',
+        'active',
+        'order',
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
+    public function scopeActive($query)
     {
-        return $this->where($field, $value)->where('active', true)->first();
+        return $query->where('active', true);
     }
 }

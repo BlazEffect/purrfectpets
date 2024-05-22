@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Page;
 use OpenApi\Annotations as OA;
@@ -10,12 +11,12 @@ class PageController extends BaseApiController
 {
     /**
      * @OA\Get (
-     *     path="/getPage/{page:url}",
+     *     path="/getPage/{url}",
      *     tags={"Page"},
-     *     summary="Получение статической страницы из бд",
-     *     description="Получение статической страницы из бд",
+     *     summary="Получение статической страницы",
+     *     description="Получение статической страницы",
      *     @OA\Parameter(
-     *         name="page:url",
+     *         name="url",
      *         description="Url страницы",
      *         required=true,
      *         in="path",
@@ -28,30 +29,34 @@ class PageController extends BaseApiController
      *         description="Успешно",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="true"),
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="Название страницы"),
-     *                 @OA\Property(property="url", type="string", example="Url страницы"),
-     *                 @OA\Property(property="content", type="string", example="Содержание страницы"),
-     *                 @OA\Property(property="active", type="integer", example=1),
-     *                 @OA\Property(property="order", type="integer", example=1),
-     *                 @OA\Property(property="created_at", type="datetime", example="2024-04-08 00:00:00"),
-     *                 @OA\Property(property="updated_at", type="datetime", example="2024-04-08 00:00:00")
-     *             ),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/Page"),
      *             @OA\Property(property="message", type="string", example="")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Страницы не существует",
+     *         description="Не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Страницы не найдено.")
+     *         )
      *     )
      * )
      *
-     * @param Page $page
-     * @return ApiSuccessResponse
+     * @param string $url
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function index(Page $page): ApiSuccessResponse
+    public function index(string $url): ApiSuccessResponse|ApiErrorResponse
     {
+        $page = Page::query()
+            ->where('url', $url)
+            ->active()
+            ->get();
+
+        if ($page === null) {
+            return new ApiErrorResponse('Страницы не найдено.');
+        }
+
         return new ApiSuccessResponse($page, '');
     }
 }
