@@ -1636,7 +1636,7 @@
                         }
                     },
                     "404": {
-                        "description": "Раздел не существует",
+                        "description": "Не существует",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1705,7 +1705,7 @@
                         }
                     },
                     "404": {
-                        "description": "Раздел не существует",
+                        "description": "Не существует",
                         "content": {
                             "application/json": {
                                 "schema": {

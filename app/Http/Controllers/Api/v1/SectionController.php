@@ -63,10 +63,10 @@ class SectionController extends BaseApiController
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Раздел не существует",
+     *         description="Не существует",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
-     *             @OA\Property(property="message", type="string", example="Раздел не найден."),
+     *             @OA\Property(property="message", type="string", example="Раздел не найден.")
      *         )
      *     )
      * )
@@ -113,10 +113,10 @@ class SectionController extends BaseApiController
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Раздел не существует",
+     *         description="Не существует",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
-     *             @OA\Property(property="message", type="string", example="Раздел не найден."),
+     *             @OA\Property(property="message", type="string", example="Раздел не найден.")
      *         )
      *     )
      * )
