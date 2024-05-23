@@ -64,7 +64,15 @@ class ReviewController extends BaseApiController
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/Review"),
-     *             @OA\Property(property="message", type="string", example="Заказ успешно создан.")
+     *             @OA\Property(property="message", type="string", example="Отзыв был создан.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
      *         )
      *     ),
      *     @OA\Response(
@@ -124,8 +132,16 @@ class ReviewController extends BaseApiController
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=404,
-     *         description="Отзыв не существует",
+     *         description="Не существует",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
      *             @OA\Property(property="message", type="string", example="Отзыв не найден.")
@@ -187,12 +203,20 @@ class ReviewController extends BaseApiController
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="string", example=""),
-     *             @OA\Property(property="message", type="string", example="Отзыв был удален")
+     *             @OA\Property(property="message", type="string", example="Отзыв был удален.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Отзыв не существует",
+     *         description="Не существует",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
      *             @OA\Property(property="message", type="string", example="Отзыв не найден.")

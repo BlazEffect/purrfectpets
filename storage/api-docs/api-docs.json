@@ -1270,7 +1270,27 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Заказ успешно создан."
+                                            "example": "Отзыв был создан."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизирован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Вы не авторизованы."
                                         }
                                     },
                                     "type": "object"
@@ -1346,7 +1366,27 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Отзыв был удален"
+                                            "example": "Отзыв был удален."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизирован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Вы не авторизованы."
                                         }
                                     },
                                     "type": "object"
@@ -1355,7 +1395,7 @@
                         }
                     },
                     "404": {
-                        "description": "Отзыв не существует",
+                        "description": "Не существует",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1439,8 +1479,28 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Не авторизирован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Вы не авторизованы."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "404": {
-                        "description": "Отзыв не существует",
+                        "description": "Не существует",
                         "content": {
                             "application/json": {
                                 "schema": {
