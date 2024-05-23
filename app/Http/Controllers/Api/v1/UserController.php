@@ -26,6 +26,14 @@ class UserController extends BaseApiController
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/UserWithProfile"),
      *             @OA\Property(property="message", type="string", example="")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
+     *         )
      *     )
      * )
      *
@@ -57,7 +65,7 @@ class UserController extends BaseApiController
      *                     @OA\Property(property="phone", type="string", example="+7(951)712-13-25"),
      *                     @OA\Property(property="email", type="string", example="morozov@test.com"),
      *                     @OA\Property(property="password", type="string", example="morozov123"),
-     *                     @OA\Property(property="confirm_password", type="string", example="morozov123"),
+     *                     @OA\Property(property="confirm_password", type="string", example="morozov123")
      *                 )
      *             }
      *         )
@@ -69,6 +77,23 @@ class UserController extends BaseApiController
      *             @OA\Property(property="success", type="boolean", example="true"),
      *             @OA\Property(property="data", type="object", ref="#/components/schemas/UserWithProfile"),
      *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Ошибка валидации",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="data", type="object", example={}),
+     *             @OA\Property(property="message", type="string", example="Ошибка валидации.")
      *         )
      *     )
      * )
