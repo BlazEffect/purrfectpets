@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <h3>Вы зарегестироваровались на сайте PurrfectPets</h3>
+        <h3>Вы зарегистрировались на сайте PurrfectPets</h3>
         <br>
         <p>Ваш логин: <b>{{ $user->email }}</b></p>
         <p>Ваш пароль: <b>{{ $password }}</b></p>

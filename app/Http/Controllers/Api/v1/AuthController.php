@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Mail\RegisterAdminMail;
+use App\Mail\RegisterUserMail;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -75,7 +78,10 @@ class AuthController extends BaseApiController
             );
         }
 
+        $password = $input['password'];
+
         $input['password'] = bcrypt($input['password']);
+        $input['active'] = true;
         $user = User::create($input);
 
         $profileData = [
@@ -85,9 +91,16 @@ class AuthController extends BaseApiController
             'last_name' => $fio[2],
             'phone' => $input['phone'] ?? null,
         ];
-        UserProfile::create($profileData);
+        $userProfile = UserProfile::create($profileData);
 
         $success['token'] = $user->createToken('auth_token')->plainTextToken;
+
+        Mail::to($user->email)
+            ->queue((new RegisterUserMail($user, $userProfile->toArray(), $password))
+        );
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue((new RegisterAdminMail($user, $userProfile->toArray()))
+        );
 
         return new ApiSuccessResponse($success, 'Пользователь успешно зарегистрирован.');
     }
