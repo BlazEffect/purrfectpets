@@ -83,7 +83,7 @@ class ProductController extends BaseApiController
      *         description="Товара не существует",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
-     *             @OA\Property(property="message", type="string", example="Товар не найден."),
+     *             @OA\Property(property="message", type="string", example="Товар не найден.")
      *         )
      *     )
      * )
