@@ -850,7 +850,7 @@
                         }
                     },
                     "404": {
-                        "description": "Заказ не существует",
+                        "description": "Не существует",
                         "content": {
                             "application/json": {
                                 "schema": {
