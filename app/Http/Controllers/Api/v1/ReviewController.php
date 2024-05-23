@@ -53,7 +53,7 @@ class ReviewController extends BaseApiController
      *                 @OA\Schema(
      *                     @OA\Property(property="name", type="string", example="Название отзыва"),
      *                     @OA\Property(property="text", type="string", example="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi laborum magnam maxime quia ut? Aperiam autem"),
-     *                     @OA\Property(property="rating_value", type="int", example=1),
+     *                     @OA\Property(property="rating_value", type="int", example=1)
      *                 )
      *             }
      *         )
@@ -117,7 +117,7 @@ class ReviewController extends BaseApiController
      *                 @OA\Schema(
      *                     @OA\Property(property="name", type="string", example="Название отзыва"),
      *                     @OA\Property(property="text", type="string", example="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi laborum magnam maxime quia ut? Aperiam autem"),
-     *                     @OA\Property(property="rating_value", type="int", example=1),
+     *                     @OA\Property(property="rating_value", type="int", example=1)
      *                 )
      *             }
      *         )
