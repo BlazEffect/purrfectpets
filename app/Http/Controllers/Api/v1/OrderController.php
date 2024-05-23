@@ -9,6 +9,7 @@ use App\Models\Order;
 use Auth;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends BaseApiController
 {
@@ -30,6 +31,14 @@ class OrderController extends BaseApiController
      *                 @OA\Items(ref="#/components/schemas/Order")
      *             ),
      *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
      *         )
      *     )
      * )
@@ -82,6 +91,23 @@ class OrderController extends BaseApiController
      *             ),
      *             @OA\Property(property="message", type="string", example="Заказ успешно создан.")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Ошибка валидации",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="data", type="object", example={}),
+     *             @OA\Property(property="message", type="string", example="Заказ не создан. Один или несколько товаров не найдено.")
+     *         )
      *     )
      * )
      *
@@ -113,7 +139,10 @@ class OrderController extends BaseApiController
 
                 $allPrice += $price;
             } else {
-                return new ApiErrorResponse('Заказ не создан. Один или несколько товаров не найдено.');
+                return new ApiErrorResponse(
+                    'Заказ не создан. Один или несколько товаров не найдено.',
+                    [],
+                    Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         }
 
@@ -158,6 +187,22 @@ class OrderController extends BaseApiController
      *         )
      *     ),
      *     @OA\Response(
+     *         response=400,
+     *         description="Неверный запрос",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Заказ уже отменён.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=404,
      *         description="Заказ не существует",
      *         @OA\JsonContent(
@@ -179,7 +224,7 @@ class OrderController extends BaseApiController
         }
 
         if ($order->status === 1) {
-            return new ApiErrorResponse('Заказ уже отменён.');
+            return new ApiErrorResponse('Заказ уже отменён.', [], Response::HTTP_BAD_REQUEST);
         }
 
         $order->status = 1;
