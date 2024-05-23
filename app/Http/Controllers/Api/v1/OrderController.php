@@ -204,7 +204,7 @@ class OrderController extends BaseApiController
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Заказ не существует",
+     *         description="Не существует",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example="false"),
      *             @OA\Property(property="message", type="string", example="Заказ не найден.")
