@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Mail\OrderCreateAdminMail;
+use App\Mail\OrderCreateUserMail;
 use App\Models\CatalogProduct;
 use App\Models\Order;
+use App\Models\OrderProperty;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -155,6 +159,13 @@ class OrderController extends BaseApiController
 
         $order->products()->createMany($orderProduct);
         $order->properties()->create($request->get('orderProperties'));
+
+        Mail::to(Auth::user()->id->email)
+            ->queue((new OrderCreateUserMail($order, OrderProperty::find($order->id)))
+        );
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue((new OrderCreateAdminMail($order, OrderProperty::find($order->id)))
+        );
 
         return new ApiSuccessResponse(['orderId' => $order->id], 'Заказ успешно создан.');
     }
