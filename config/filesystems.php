@@ -60,10 +60,18 @@ return [
             'throw' => false,
         ],
 
-        'products' => [
+        'sections' => [
             'driver' => 'local',
             'root' => storage_path('app/public/sections'),
             'url' => env('APP_URL').'/storage/sections',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'brands' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/brands'),
+            'url' => env('APP_URL').'/storage/brands',
             'visibility' => 'public',
             'throw' => false,
         ],
