@@ -6,8 +6,10 @@ use App\Http\Requests\CreateReviewRequest;
 use App\Http\Requests\EditReviewRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Mail\CreateReviewMail;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use OpenApi\Annotations as OA;
 
 class ReviewController extends BaseApiController
@@ -98,6 +100,10 @@ class ReviewController extends BaseApiController
         $data['status'] = 0;
 
         $review = Review::create($data);
+
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue((new CreateReviewMail($review))
+        );
 
         return new ApiSuccessResponse($review, 'Отзыв был создан.');
     }
