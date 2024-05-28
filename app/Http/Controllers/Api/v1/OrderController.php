@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Mail\OrderCancelMail;
 use App\Mail\OrderCreateAdminMail;
 use App\Mail\OrderCreateUserMail;
 use App\Models\CatalogProduct;
@@ -240,6 +241,13 @@ class OrderController extends BaseApiController
 
         $order->status = 1;
         $order->save();
+
+        Mail::to(Auth::user()->id->email)
+            ->queue((new OrderCancelMail($order->id))
+        );
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue((new OrderCancelMail($order->id))
+        );
 
         return new ApiSuccessResponse([], 'Заказ успешно отменён.');
     }
