@@ -7,6 +7,7 @@ use App\Http\Requests\EditReviewRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Mail\CreateReviewMail;
+use App\Mail\EditReviewMail;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -181,6 +182,10 @@ class ReviewController extends BaseApiController
         $data['status'] = 0;
 
         $review->update($data);
+
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue((new EditReviewMail($review))
+        );
 
         return new ApiSuccessResponse($review, 'Отзыв был изменён.');
     }
