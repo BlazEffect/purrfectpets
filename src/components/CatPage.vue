@@ -10,7 +10,8 @@
         <button @click="addToCart(product)">Добавить в корзину</button>
       </div>
     </div>
-    <router-link to="/cart" class="cart-link">Перейти в корзину</router-link>
+    <router-link to="/cartpage" class="cart-link">Перейти в корзину</router-link>
+    <br>
     <router-link to="/" class="home-link">Вернуться на главную</router-link>
   </div>
 </template>
@@ -108,6 +109,21 @@
   }
   
   .home-link:hover {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+
+  .cart-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007bff;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 8px 16px;
+  }
+  
+  .cart-link:hover {
     background-color: #007bff;
     color: #ffffff;
   }
