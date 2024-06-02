@@ -5,11 +5,12 @@
       <div v-for="item in cartItems" :key="item.id" class="cart-item">
         <p>Название: {{ item.name }}</p>
         <p>Цена: {{ item.price }} рублей</p>
+        <p>Количество: {{ item.quantity }}</p>
         <button @click="removeFromCart(item.id)">Удалить</button>
       </div>
     </div>
     <p v-if="cartItems.length === 0">Корзина пуста</p>
-    <p v-else>Всего товаров в корзине: {{ cartItems.length }}</p>
+    <p v-else>Всего товаров в корзине: {{ totalItems }}</p>
     <router-link to="/" class="continue-shopping">Продолжить покупки</router-link>
   </div>
 </template>
@@ -22,6 +23,9 @@ export default {
     ...mapGetters(['cart']),
     cartItems() {
       return this.cart;
+    },
+    totalItems() {
+      return this.cart.reduce((total, item) => total + item.quantity, 0);
     }
   },
   methods: {

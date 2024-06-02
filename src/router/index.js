@@ -13,6 +13,7 @@ import RodentsPage from '../components/RodentsPage.vue';
 import BirdPage from '../components/BirdPage.vue';
 import FishPage from '../components/FishPage.vue';
 
+
 const routes = [
   { path: '/', component: HomePage },
   { path: '/WhyWe', component: WhyWe },
@@ -21,7 +22,7 @@ const routes = [
   { path: '/loginpage', component: LoginPage },
   { path: '/registration', component: RegistrationPage},
   { path: '/contactspage', component: ContactsPage},
-  { path: '/cartpage', component: CartPage},
+  { path: '/cart', component: CartPage},
   { path: '/salepage', component: SalePage},
   { path: '/catpage', component: CatPage},
   { path: '/dogpage', component: DogPage},
