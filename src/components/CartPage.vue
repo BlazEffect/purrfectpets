@@ -13,9 +13,11 @@
     </div>
     <div class="cart-summary">
       <h2>Итого: {{ totalAmount }} руб.</h2>
+    </div>
+    <div class="cart-actions">
+      <router-link to="/" class="continue-shopping">Продолжить покупки</router-link>
       <router-link to="/checkout" class="checkout-button">Перейти к оформлению</router-link>
     </div>
-    <router-link to="/" class="continue-shopping">Продолжить покупки</router-link>
   </div>
 </template>
 
@@ -88,6 +90,7 @@ h1 {
   padding: 10px;
   cursor: pointer;
   margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавляем тень */
 }
 
 .cart-item button:hover {
@@ -103,32 +106,41 @@ h1 {
   margin-bottom: 20px;
 }
 
-.checkout-button {
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  text-decoration: none;
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.checkout-button:hover {
-  background-color: #0056b3;
+.continue-shopping,
+.checkout-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 7px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавляем тень */
 }
 
 .continue-shopping {
-  display: inline-block;
-  margin-top: 20px;
-  text-decoration: none;
-  color: #007bff;
+  background-color: #007bff;
+  color: #fff;
   border: 2px solid #007bff;
-  padding: 5px 10px;
-  border-radius: 7px;
 }
 
 .continue-shopping:hover {
-  color: #0056b3;
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.checkout-button {
+  background-color: #28a745;
+  color: #fff;
+  border: 2px solid #28a745;
+}
+
+.checkout-button:hover {
+  background-color: #218838;
+  border-color: #218838;
 }
 </style>

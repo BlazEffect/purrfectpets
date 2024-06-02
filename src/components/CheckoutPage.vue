@@ -1,21 +1,23 @@
 <template>
     <div id="checkout-page">
       <h1>Оформление заказа</h1>
-      <form @submit.prevent="handleCheckout">
+      <form @submit.prevent="handleSubmitOrder">
         <div class="form-group">
           <label for="name">Имя:</label>
-          <input type="text" id="name" v-model="name" required>
+          <input type="text" id="name" v-model="order.name" required>
         </div>
         <div class="form-group">
-          <label for="address">Адрес:</label>
-          <input type="text" id="address" v-model="address" required>
+          <label for="email">Email:</label>
+          <input type="email" id="email" v-model="order.email" required>
         </div>
         <div class="form-group">
           <label for="phone">Телефон:</label>
-          <input type="text" id="phone" v-model="phone" required>
+          <input type="tel" id="phone" v-model="order.phone" required>
         </div>
+        <p>Оплата только наличными</p>
         <button type="submit" class="submit-button">Оформить заказ</button>
       </form>
+      <p v-if="orderStatus">{{ orderStatusMessage }}</p>
     </div>
   </template>
   
@@ -23,17 +25,36 @@
   export default {
     data() {
       return {
-        name: '',
-        address: '',
-        phone: ''
+        order: {
+          name: '',
+          email: '',
+          phone: ''
+        },
+        orderStatus: null
       };
     },
     methods: {
-      handleCheckout() {
-        console.log('Заказ оформлен', { name: this.name, address: this.address, phone: this.phone });
-        // Здесь вы можете добавить логику для обработки заказа
-        alert('Ваш заказ успешно оформлен!');
-        this.$router.push('/');
+      async handleSubmitOrder() {
+        try {
+          // Отправка данных заказа на сервер
+          const response = await this.$http.post('/api/order', this.order);
+          if (response.status === 200) {
+            this.orderStatus = 'success';
+            this.orderStatusMessage = 'Заказ успешно оформлен!';
+            // Очистка данных заказа после успешного оформления
+            this.order = {
+              name: '',
+              email: '',
+              phone: ''
+            };
+          } else {
+            this.orderStatus = 'error';
+            this.orderStatusMessage = 'Произошла ошибка при оформлении заказа.';
+          }
+        } catch (error) {
+          this.orderStatus = 'error';
+          this.orderStatusMessage = 'Произошла ошибка при оформлении заказа.';
+        }
       }
     }
   };
@@ -41,9 +62,9 @@
   
   <style scoped>
   #checkout-page {
-    max-width: 600px;
+    max-width: 800px;
     margin: 50px auto;
-    padding: 40px;
+    padding: 60px; /* Увеличиваем отступы */
     border: 1px solid #eaeaea;
     border-radius: 5px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
@@ -61,27 +82,29 @@
   }
   
   label {
-    display: block;
-    margin-bottom: 5px;
+    font-weight: bold;
   }
   
-  input[type="text"] {
+  input {
     width: 100%;
     padding: 10px;
-    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
   }
   
   .submit-button {
-    background-color: #007bff;
+    background-color: #28a745;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 15px 30px; /* Увеличиваем отступы */
     cursor: pointer;
+    float: right;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавляем тень */
   }
   
   .submit-button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
   }
   </style>
   

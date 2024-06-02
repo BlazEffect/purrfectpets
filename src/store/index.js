@@ -37,10 +37,19 @@ const store = createStore({
       } else {
         state.cart.push({ ...product, quantity: 1 });
       }
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     // Удаление товара из корзины
     removeFromCart(state, productId) {
       state.cart = state.cart.filter(product => product.id !== productId);
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+    // Инициализация корзины из localStorage
+    initializeCart(state) {
+      const cart = localStorage.getItem('cart');
+      if (cart) {
+        state.cart = JSON.parse(cart);
+      }
     }
   },
   actions: {
@@ -52,6 +61,9 @@ const store = createStore({
     },
     removeFromCart({ commit }, productId) {
       commit('removeFromCart', productId);
+    },
+    initializeCart({ commit }) {
+      commit('initializeCart');
     }
   },
   getters: {
@@ -60,5 +72,8 @@ const store = createStore({
     dogProducts: state => state.products.filter(product => product.name.includes('собак'))
   }
 });
+
+// Инициализация корзины при запуске
+store.dispatch('initializeCart');
 
 export default store;
