@@ -7,7 +7,9 @@
         <h2>{{ product.name }}</h2>
         <p>{{ product.description }}</p>
         <p>{{ product.price }} руб.</p>
-        <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
+        <div class="button-container">
+          <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
+        </div>
       </div>
     </div>
     <router-link to="/cart" class="cart-link">Перейти в корзину</router-link>
@@ -49,13 +51,17 @@ h1 {
 .products {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .product {
-  width: 200px;
-  margin: 0 20px 80px;
+  width: calc(33.33% - 40px); /* Ширина 1/3 контейнера за вычетом маржинов */
+  margin: 0 20px 40px; /* Вертикальный отступ между товарами */
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; /* Для позиционирования кнопки */
 }
 
 .product img {
@@ -69,6 +75,10 @@ h1 {
 
 .product p {
   color: #666;
+}
+
+.button-container {
+  margin-top: 10px;
 }
 
 .product button {
