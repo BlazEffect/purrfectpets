@@ -1,16 +1,20 @@
 <template>
   <div id="cart-page">
     <h1>Корзина</h1>
-    <div class="cart-items">
-      <div v-for="item in cartItems" :key="item.id" class="cart-item">
-        <p>Название: {{ item.name }}</p>
-        <p>Цена: {{ item.price }} рублей</p>
+    <div class="cart-items-container">
+      <div v-for="item in cart" :key="item.id" class="cart-item">
+        <img :src="item.image" :alt="item.name">
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.description }}</p>
+        <p>{{ item.price }} руб.</p>
         <p>Количество: {{ item.quantity }}</p>
-        <button @click="removeFromCart(item.id)">Удалить</button>
+        <button @click="handleRemoveFromCart(item.id)">Удалить из корзины</button>
       </div>
     </div>
-    <p v-if="cartItems.length === 0">Корзина пуста</p>
-    <p v-else>Всего товаров в корзине: {{ totalItems }}</p>
+    <div class="cart-summary">
+      <h2>Итого: {{ totalAmount }} руб.</h2>
+      <router-link to="/checkout" class="checkout-button">Перейти к оформлению</router-link>
+    </div>
     <router-link to="/" class="continue-shopping">Продолжить покупки</router-link>
   </div>
 </template>
@@ -21,22 +25,23 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   computed: {
     ...mapGetters(['cart']),
-    cartItems() {
-      return this.cart;
-    },
-    totalItems() {
-      return this.cart.reduce((total, item) => total + item.quantity, 0);
+    totalAmount() {
+      return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     }
   },
   methods: {
-    ...mapActions(['removeFromCart'])
+    ...mapActions(['removeFromCart']),
+    handleRemoveFromCart(productId) {
+      this.removeFromCart(productId);
+      console.log(`Товар с id ${productId} удален из корзины.`);
+    }
   }
 };
 </script>
 
 <style scoped>
 #cart-page {
-  max-width: 600px;
+  max-width: 800px;
   margin: 50px auto;
   padding: 40px;
   border: 1px solid #eaeaea;
@@ -48,47 +53,76 @@ export default {
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 24px;
+  margin-bottom: 50px;
 }
 
-.cart-items {
-  margin-bottom: 20px;
+.cart-items-container {
+  margin: 0 auto;
+  max-width: 600px;
 }
 
 .cart-item {
-  border-bottom: 1px solid #eaeaea;
-  padding: 10px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea; /* Добавляем разделение */
+  padding-bottom: 20px; /* Отступ между товарами */
+}
+
+.cart-item img {
+  width: 100px;
+  border-radius: 10px;
+}
+
+.cart-item h2 {
+  margin-top: 10px;
 }
 
 .cart-item p {
-  margin: 5px 0;
+  color: #666;
 }
 
-button {
-  background-color: #ff3b30;
-  color: #ffffff;
+.cart-item button {
+  background-color: #dc3545;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 10px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
-button:hover {
-  background-color: #cc2e23;
+.cart-item button:hover {
+  background-color: #c82333;
 }
 
-p {
-  font-size: 16px;
+.cart-summary {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.cart-summary h2 {
+  margin-bottom: 20px;
+}
+
+.checkout-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3;
 }
 
 .continue-shopping {
-  display: block;
-  text-align: center;
-  color: #007bff;
-  text-decoration: none;
+  display: inline-block;
   margin-top: 20px;
+  text-decoration: none;
+  color: #007bff;
   border: 2px solid #007bff;
   padding: 5px 10px;
   border-radius: 7px;

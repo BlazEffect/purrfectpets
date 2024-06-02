@@ -12,6 +12,7 @@ import DogPage from '../components/DogPage.vue';
 import RodentsPage from '../components/RodentsPage.vue';
 import BirdPage from '../components/BirdPage.vue';
 import FishPage from '../components/FishPage.vue';
+import CheckoutPage from '@/components/CheckoutPage.vue';
 
 
 const routes = [
@@ -29,10 +30,11 @@ const routes = [
   { path: '/rodentspage', component: RodentsPage},
   { path: '/birdpage', component: BirdPage},
   { path: '/fishpage', component: FishPage},
+  { path: '/checkout', component: CheckoutPage},
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(''),
   routes
 });
 

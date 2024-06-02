@@ -22,10 +22,10 @@
           <button type="submit" id="search">Поиск</button>
         </form>
         <div class="logo_trashbin">
-            <router-link to="/cartpage">
+            <router-link to="/cart">
             <img id="logo" :src="logo" alt="logo">
             </router-link>
-            <router-link to="/cartpage" id="trashbin1"><p id="trashbin">Корзина</p></router-link>
+            <router-link to="/cart" id="trashbin1"><p id="trashbin">Корзина</p></router-link>
         </div>
       </div>
   
