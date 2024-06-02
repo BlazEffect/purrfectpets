@@ -23,7 +23,18 @@ import bowlsdog3 from '@/assets/dog/bowlsdog3.jpg';
 import hygienedog1 from '@/assets/dog/hygienedog1.jpg';
 
 import fishfood1 from '@/assets/fishfood1.jpg';
-import rodentfood1 from '@/assets/rodentfood1.jpg';
+
+import foodrodent1 from '@/assets/rodent/foodrodent1.jpg';
+import foodrodent2 from '@/assets/rodent/foodrodent2.jpg';
+import foodrodent3 from '@/assets/rodent/foodrodent3.jpg';
+import cellrodent1 from '@/assets/rodent/cellrodent1.jpg';
+import cellrodent2 from '@/assets/rodent/cellrodent2.jpg';
+import cellrodent3 from '@/assets/rodent/cellrodent3.jpg';
+import hygienerodent1 from '@/assets/rodent/hygienerodent1.jpg';
+import hygienerodent2 from '@/assets/rodent/hygienerodent2.jpg';
+import hygienerodent3 from '@/assets/rodent/hygienerodent3.jpg';
+import fillerrodent1 from '@/assets/rodent/fillerrodent1.jpg';
+
 import birdfood1 from '@/assets/birdfood1.jpg';
 
 const store = createStore({
@@ -63,16 +74,16 @@ const store = createStore({
       { id: 29, name: 'Камни и ракушки', description: 'Описание камней и ракушек для аквариума...', price: 450, image: fishfood1 },
       { id: 30, name: 'Растения для аквариума', description: 'Описание растений для аквариума...', price: 500, image: fishfood1 },
       
-      { id: 31, name: 'Корм для грызунов', description: 'Описание корма для грызунов...', price: 100, image: rodentfood1 },
-      { id: 32, name: 'Игрушки для грызунов', description: 'Описание игрушек для грызунов...', price: 200, image: rodentfood1 },
-      { id: 33, name: 'Клетки для грызунов', description: 'Описание клеток для грызунов...', price: 300, image: rodentfood1 },
-      { id: 34, name: 'Наполнитель для грызунов', description: 'Описание наполнителя для грызунов...', price: 400, image: rodentfood1 },
-      { id: 35, name: 'Домики для грызунов', description: 'Описание домиков для грызунов...', price: 500, image: rodentfood1 },
-      { id: 36, name: 'Поилки для грызунов', description: 'Описание поилок для грызунов...', price: 600, image: rodentfood1 },
-      { id: 37, name: 'Кормушки для грызунов', description: 'Описание кормушек для грызунов...', price: 700, image: rodentfood1 },
-      { id: 38, name: 'Колеса для грызунов', description: 'Описание колес для грызунов...', price: 800, image: rodentfood1 },
-      { id: 39, name: 'Витамины для грызунов', description: 'Описание витаминов для грызунов...', price: 900, image: rodentfood1 },
-      { id: 40, name: 'Туалеты для грызунов', description: 'Описание туалетов для грызунов...', price: 1000, image: rodentfood1 },
+      { id: 31, name: 'Корм для грызунов "Травяные гранулы", 500г, Тriol Standard', description: 'Эта универсальная смесь натуральных природных компонентов содержит все питательные вещества, витамины и минералы, необходимые для роста и развития вашего питомца. Оптимальная комбинация измельченных и спрессованных луговых трав обеспечивает превосходное пищеварение, гигиену полости рта, сияющую шерсть и великолепное здоровье грызунам.', price: 365, image: foodrodent1 },
+      { id: 32, name: 'Корм для кроликов, 450г, Triol Original', description: 'Полнорационный корм, разработанный специально для кроликов. Изготовлен исключительно из натуральных ингредиентов, упакован в четырехшовный пакет с плоским дном.', price: 650, image: foodrodent2 },
+      { id: 33, name: 'Корм для морских свинок, 450г, Triol Original', description: 'Полнорационный корм, разработанный специально для морских свинок. Изготовлен исключительно из натуральных ингредиентов, упакован в четырехшовный пакет с плоским дном.', price: 370, image: foodrodent3 },
+      { id: 34, name: 'Клетка для мелких животных, эмаль, 580*320*320мм, Triol', description: 'В комплектацию изделия входят: пластиковая миска, уютный домик и беговое колесо. Кроме того, клетка оборудована удобной ручкой на крыше, облегчающей процесс переноски изделия, и специальным пластиковым наружным поддоном, облегчающим процесс уборки.', price: 1400, image: cellrodent1 },
+      { id: 35, name: 'Клетка для мелких животных с переходами, эмаль, 400*260*400мм, Triol', description: 'В комплектацию изделия входят: пластиковая миска, поилка с носиком, уютный домик, труба-тоннель и беговое колесо. Кроме того, клетка оборудована удобной ручкой на крыше, облегчающей процесс переноски изделия.', price: 1670, image: cellrodent2 },
+      { id: 36, name: 'Клетка C2-2 для мелких животных, черный металлик, 640*435*925мм, Triol', description: 'На фасаде клетки имеются две большие удобные дверцы с надежными запирающими механизмами. Комплектация: 3 полки, 3 лесенки, автопоилка объемом 250 мл и миска. Расстояние между прутьями 2,4 см. Бесшумное и аккуратное передвижение по комнате обеспечивают съемные шарообразные колеса', price: 2200, image: cellrodent3 },
+      { id: 37, name: 'Купалка для мелких животных "Чистюля" M, 260*190*200мм, серия LITTLE TOWN, Triol', description: 'Большая купалка для мелких животных от TRIOL – это незаменимый аксессуар для шиншилл. Для здоровья и хорошего настроения шиншиллам необходимо регулярно принимать песчаные ванны. Такая процедура не только поддерживает гигиену, но и отлично разнообразит досуг любимца.', price: 723, image: hygienerodent1 },
+      { id: 38, name: 'Туалет угловой для кроликов и хорьков "Амели" (сетка в комплекте), 270*270*160мм, серия HYGIENE, Triol', description: 'Съемная сетка максимально упрощает уборку, а компактные габариты изделия позволят разместить его с комфортом для любимца. Туалет изготовлен из высококачественного пластика и легко чистится под струей воды при помощи моющих бытовых средств..', price: 350, image: hygienerodent2 },
+      { id: 39, name: 'Песок для шиншилл "Чистюля" Люкс 1,6л/1/8/', description: 'Песок для шиншил.', price: 400, image: hygienerodent3 },
+      { id: 40, name: 'Наполнитель для мелких животных древесный 6мм, 3л, серия LITTLE VILLAGE, Triol', description: 'Впитывающий наполнитель TRIOL LITTLE VILLAGE изготовлен из высококачественной древесины. Спрессованные древесные гранулы диаметром 6мм прекрасно поглощают запахи, не пылят и не прилипают к лапам вашего питомца, сохраняя ваш дом в чистоте.', price: 1100, image: fillerrodent1 },
       
       { id: 41, name: 'Корм для птиц', description: 'Описание корма для птиц...', price: 50, image: birdfood1 },
       { id: 42, name: 'Клетки для птиц', description: 'Описание клеток для птиц...', price: 100, image: birdfood1 },
