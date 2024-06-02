@@ -1,8 +1,20 @@
 import { createStore } from 'vuex';
 
-import catfood1 from '@/assets/catfood1.jpg';
-import dogfood1 from '@/assets/dogfood1.jpg';
+import preservescat1 from '@/assets/cat/preservescat1.jpg';
+import preservescat2 from '@/assets/cat/preservescat2.jpg';
+import preservescat3 from '@/assets/cat/preservescat3.jpg';
+
 import preservesdog1 from '@/assets/dog/preservesdog1.jpg';
+import preservesdog2 from '@/assets/dog/preservesdog2.jpg';
+import preservesdog3 from '@/assets/dog/preservesdog3.jpg';
+import couchdog1 from '@/assets/dog/couchdog1.jpg';
+import couchdog2 from '@/assets/dog/couchdog2.jpg';
+import couchdog3 from '@/assets/dog/couchdog3.jpg';
+import bowlsdog1 from '@/assets/dog/bowlsdog1.jpg';
+import bowlsdog2 from '@/assets/dog/bowlsdog2.jpg';
+import bowlsdog3 from '@/assets/dog/bowlsdog3.jpg';
+import hygienedog1 from '@/assets/dog/hygienedog1.jpg';
+
 import fishfood1 from '@/assets/fishfood1.jpg';
 import rodentfood1 from '@/assets/rodentfood1.jpg';
 import birdfood1 from '@/assets/birdfood1.jpg';
@@ -11,27 +23,27 @@ const store = createStore({
   state: {
     cart: [],
     products: [
-      { id: 1, name: 'Корм для кошек', description: 'Описание корма для кошек...', price: 100, image: catfood1 },
-      { id: 2, name: 'Игрушки для кошек', description: 'Описание игрушек для кошек...', price: 200, image: catfood1 },
-      { id: 3, name: 'Лежанка для кошек', description: 'Описание лежанки для кошек...', price: 300, image: catfood1 },
-      { id: 4, name: 'Когтеточка для кошек', description: 'Описание когтеточки для кошек...', price: 400, image: catfood1 },
-      { id: 5, name: 'Кормушка для кошек', description: 'Описание кормушки для кошек...', price: 500, image: catfood1 },
-      { id: 6, name: 'Ошейник для кошек', description: 'Описание ошейника для кошек...', price: 600, image: catfood1 },
-      { id: 7, name: 'Постель для кошек', description: 'Описание постели для кошек...', price: 700, image: catfood1 },
-      { id: 8, name: 'Коврик для кошек', description: 'Описание коврика для кошек...', price: 800, image: catfood1 },
-      { id: 9, name: 'Консервы для кошек', description: 'Описание консервов для кошек...', price: 900, image: catfood1 },
-      { id: 10, name: 'Ветеринарные препараты для кошек', description: 'Описание ветпрепаратов для кошек...', price: 1000, image: catfood1 },
+      { id: 1, name: 'BioMenu ADULT Консервы д/кошек мясной паштет с Индейкой 95%-МЯСО 100гр*24', description: 'Мясные консервы для кошек BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 370, image: preservescat1 },
+      { id: 2, name: 'BioMenu ADULT Консервы д/кошек мясной паштет с Кроликом 95%-МЯСО 100гр*24', description: 'Мясные консервы для кошек BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 370, image: preservescat2 },
+      { id: 3, name: 'BioMenu KITTEN Консервы д/КОТЯТ мясной паштет с Говядиной 95%-МЯСО 100гр*24', description: 'Мясные консервы для котят BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 350, image: preservescat3 },
+      { id: 4, name: 'Когтеточка для кошек', description: 'Описание когтеточки для кошек...', price: 400, image: preservescat1 },
+      { id: 5, name: 'Кормушка для кошек', description: 'Описание кормушки для кошек...', price: 500, image: preservescat1 },
+      { id: 6, name: 'Ошейник для кошек', description: 'Описание ошейника для кошек...', price: 600, image: preservescat1 },
+      { id: 7, name: 'Постель для кошек', description: 'Описание постели для кошек...', price: 700, image: preservescat1 },
+      { id: 8, name: 'Коврик для кошек', description: 'Описание коврика для кошек...', price: 800, image: preservescat1 },
+      { id: 9, name: 'Консервы для кошек', description: 'Описание консервов для кошек...', price: 900, image: preservescat1 },
+      { id: 10, name: 'Ветеринарные препараты для кошек', description: 'Описание ветпрепаратов для кошек...', price: 1000, image: preservescat1 },
       
-      { id: 11, name: 'Корм для собак', description: 'Описание корма для собак...', price: 150, image: dogfood1 },
-      { id: 12, name: 'Игрушки для собак', description: 'Описание игрушек для собак...', price: 250, image: dogfood1 },
-      { id: 13, name: 'Лежак для собак', description: 'Описание лежака для собак...', price: 350, image: dogfood1 },
-      { id: 14, name: 'Ошейник для собак', description: 'Описание ошейника для собак...', price: 450, image: dogfood1 },
-      { id: 15, name: 'Костюм для собак', description: 'Описание костюма для собак...', price: 550, image: dogfood1 },
-      { id: 16, name: 'Миска для собак', description: 'Описание миски для собак...', price: 650, image: dogfood1 },
-      { id: 17, name: 'Сухой корм для собак', description: 'Описание сухого корма для собак...', price: 750, image: dogfood1 },
-      { id: 18, name: 'Коврик для собак', description: 'Описание коврика для собак...', price: 850, image: dogfood1 },
-      { id: 19, name: 'Шампунь для собак', description: 'Описание шампуня для собак...', price: 950, image: dogfood1 },
-      { id: 20, name: 'Поводок для собак', description: 'Описание поводка для собак...', price: 1050, image: dogfood1 },
+      { id: 11, name: 'BioMenu ADULT Консервы д/собак Говядина 95%-МЯСО 100гр*24', description: 'Мясные консервы для собак BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 350, image: preservesdog1 },
+      { id: 12, name: 'BioMenu ADULT Консервы д/собак Говядина/Ягненок 95%-МЯСО 100гр*24', description: 'Мясные консервы для собак BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 350, image: preservesdog2 },
+      { id: 13, name: 'BioMenu ADULT Консервы д/собак Говядина/Ягненок 95%-МЯСО 410гр*12', description: 'Мясные консервы для собак BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 300, image: preservesdog3 },
+      { id: 14, name: 'Домик для небольших собак Сова 38x38x40см, серия PET PLACE', description: 'Домик для животных GiGwi "Сова" непременно станет любимым местом отдыха домашних животных. Изделие выполнено из искусственного меха, внутри лежит мягкая подушка. Такой домик подарит вашему питомцу комфорт и тепло, а также возможность уединиться.', price: 2450, image: couchdog1 },
+      { id: 15, name: 'Лежанка для небольших собак Собака 57см, серия SNOOZY FRIENDZ', description: 'Лежанка для собак выполнена из 100% полиэстера, верхняя часть изделия дополнена искусственным мехом, основание противоскользящее. В качестве наполнителя используется мягкий синтепон. По размеру лежанка рассчитана на кошек и собак мелких пород. Эта лежанка понравится вашему питомцу и станет прекрасным местом для отдыха, а также послужит украшением интерьера комнаты.', price: 1550, image: couchdog2 },
+      { id: 16, name: 'Диван "Элегант" M, 1000*650*80мм, Gamma', description: 'Велюровый диван высотой 8 см по переднему краю и удобной спинкой (20 см). Поролоновая основа делает изделие легким и удобным в эксплуатации. Съемный чехол на молнии удобно снимается и легко стирается, а мягкая боковая подушка фиксируется на шнурках. Размер изделия: 1000*650*80мм. Цвета в ассортименте.', price: 1450, image: couchdog3 },
+      { id: 17, name: 'Комплект стойка с мисками "Универсал", 2*1,9л, Triol', description: 'Комплект стойка с мисками "Универсал" с возможностью регулировки высоты мисок 18-50см. Стойка отличается повышенной устойчивостью за счет продуманных габаритов основания. Прорезиненные края металлических мисок поглощают звуки. Детали изделия выполнены с заботой об окружающей среде из экологически чистого переработанного материала - пластмассы.', price: 1050, image: bowlsdog1 },
+      { id: 18, name: 'Миска двойная керамическая на подставке Marvel Мстители, 2*0,25л, Triol-Disney', description: 'Этот функциональный комплект из двух универсальных круглых мисок на подставке с рисунком "Мстители" выполнен из керамики высокого качества и отлично подходит для кошек и собак мелких пород. Такие миски идеальны как для воды, так и для корма разной консистенции. Изделие комфортно для питомца и легко моется под струей проточной воды с использованием моющих бытовых средств.', price: 850, image: bowlsdog2 },
+      { id: 19, name: 'Миска из бамбука двойная, 0,18*2л, серия NATURAL, Triol', description: 'Миски для животных,изготовленные из бамбука,являются прекрасной заменой пластиковым и керамическим аналогам. Они экологичны,прочны,имеют антискользящие резиновые ножки. В таких мисках еда и вода дольше остаются свежими.', price: 450, image: bowlsdog3 },
+      { id: 20, name: 'Пакеты биоразлагаемые для выгула собак (4 рулона по 15шт), серия PET CARE', description: 'Мешочки для отходов животных, 4 рулона по 15шт каждый рулон в упаковке. Необходимый аксессуар на прогулке для владельцев собак. Благодаря плотному материалу они не подведут и не порвутся в самый неподходящий момент, а компактные габариты позволят взять их с собой, куда бы вы не отправились.', price: 350, image: hygienedog1 },
       
       { id: 21, name: 'Корм для рыб', description: 'Описание корма для рыб...', price: 50, image: fishfood1 },
       { id: 22, name: 'Аквариумы', description: 'Описание аквариумов...', price: 100, image: fishfood1 },

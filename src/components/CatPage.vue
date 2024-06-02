@@ -2,12 +2,14 @@
   <div id="cat-catalog-page">
     <h1>Каталог товаров для кошек</h1>
     <div class="products">
-      <div v-for="product in products" :key="product.id" class="product">
-        <img :src="catfood1" :alt="product.name">
+      <div v-for="product in catProducts" :key="product.id" class="product">
+        <img :src="product.image" :alt="product.name">
         <h2>{{ product.name }}</h2>
         <p>{{ product.description }}</p>
         <p>{{ product.price }} руб.</p>
-        <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
+        <div class="button-container">
+          <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
+        </div>
       </div>
     </div>
     <router-link to="/cart" class="cart-link">Перейти в корзину</router-link>
@@ -17,26 +19,11 @@
 </template>
 
 <script>
-import catfood1 from '@/assets/catfood1.jpg';
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  data() {
-    return {
-      catfood1,
-      products: [
-        { id: 1, name: 'Корм для кошек', description: 'Описание корма для кошек...', image: "@/assets/catfood1.jpg", price: 100 },
-        { id: 2, name: 'Игрушки для кошек', description: 'Описание игрушек для кошек...', image: "@/assets/catfood1.jpg", price: 200 },
-        { id: 3, name: 'Лежанка для кошек', description: 'Описание лежанки для кошек...', image: "@/assets/catfood1.jpg", price: 300 },
-        { id: 4, name: 'Когтеточка для кошек', description: 'Описание когтеточки для кошек...', image: "@/assets/catfood1.jpg", price: 400 },
-        { id: 5, name: 'Кормушка для кошек', description: 'Описание кормушки для кошек...', image: "@/assets/catfood1.jpg", price: 500 },
-        { id: 6, name: 'Ошейник для кошек', description: 'Описание ошейника для кошек...', image: "@/assets/catfood1.jpg", price: 600 },
-        { id: 7, name: 'Постель для кошек', description: 'Описание постели для кошек...', image: "@/assets/catfood1.jpg", price: 700 },
-        { id: 8, name: 'Коврик для кошек', description: 'Описание коврика для кошек...', image: "@/assets/catfood1.jpg", price: 800 },
-        { id: 9, name: 'Консервы для кошек', description: 'Описание консервов для кошек...', image: "@/assets/catfood1.jpg", price: 900 },
-        { id: 10, name: 'Ветеринарные препараты для кошек', description: 'Описание ветпрепаратов для кошек...', image: "@/assets/catfood1.jpg", price: 1000 },
-      ]
-    };
+  computed: {
+    ...mapGetters(['catProducts'])
   },
   methods: {
     ...mapActions(['addToCart']),
@@ -64,13 +51,17 @@ h1 {
 .products {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .product {
-  width: 200px;
-  margin: 0 20px 80px;
+  width: calc(33.33% - 40px); /* Ширина 1/3 контейнера за вычетом маржинов */
+  margin: 0 20px 40px; /* Вертикальный отступ между товарами */
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; /* Для позиционирования кнопки */
 }
 
 .product img {
@@ -84,6 +75,10 @@ h1 {
 
 .product p {
   color: #666;
+}
+
+.button-container {
+  margin-top: 10px;
 }
 
 .product button {
