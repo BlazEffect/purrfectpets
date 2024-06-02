@@ -11,6 +11,7 @@
       </div>
     </div>
     <router-link to="/cart" class="cart-link">Перейти в корзину</router-link>
+    <br>
     <router-link to="/" class="home-link">Вернуться на главную</router-link>
   </div>
 </template>

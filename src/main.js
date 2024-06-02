@@ -9,5 +9,7 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 
+// Вызываем действие initializeCart при загрузке приложения
+store.dispatch('initializeCart');
 
 app.mount('#app');

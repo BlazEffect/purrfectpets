@@ -3,12 +3,14 @@
     <h1>Корзина</h1>
     <div class="cart-items-container">
       <div v-for="item in cart" :key="item.id" class="cart-item">
-        <img :src="item.image" :alt="item.name">
-        <h2>{{ item.name }}</h2>
-        <p>{{ item.description }}</p>
-        <p>{{ item.price }} руб.</p>
-        <p>Количество: {{ item.quantity }}</p>
-        <button @click="handleRemoveFromCart(item.id)">Удалить из корзины</button>
+        <img :src="item.image" :alt="item.name" class="cart-item-image">
+        <div class="cart-item-details">
+          <h2>{{ item.name }}</h2>
+          <p>{{ item.description }}</p>
+          <p>{{ item.price }} руб.</p>
+          <p>Количество: {{ item.quantity }}</p>
+          <button @click="handleRemoveFromCart(item.id)">Удалить из корзины</button>
+        </div>
       </div>
     </div>
     <div class="cart-summary">
@@ -26,7 +28,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['cart']),
+    ...mapGetters(['cart', 'cartTotal']),
     totalAmount() {
       return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     }
@@ -37,6 +39,9 @@ export default {
       this.removeFromCart(productId);
       console.log(`Товар с id ${productId} удален из корзины.`);
     }
+  },
+  created() {
+    this.$store.dispatch('initializeCart');
   }
 };
 </script>
@@ -64,14 +69,21 @@ h1 {
 }
 
 .cart-item {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #eaeaea; /* Добавляем разделение */
-  padding-bottom: 20px; /* Отступ между товарами */
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 20px;
 }
 
 .cart-item img {
   width: 100px;
   border-radius: 10px;
+}
+
+.cart-item-details {
+  margin-left: 20px;
+  flex: 1;
 }
 
 .cart-item h2 {
@@ -90,7 +102,6 @@ h1 {
   padding: 10px;
   cursor: pointer;
   margin-top: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавляем тень */
 }
 
 .cart-item button:hover {
@@ -119,7 +130,6 @@ h1 {
   text-decoration: none;
   padding: 10px 20px;
   border-radius: 7px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавляем тень */
 }
 
 .continue-shopping {
