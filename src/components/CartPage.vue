@@ -8,8 +8,12 @@
           <h2>{{ item.name }}</h2>
           <p>{{ item.description }}</p>
           <p>{{ item.price }} руб.</p>
-          <p>Количество: {{ item.quantity }}</p>
-          <button @click="handleRemoveFromCart(item.id)">Удалить из корзины</button>
+          <div class="quantity-controls">
+            <button @click="decreaseQuantity(item.id)" class="quantity-button">-</button>
+            <span>{{ item.quantity }}</span>
+            <button @click="increaseQuantity(item.id)" class="quantity-button">+</button>
+          </div>
+          <button @click="handleRemoveFromCart(item.id)" class="remove-button">Удалить из корзины</button>
         </div>
       </div>
     </div>
@@ -34,10 +38,22 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['removeFromCart']),
+    ...mapActions(['removeFromCart', 'updateQuantity']),
     handleRemoveFromCart(productId) {
       this.removeFromCart(productId);
       console.log(`Товар с id ${productId} удален из корзины.`);
+    },
+    increaseQuantity(productId) {
+      const item = this.cart.find(item => item.id === productId);
+      if (item) {
+        this.updateQuantity({ productId, quantity: item.quantity + 1 });
+      }
+    },
+    decreaseQuantity(productId) {
+      const item = this.cart.find(item => item.id === productId);
+      if (item && item.quantity > 1) {
+        this.updateQuantity({ productId, quantity: item.quantity - 1 });
+      }
     }
   },
   created() {
@@ -92,6 +108,26 @@ h1 {
 
 .cart-item p {
   color: #666;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.quantity-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.quantity-button:hover {
+  background-color: #0056b3;
 }
 
 .cart-item button {

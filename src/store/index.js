@@ -115,6 +115,18 @@ const store = createStore({
       { id: 50, name: 'Домик для птиц из кокоса "Чудо-кокос", 425/455*d110мм, серия NATURAL, Triol', description: 'Игрушка для птиц, выполненная из кокоса, наполненного кокосовым волокном. Верхняя часть состоит из плетеного шара, завернутого в кукурузные листья.', price: 500, image: toybird1 },
     ]
   },
+  getters: {
+    products: state => state.products,
+    catProducts: state => state.products.filter(product => product.id >= 1 && product.id <= 10),
+    dogProducts: state => state.products.filter(product => product.id >= 11 && product.id <= 20),
+    fishProducts: state => state.products.filter(product => product.id >= 21 && product.id <= 30),
+    rodentProducts: state => state.products.filter(product => product.id >= 31 && product.id <= 40),
+    birdProducts: state => state.products.filter(product => product.id >= 41 && product.id <= 50),
+    cart: state => state.cart,
+    cartTotal: state => {
+      return state.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    }
+  },
   mutations: {
     addToCart(state, product) {
       const existingItem = state.cart.find(item => item.id === product.id);
@@ -134,6 +146,13 @@ const store = createStore({
       if (cart) {
         state.cart = JSON.parse(cart);
       }
+    },
+    UPDATE_QUANTITY(state, { productId, quantity }) {
+      const item = state.cart.find(item => item.id === productId);
+      if (item) {
+        item.quantity = quantity;
+      }
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     }
   },
   actions: {
@@ -148,18 +167,9 @@ const store = createStore({
     },
     initializeCart({ commit }) {
       commit('initializeCart');
-    }
-  },
-  getters: {
-    products: state => state.products,
-    catProducts: state => state.products.filter(product => product.id >= 1 && product.id <= 10),
-    dogProducts: state => state.products.filter(product => product.id >= 11 && product.id <= 20),
-    fishProducts: state => state.products.filter(product => product.id >= 21 && product.id <= 30),
-    rodentProducts: state => state.products.filter(product => product.id >= 31 && product.id <= 40),
-    birdProducts: state => state.products.filter(product => product.id >= 41 && product.id <= 50),
-    cart: state => state.cart,
-    cartTotal: state => {
-      return state.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    },
+    updateQuantity({ commit }, { productId, quantity }) {
+      commit('UPDATE_QUANTITY', { productId, quantity });
     }
   },
   strict: process.env.NODE_ENV !== 'production'
