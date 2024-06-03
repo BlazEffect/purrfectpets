@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use BezhanSalleh\FilamentShield\Support\Utils;
-use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -16,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasName
 {
-    use HasApiTokens, Notifiable, HasRoles, HasPanelShield;
+    use HasApiTokens, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
