@@ -47,7 +47,7 @@ return [
         'banners' => [
             'driver' => 'local',
             'root' => storage_path('app/public/banners'),
-            'url' => env('APP_URL').'/storage/banners',
+            'url' => env('APP_URL').'/banners',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -55,7 +55,7 @@ return [
         'products' => [
             'driver' => 'local',
             'root' => storage_path('app/public/products'),
-            'url' => env('APP_URL').'/storage/products',
+            'url' => env('APP_URL').'/products',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -63,7 +63,7 @@ return [
         'sections' => [
             'driver' => 'local',
             'root' => storage_path('app/public/sections'),
-            'url' => env('APP_URL').'/storage/sections',
+            'url' => env('APP_URL').'/sections',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -71,7 +71,7 @@ return [
         'brands' => [
             'driver' => 'local',
             'root' => storage_path('app/public/brands'),
-            'url' => env('APP_URL').'/storage/brands',
+            'url' => env('APP_URL').'/brands',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -102,6 +102,9 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-    ],
-
+        public_path('banners') => storage_path('app/public/banners'),
+        public_path('products') => storage_path('app/public/products'),
+        public_path('sections') => storage_path('app/public/sections'),
+        public_path('brands') => storage_path('app/public/brands')
+    ]
 ];
