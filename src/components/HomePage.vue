@@ -2,7 +2,7 @@
     <div id="homepage">
       <div class="header">
         <ul class="menu">
-          <li><a href="#">О компании</a></li>
+          <li><router-link to="/about">О компании</router-link></li>
           <li><router-link to="/contactspage">Контакты</router-link></li>
           <li><router-link to="/brands">Бренды</router-link></li>
           <li><router-link to="/newspage">Новости</router-link></li>
