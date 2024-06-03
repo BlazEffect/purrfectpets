@@ -51,7 +51,6 @@
   import slider1 from '@/assets/slider/slider1.jpg';
   import slider2 from '@/assets/slider/slider2.jpg';
   import slider3 from '@/assets/slider/slider3.jpg';
-  import triol1 from '@/assets/slider/triol1.png';
   
   export default {
     components: {
@@ -64,7 +63,6 @@
           { image: slider1, alt: 'Слайд 1' },
           { image: slider2, alt: 'Слайд 2' },
           { image: slider3, alt: 'Слайд 3' },
-          { image: triol1, alt: 'Слайд 4' }
         ],
         autoplayInterval: null
       };
