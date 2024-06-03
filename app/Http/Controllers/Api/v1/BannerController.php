@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Banner;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class BannerController extends BaseApiController
@@ -36,6 +37,10 @@ class BannerController extends BaseApiController
             ->orderBy('order')
             ->orderBy('created_at', 'desc')
             ->get();
+
+        if ($banners->isNotEmpty()) {
+            $banners->map(fn(Banner $banner) => $banner->image = Storage::disk('banners')->url($banner->image));
+        }
 
         return new ApiSuccessResponse($banners, '');
     }

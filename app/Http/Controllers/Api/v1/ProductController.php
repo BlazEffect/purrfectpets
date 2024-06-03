@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\CatalogProduct;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class ProductController extends BaseApiController
@@ -99,6 +100,10 @@ class ProductController extends BaseApiController
             return new ApiErrorResponse('Товар не найден.');
         }
 
-        return new ApiSuccessResponse($product->with('brand', 'comments', 'propertyValues')->first(), '');
+        $product = $product->with('brand', 'comments', 'propertyValues')->first();
+
+        $product->image = Storage::disk('products')->url($product->image);
+
+        return new ApiSuccessResponse($product, '');
     }
 }

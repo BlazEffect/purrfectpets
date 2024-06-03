@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Models\CatalogProduct;
 use App\Models\CatalogSection;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class SectionController extends BaseApiController
@@ -32,7 +34,13 @@ class SectionController extends BaseApiController
      */
     public function getSections(): ApiSuccessResponse
     {
-        return new ApiSuccessResponse(CatalogSection::active()->get(), '');
+        $sections = CatalogSection::active()->get();
+
+        if ($sections->isNotEmpty()) {
+            $sections->map(fn(CatalogSection $section) => $section->image = Storage::disk('sections')->url($section->image));
+        }
+
+        return new ApiSuccessResponse($sections, '');
     }
 
     /**
@@ -82,7 +90,13 @@ class SectionController extends BaseApiController
             return new ApiErrorResponse('Раздел не найден.');
         }
 
-        return new ApiSuccessResponse($section->childSections()->active()->get(), '');
+        $childSections = $section->childSections()->active()->get();
+
+        if ($childSections->isNotEmpty()) {
+            $childSections->map(fn(CatalogSection $section) => $section->image = Storage::disk('sections')->url($section->image));
+        }
+
+        return new ApiSuccessResponse($childSections, '');
     }
 
     /**
@@ -132,6 +146,12 @@ class SectionController extends BaseApiController
             return new ApiErrorResponse('Раздел не найден');
         }
 
-        return new ApiSuccessResponse($section->products()->active()->get(), '');
+        $products = $section->products()->active()->get();
+
+        if ($products->isNotEmpty()) {
+            $products->map(fn(CatalogProduct $catalogProduct) => $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image));
+        }
+
+        return new ApiSuccessResponse($products, '');
     }
 }
