@@ -150,6 +150,7 @@ class OrderResource extends Resource
                 ])
                 ->required(),
             Forms\Components\Select::make('user_id')
+                ->label('Пользователь')
                 ->relationship('user.profile', 'first_name')
                 ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->surname . ' ' . $record->first_name . ' ' . $record->last_name)
                 ->searchable()
