@@ -37,6 +37,7 @@ class UserResource extends Resource
                                             ->schema([
                                                 Forms\Components\TextInput::make('password')
                                                     ->label('Пароль')
+                                                    ->password()
                                                     ->revealable()
                                                     ->visible(fn(?User $record) => $record === null),
                                                 Forms\Components\Select::make('roles')
