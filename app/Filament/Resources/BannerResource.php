@@ -31,7 +31,7 @@ class BannerResource extends Resource
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->label('Название')
+                                    ->label('Название для админики')
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('title')
@@ -56,8 +56,8 @@ class BannerResource extends Resource
 
                         Forms\Components\Section::make()
                             ->schema([
-                                TinyEditor::make('content')
-                                    ->label('Содержание')
+                                TinyEditor::make('text')
+                                    ->label('Текст в баннере')
                                     ->profile('full')
                                     ->columnSpan('full')
                             ])
