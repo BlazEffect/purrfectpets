@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Brand;
+use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
 class BrandController extends BaseApiController
@@ -104,6 +105,14 @@ class BrandController extends BaseApiController
      *             type="integer"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Успешно",
@@ -123,17 +132,23 @@ class BrandController extends BaseApiController
      *     )
      * )
      *
+     * @param Request $request
      * @param int $brandId
      * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getProductsByBrandId(int $brandId): ApiSuccessResponse|ApiErrorResponse
+    public function getProductsByBrandId(Request $request, int $brandId): ApiSuccessResponse|ApiErrorResponse
     {
-        $brandWithProducts = Brand::with('products')->find($brandId);
+        $brandWithProducts = Brand::with(['products' => function ($query) use ($request) {
+            $query->when($request->has('page'), function ($subQuery) use ($request) {
+                $subQuery->offset(($request->has('page') - 1) * 4)
+                    ->limit(4);
+            });
+        }])->find($brandId);
 
         if ($brandWithProducts === null) {
             return new ApiErrorResponse('Бренд не найден.');
         }
 
-        return new ApiSuccessResponse($brandWithProducts, '');
+        return new ApiSuccessResponse($brandWithProducts, $brandWithProducts->products()->count());
     }
 }
