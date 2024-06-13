@@ -105,8 +105,8 @@ class SectionController extends BaseApiController
      * @OA\Get (
      *     path="/section/{sectionId}/products",
      *     tags={"Section"},
-     *     summary="Получение дочерних элементов раздела",
-     *     description="Получение дочерних элементов раздела",
+     *     summary="Получение товаров раздела",
+     *     description="Получение товаров раздела",
      *     @OA\Parameter(
      *         name="sectionId",
      *         description="ID раздела",
