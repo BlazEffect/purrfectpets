@@ -6,6 +6,8 @@ use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\CatalogProduct;
 use App\Models\CatalogSection;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
@@ -114,6 +116,14 @@ class SectionController extends BaseApiController
      *             type="integer"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Успешно",
@@ -135,10 +145,11 @@ class SectionController extends BaseApiController
      *     )
      * )
      *
+     * @param Request $request
      * @param int $sectionId
      * @return ApiSuccessResponse|ApiErrorResponse
      */
-    public function getProducts(int $sectionId): ApiSuccessResponse|ApiErrorResponse
+    public function getProducts(Request $request, int $sectionId): ApiSuccessResponse|ApiErrorResponse
     {
         $section = CatalogSection::find($sectionId);
 
@@ -146,12 +157,20 @@ class SectionController extends BaseApiController
             return new ApiErrorResponse('Раздел не найден');
         }
 
-        $products = $section->products()->active()->get();
+        $allProducts = $section->products()
+            ->active()
+            ->get();
 
-        if ($products->isNotEmpty()) {
-            $products->map(fn(CatalogProduct $catalogProduct) => $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image));
+        $offsetProducts = $allProducts->when($request->get('page'), fn(Collection $collection) =>
+            $collection->slice(($request->get('page') - 1) * 20, 20)
+        );
+
+        if ($offsetProducts->isNotEmpty()) {
+            $offsetProducts->map(fn(CatalogProduct $catalogProduct) =>
+                $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image)
+            );
         }
 
-        return new ApiSuccessResponse($products, '');
+        return new ApiSuccessResponse($offsetProducts, $allProducts->count());
     }
 }
