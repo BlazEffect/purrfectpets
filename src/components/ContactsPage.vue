@@ -7,7 +7,7 @@
       <p><strong>Телефон:</strong> +7 (951) 505-14-91</p>
     </div>
     <div class="map-container">
-      <div id="google-map"></div>
+      <div id="yandex-map"></div>
     </div>
     <p class="home-link"><router-link to="/">Вернуться на главную</router-link></p>
   </div>
@@ -18,22 +18,26 @@ export default {
   mounted() {
     window.initMap = this.initMap;
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
+    script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=4c82e533-4946-4bba-a448-273d81dc95e0`;
     script.async = true;
+    script.onload = () => {
+      ymaps.ready(this.initMap);
+    };
     document.head.appendChild(script);
   },
   methods: {
     initMap() {
-      const map = new google.maps.Map(document.getElementById("google-map"), {
-        center: { lat: 55.7558, lng: 37.6176 }, // Пример координат для Москвы
-        zoom: 10,
+      const map = new ymaps.Map("yandex-map", {
+        center: [47.216839, 39.709758],
+        zoom: 16,
       });
 
-      new google.maps.Marker({
-        position: { lat: 55.7558, lng: 37.6176 },
-        map,
-        title: "Примерный адрес",
+      const placemark = new ymaps.Placemark([47.216839, 39.709758], {
+        hintContent: "Наш адрес",
+        balloonContent: "ул. Буденовский, д. 12/56, г. Ростов-на-Дону",
       });
+
+      map.geoObjects.add(placemark);
     },
   },
 };
@@ -41,9 +45,9 @@ export default {
 
 <style scoped>
 #contact-page {
-  width: 100vw; /* Расширяем блок на всю ширину окна просмотра */
-  max-width: 100%; /* Ограничиваем максимальную ширину */
-  margin: 0; /* Убираем отступы по бокам */
+  width: 100vw;
+  max-width: 100%;
+  margin: 0;
   padding: 40px;
   border: 1px solid #eaeaea;
   border-radius: 5px;
@@ -66,7 +70,7 @@ h1 {
 .contact-info p {
   margin-bottom: 10px;
   font-size: 16px;
-  color: #000000; /* Черный цвет текста */
+  color: #000000;
 }
 
 .map-container {
@@ -74,7 +78,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-#google-map {
+#yandex-map {
   width: 100%;
   height: 100%;
 }
@@ -87,13 +91,13 @@ h1 {
 .home-link a {
   color: #007bff;
   text-decoration: none;
-  border: 2px solid #007bff; /* Обводка синего цвета */
-  padding: 8px 16px; /* Увеличение внутренних отступов */
-  border-radius: 5px; /* Закругление углов */
+  border: 2px solid #007bff;
+  padding: 8px 16px;
+  border-radius: 5px;
 }
 
 .home-link a:hover {
   color: #0056b3;
-  border-color: #0056b3; /* Изменение цвета обводки при наведении */
+  border-color: #0056b3;
 }
 </style>
