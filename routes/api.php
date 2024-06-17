@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\BannerController;
 use App\Http\Controllers\Api\v1\BrandController;
+use App\Http\Controllers\Api\v1\FormController;
 use App\Http\Controllers\Api\v1\MenuController;
 use App\Http\Controllers\Api\v1\OrderController;
 use App\Http\Controllers\Api\v1\PageController;
@@ -57,6 +58,8 @@ Route::prefix('v1')->group(function () {
         Route::get('menus', 'getMenus');
         Route::get('/menu/{menuKey}/items', 'getMenuItems');
     });
+
+    Route::post('/form/feedback', [FormController::class, 'feedback']);
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
