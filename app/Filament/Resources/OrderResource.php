@@ -54,16 +54,18 @@ class OrderResource extends Resource
                                     ->relationship('properties')
                                     ->schema([
                                         Forms\Components\TextInput::make('FIO')
-                                            ->label('ФИО покупателя'),
+                                            ->label('ФИО покупателя')
+                                            ->required(),
                                         Forms\Components\TextInput::make('email')
                                             ->label('Почта покупателя')
-                                            ->email(),
+                                            ->email()
+                                            ->required(),
                                         Forms\Components\TextInput::make('phone')
-                                            ->label('Телефон покупателя'),
-                                        Forms\Components\TextInput::make('address')
-                                            ->label('Адрес доставки'),
+                                            ->label('Телефон покупателя')
+                                            ->required(),
                                         Forms\Components\TextInput::make('comment')
                                             ->label('Комментарий к заказу')
+                                            ->required()
                                     ])
                             ])
                     ])
