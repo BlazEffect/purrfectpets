@@ -15,8 +15,8 @@ class FormController extends Controller
      * @OA\Post (
      *     path="/form/feedback",
      *     tags={"Form"},
-     *     summary="Создание заказа",
-     *     description="Создание заказа",
+     *     summary="Отправка письма с формы обратной связи",
+     *     description="Отправка письма с формы обратной связи",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             allOf={
