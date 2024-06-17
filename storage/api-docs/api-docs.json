@@ -2138,6 +2138,12 @@
                         "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aut consequuntur delectus",
                         "nullable": true
                     },
+                    "image": {
+                        "title": "Image",
+                        "description": "Image",
+                        "type": "string",
+                        "example": "gnuithiugh598.png"
+                    },
                     "active": {
                         "title": "Active",
                         "description": "$active",

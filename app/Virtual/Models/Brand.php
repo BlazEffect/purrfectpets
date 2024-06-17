@@ -64,6 +64,17 @@ class Brand
 
     /**
      * @OA\Property(
+     *     title="Image",
+     *     description="Image",
+     *     example="gnuithiugh598.png"
+     * )
+     *
+     * @var string $image
+     */
+    public string $image;
+
+    /**
+     * @OA\Property(
      *     title="Active",
      *     example=true
      * )
