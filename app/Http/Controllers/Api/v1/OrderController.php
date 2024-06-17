@@ -60,6 +60,65 @@ class OrderController extends BaseApiController
     }
 
     /**
+     * @OA\Get (
+     *     path="/order/{orderId}",
+     *     tags={"Order"},
+     *     summary="Получение всех данных о заказе",
+     *     description="Получение всех данных о заказе",
+     *     security={
+     *         { "Bearer":{} }
+     *     },
+     *     @OA\Parameter(
+     *         name="orderId",
+     *         description="ID заказа",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешно",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="true"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/OrderDetail"),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Не авторизирован",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Вы не авторизованы.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Не существует",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="message", type="string", example="Заказ не найден.")
+     *         )
+     *     )
+     * )
+     *
+     * @param int $orderId
+     * @return ApiSuccessResponse|ApiErrorResponse
+     */
+    public function getOrder(int $orderId): ApiSuccessResponse|ApiErrorResponse
+    {
+        $order = Order::find($orderId);
+
+        if ($order === null) {
+            return new ApiErrorResponse('Заказ не найден.');
+        }
+
+        return new ApiSuccessResponse($order->with(['products', 'properties'])->find($orderId), '');
+    }
+
+    /**
      * @OA\Post (
      *     path="/order/create",
      *     tags={"Order"},
@@ -76,7 +135,6 @@ class OrderController extends BaseApiController
      *                         @OA\Property(property="FIO", type="string", example="Морозов Николай Михайлович"),
      *                         @OA\Property(property="email", type="string", example="morozov@test.com"),
      *                         @OA\Property(property="phone", type="string", example="+7(999)999-99-99"),
-     *                         @OA\Property(property="address", type="string", example="Москва, ул. Ленина, д. 1"),
      *                         @OA\Property(property="comment", type="string", example="Комментарий")
      *                     ),
      *                     @OA\Property(property="products", type="array",

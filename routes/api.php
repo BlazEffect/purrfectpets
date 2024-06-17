@@ -76,6 +76,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/orders', 'getOrders');
 
             Route::prefix('order')->group(function () {
+                Route::get('/{orderId}', 'getOrder');
                 Route::post('/create', 'createOrder');
                 Route::post('/{orderId}/cancel', 'cancelOrder');
             });
