@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Brand;
+use App\Models\CatalogProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class BrandController extends BaseApiController
@@ -38,6 +40,10 @@ class BrandController extends BaseApiController
             ->orderBy('order')
             ->orderBy('created_at', 'desc')
             ->get();
+
+        $brand->map(fn(Brand $brand) =>
+            $brand->image = Storage::disk('brands')->url($brand->image)
+        );
 
         return new ApiSuccessResponse($brand, '');
     }
@@ -86,6 +92,8 @@ class BrandController extends BaseApiController
         if ($brand === null) {
             return new ApiErrorResponse('Бренд не найден.');
         }
+
+        $brand->image = Storage::disk('brands')->url($brand->image);
 
         return new ApiSuccessResponse($brand, '');
     }
@@ -148,6 +156,12 @@ class BrandController extends BaseApiController
         if ($brandWithProducts === null) {
             return new ApiErrorResponse('Бренд не найден.');
         }
+
+        $brandWithProducts->image = Storage::disk('brands')->url($brandWithProducts->image);
+
+        $brandWithProducts->products->map(fn(CatalogProduct $catalogProduct) =>
+            $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image)
+        );
 
         return new ApiSuccessResponse($brandWithProducts, $brandWithProducts->products()->count());
     }
