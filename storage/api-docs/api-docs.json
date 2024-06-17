@@ -637,6 +637,97 @@
                 ]
             }
         },
+        "/order/{orderId}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Получение всех данных о заказе",
+                "description": "Получение всех данных о заказе",
+                "operationId": "70aec4e12108c4933843ae1ece8efcc2",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "ID заказа",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderDetail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизирован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Вы не авторизованы."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не существует",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Заказ не найден."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/order/create": {
             "post": {
                 "tags": [
@@ -665,10 +756,6 @@
                                                     "phone": {
                                                         "type": "string",
                                                         "example": "+7(999)999-99-99"
-                                                    },
-                                                    "address": {
-                                                        "type": "string",
-                                                        "example": "Москва, ул. Ленина, д. 1"
                                                     },
                                                     "comment": {
                                                         "type": "string",
@@ -2606,6 +2693,82 @@
                     "name": "Order"
                 }
             },
+            "OrderDetail": {
+                "title": "OrderDetail",
+                "description": "Order detail model",
+                "required": [
+                    "id",
+                    "user_id",
+                    "status",
+                    "is_paid",
+                    "price",
+                    "product"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "title": "User ID",
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Status for order",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_paid": {
+                        "title": "Active",
+                        "description": "$is_paid",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "price": {
+                        "title": "Price",
+                        "description": "Price",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-04-08 00:00:00"
+                    },
+                    "products": {
+                        "title": "Products",
+                        "description": "Products that belong to the order",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderProduct"
+                        }
+                    },
+                    "properties": {
+                        "$ref": "#/components/schemas/OrderProperty"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderDetail"
+                }
+            },
             "OrderProduct": {
                 "title": "OrderProduct",
                 "description": "Order model",
@@ -2631,6 +2794,56 @@
                 "type": "object",
                 "xml": {
                     "name": "OrderProduct"
+                }
+            },
+            "OrderProperty": {
+                "title": "OrderProperty",
+                "description": "Order property model",
+                "required": [
+                    "order_id",
+                    "FIO",
+                    "email",
+                    "phone",
+                    "comment"
+                ],
+                "properties": {
+                    "order_id": {
+                        "title": "OrderId",
+                        "description": "Order id",
+                        "type": "integer",
+                        "format": "int128",
+                        "example": 1
+                    },
+                    "FIO": {
+                        "title": "FIO",
+                        "description": "$FIO",
+                        "type": "string",
+                        "example": "Морозов Николай Михайлович"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "morozov@test.com"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "$phone",
+                        "type": "string",
+                        "example": "+7(951)712-13-25",
+                        "nullable": true
+                    },
+                    "comment": {
+                        "title": "Comment",
+                        "description": "$comment",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi laborum magnam maxime quia ut? Aperiam autem",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderProperty"
                 }
             },
             "Page": {
