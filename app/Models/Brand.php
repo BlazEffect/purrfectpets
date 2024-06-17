@@ -12,6 +12,7 @@ class Brand extends Model
         'name',
         'slug',
         'description',
+        'image',
         'active',
         'order'
     ];

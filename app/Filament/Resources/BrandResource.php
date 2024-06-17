@@ -51,6 +51,17 @@ class BrandResource extends Resource
                                     ->dehydrated()
                                     ->required()
                                     ->maxLength(255),
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Картинка')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->disk('brands'),
                             ]),
 
                         Forms\Components\Section::make()
