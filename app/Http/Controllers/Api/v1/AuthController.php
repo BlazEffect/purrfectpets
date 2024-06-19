@@ -70,7 +70,7 @@ class AuthController extends BaseApiController
 
         $fio = explode(' ', $input['FIO']);
 
-        if (count($fio) !== 3) {
+        if (count($fio) < 2 || count($fio) > 3) {
             return new ApiErrorResponse(
                 'Ошибки валидации.',
                 ['FIO' => 'Вы ввели некорректно ФИО.'],
