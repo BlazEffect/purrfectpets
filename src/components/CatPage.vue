@@ -1,40 +1,63 @@
 <template>
   <div id="cat-catalog-page">
-    <h1>Каталог товаров для кошек</h1>
-    <div class="products">
-      <div v-for="product in catProducts" :key="product.id" class="product">
-        <img :src="product.image" :alt="product.name">
-        <h2>{{ product.name }}</h2>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price }} руб.</p>
-        <div class="button-container">
-          <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
-        </div>
-      </div>
-    </div>
-    <router-link to="/cart" class="cart-link">Перейти в корзину</router-link>
-    <br>
-    <router-link to="/" class="home-link">Вернуться на главную</router-link>
+  <h1>Каталог товаров для кошек</h1>
+  <div class="products">
+  <div v-if="products.length === 0" class="loading-message">
+  Загрузка...
   </div>
-</template>
-
-<script>
-import { mapGetters, mapActions } from 'vuex';
-
-export default {
-  computed: {
-    ...mapGetters(['catProducts'])
+  <div v-else>
+  <div v-for="product in products" :key="product.id" class="product">
+  <img :src="getImageUrl(product.image)" :alt="product.name">
+  <h2>{{ product.name }}</h2>
+  <p>{{ product.description }}</p>
+  <p>{{ product.price }} руб.</p>
+  <div class="button-container">
+  <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
+  </div>
+  </div>
+  </div>
+  </div>
+  <router-link to="/cart" class="cart-link">Перейти в корзину</router-link>
+  <br>
+  <router-link to="/" class="home-link">Вернуться на главную</router-link>
+  </div>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  import { mapActions } from 'vuex';
+  
+  export default {
+  data() {
+  return {
+  products: []
+  };
   },
   methods: {
-    ...mapActions(['addToCart']),
-    handleAddToCart(productId) {
-      this.addToCart(productId);
-      console.log(`Товар с id ${productId} добавлен в корзину.`);
-    }
+  ...mapActions(['addToCart']),
+  async fetchData() {
+  try {
+  const response = await axios.get('http://api.blazeffect.beget.tech/api/v1/section/4/children');
+  this.products = response.data.data;
+  } catch (error) {
+  console.error('Error fetching products:', error);
   }
-};
-</script>
-
+  },
+  handleAddToCart(productId) {
+  this.addToCart(productId);
+  console.log(`Товар с id ${productId} добавлен в корзину.`);
+  },
+  getImageUrl(url) {
+  // Replace 'http://' with 'https://' if your site is served over HTTPS
+  return url.replace('http://', 'https://');
+  }
+  },
+  created() {
+  this.fetchData();
+  }
+  };
+  </script>
+  
 <style scoped>
 #cat-catalog-page {
   max-width: 1200px;

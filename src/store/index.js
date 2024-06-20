@@ -1,15 +1,15 @@
 import { createStore } from 'vuex';
 
-import preservescat1 from '@/assets/cat/preservescat1.jpg';
-import preservescat2 from '@/assets/cat/preservescat2.jpg';
-import preservescat3 from '@/assets/cat/preservescat3.jpg';
-import couchcat1 from '@/assets/cat/couchcat1.jpg';
-import couchcat2 from '@/assets/cat/couchcat2.jpg';
-import couchcat3 from '@/assets/cat/couchcat3.jpg';
-import hygienecat1 from '@/assets/cat/hygienecat1.jpg';
-import hygienecat2 from '@/assets/cat/hygienecat2.jpg';
-import hygienecat3 from '@/assets/cat/hygienecat3.jpg';
-import fillercat1 from '@/assets/cat/fillercat1.jpg';
+// import preservescat1 from '@/assets/cat/preservescat1.jpg';
+// import preservescat2 from '@/assets/cat/preservescat2.jpg';
+// import preservescat3 from '@/assets/cat/preservescat3.jpg';
+// import couchcat1 from '@/assets/cat/couchcat1.jpg';
+// import couchcat2 from '@/assets/cat/couchcat2.jpg';
+// import couchcat3 from '@/assets/cat/couchcat3.jpg';
+// import hygienecat1 from '@/assets/cat/hygienecat1.jpg';
+// import hygienecat2 from '@/assets/cat/hygienecat2.jpg';
+// import hygienecat3 from '@/assets/cat/hygienecat3.jpg';
+// import fillercat1 from '@/assets/cat/fillercat1.jpg';
 
 import preservesdog1 from '@/assets/dog/preservesdog1.jpg';
 import preservesdog2 from '@/assets/dog/preservesdog2.jpg';
@@ -59,17 +59,6 @@ const store = createStore({
   state: {
     cart: [],
     products: [
-      { id: 1, name: 'BioMenu ADULT Консервы д/кошек мясной паштет с Индейкой 95%-МЯСО 100гр*24', description: 'Мясные консервы для кошек BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 370, image: preservescat1 },
-      { id: 2, name: 'BioMenu ADULT Консервы д/кошек мясной паштет с Кроликом 95%-МЯСО 100гр*24', description: 'Мясные консервы для кошек BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 370, image: preservescat2 },
-      { id: 3, name: 'BioMenu KITTEN Консервы д/КОТЯТ мясной паштет с Говядиной 95%-МЯСО 100гр*24', description: 'Мясные консервы для котят BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 350, image: preservescat3 },
-      { id: 4, name: 'Игровой комплекс для кошек квадратный "Витязь", 400*400*730мм', description: 'Данный комплекс представляет собой квадратный домик с просторным входом, обитый тканью рогожка внутри и снаружи. На крыше домика установлена вертикальная когтеточка с плотной джутовой обмоткой, которая заканчивается твердой квадратной площадкой, на которой ваш любимец сможет с комфортом отдохнуть или понаблюдать за окружающими.', price: 1400, image: couchcat1 },
-      { id: 5, name: 'Игровой комплекс для кошек с двумя площадками "Витязь", 580*360*870мм', description: 'Этот функциональный игровой комплекс для кошек станет любимым местом ваших питомцев. Комплекс состоит из двух джутовых столбиков, каждый диаметром 100мм, с двумя разноуровневыми платформами. Дополняет изделие уютный домик с просторным входом.', price: 1700, image: couchcat2 },
-      { id: 6, name: 'Игровой комплекс для кошек "Студия", 520*580*780мм, Triol', description: 'Многоярусный игровой комплекс для кошек с платформой, уютным домиком и 3 столбиками-когтеточками - идеальное решение для обеспечения досуга вашего питомца. Комплекс выполнен из ламинированного МДФ - практичного, надежного, изящного и экологичного материала. Горизонтальные платформы обиты оригинальным утапливаемым ковролином.', price: 3200, image: couchcat3 },
-      { id: 7, name: 'Cовок с подставкой для кошачьего туалета, серый, 275*170*95мм, серия HYGIENE, Triol', description: 'Универсальный совок для кошачьих туалетов с круглыми ячейками и подставкой подойдет для всех типов наполнителей. Изделие не впитывает запахи и легко чистится под водой при помощи моющих средств. Совок укомплектован напольной подставкой, которая не занимает много места.', price: 520, image: hygienecat1 },
-      { id: 8, name: 'БиоВакс шамп. д/кош. короткошерстных 355мл (1/15)', description: 'Добавленные в шампунь натуральные экстракты шиповника и зверобоя оказывают ранозаживляющее и тонизирующее действия, а масло чайного дерева обладает мощным противомикробным эффектом. Продукт не содержит красителей и щелочного мыла.', price: 800, image: hygienecat2 },
-      { id: 9, name: 'БИОКАПЛИ для кошек от внешних паразитов, 1 пипетка по 1мл., Gamma', description: 'Это безопасное и эффективное средство для бережной защиты кошек от эктопаразитов: блох, вшей, комаров, клещей. Применяются как профилактическое средство обработки от паразитов не чаще 1-го раза в месяц, наносятся на кожу животного в местах, недоступных для слизывания. Изготовлено на основе растительных масел.', price: 860, image: hygienecat3 },
-      { id: 10, name: 'Наполнитель впитывающий кукурузный Gamma, 5 л', description: 'Наполнитель Gamma изготовлен из высушенных стержней кукурузных початков без использования химических добавок и примесей. Воздушные гранулы отлично впитывают влагу, эффективно поглощают запахи и не прилипают к лапам кошки. Наполнитель полностью растительный и абсолютно безопасен для здоровья людей и животных.', price: 1050, image: fillercat1 },
-      
       { id: 11, name: 'BioMenu ADULT Консервы д/собак Говядина 95%-МЯСО 100гр*24', description: 'Мясные консервы для собак BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 350, image: preservesdog1 },
       { id: 12, name: 'BioMenu ADULT Консервы д/собак Говядина/Ягненок 95%-МЯСО 100гр*24', description: 'Мясные консервы для собак BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 350, image: preservesdog2 },
       { id: 13, name: 'BioMenu ADULT Консервы д/собак Говядина/Ягненок 95%-МЯСО 410гр*12', description: 'Мясные консервы для собак BioMenu Изготовлено из натурального российского сырья. Не содержит сои, ароматизаторов, искусственных красителей, ГМИ.', price: 300, image: preservesdog3 },
