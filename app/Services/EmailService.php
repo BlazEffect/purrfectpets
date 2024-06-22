@@ -22,6 +22,12 @@ class EmailService
         Mail::to(env('MAIL_FROM_ADDRESS'))->queue(new RegisterAdminMail($user, $profileData));
     }
 
+    /**
+     * @param string $fio
+     * @param string $email
+     * @param string $message
+     * @return void
+     */
     public function sendFeedbackEmail(string $fio, string $email, string $message): void
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
