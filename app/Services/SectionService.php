@@ -7,6 +7,9 @@ use Illuminate\Support\Collection;
 
 class SectionService
 {
+    /**
+     * @return Collection
+     */
     public function getActiveSections(): Collection
     {
         $sections = CatalogSection::active()->get();
@@ -18,6 +21,10 @@ class SectionService
         return $sections;
     }
 
+    /***
+     * @param int $sectionId
+     * @return Collection|null
+     */
     public function getChildSections(int $sectionId): ?Collection
     {
         $section = CatalogSection::find($sectionId);
