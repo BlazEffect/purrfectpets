@@ -4,20 +4,17 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Mail\OrderCancelMail;
-use App\Mail\OrderCreateAdminMail;
-use App\Mail\OrderCreateUserMail;
-use App\Models\CatalogProduct;
-use App\Models\Order;
-use App\Models\OrderProperty;
-use Auth;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends BaseApiController
 {
+    public function __construct(
+        private readonly OrderService $orderService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/orders",
@@ -52,10 +49,7 @@ class OrderController extends BaseApiController
      */
     public function getOrders(): ApiSuccessResponse
     {
-        $orders = Order::query()
-            ->where('user_id', Auth::user()->id)
-            ->get();
-
+        $orders = $this->orderService->getOrders();
         return new ApiSuccessResponse($orders, '');
     }
 
@@ -109,13 +103,13 @@ class OrderController extends BaseApiController
      */
     public function getOrder(int $orderId): ApiSuccessResponse|ApiErrorResponse
     {
-        $order = Order::find($orderId);
+        $order = $this->orderService->getOrder($orderId);
 
         if ($order === null) {
             return new ApiErrorResponse('Заказ не найден.');
         }
 
-        return new ApiSuccessResponse($order->with(['products', 'properties'])->find($orderId), '');
+        return new ApiSuccessResponse($order, '');
     }
 
     /**
@@ -179,54 +173,17 @@ class OrderController extends BaseApiController
      */
     public function createOrder(Request $request): ApiSuccessResponse|ApiErrorResponse
     {
-        $arrProducts = $request->get('products');
+        $orderId = $this->orderService->createOrder($request);
 
-        $products = CatalogProduct::select(['id', 'price'])
-            ->whereIn('id', array_column($arrProducts, 'product_id'))
-            ->pluck('price', 'id')
-            ->toArray();
-
-        $allPrice = 0;
-
-        $orderProduct = [];
-
-        foreach ($arrProducts as $product) {
-            if (isset($products[$product['product_id']])) {
-                $price = $products[$product['product_id']] * $product['count'];
-
-                $orderProduct[] = [
-                    'product_id' => $product['product_id'],
-                    'count' => $product['count'],
-                    'price' => $price
-                ];
-
-                $allPrice += $price;
-            } else {
-                return new ApiErrorResponse(
-                    'Заказ не создан. Один или несколько товаров не найдено.',
-                    [],
-                    Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
+        if ($orderId === false) {
+            return new ApiErrorResponse(
+                'Заказ не создан. Один или несколько товаров не найдено.',
+                [],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
-        $orderData = [
-            'user_id' => Auth::user()->id,
-            'price' => $allPrice
-        ];
-
-        $order = Order::create($orderData);
-
-        $order->products()->createMany($orderProduct);
-        $order->properties()->create($request->get('orderProperties'));
-
-        Mail::to(Auth::user()->id->email)
-            ->queue((new OrderCreateUserMail($order, OrderProperty::find($order->id)))
-        );
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new OrderCreateAdminMail($order, OrderProperty::find($order->id)))
-        );
-
-        return new ApiSuccessResponse(['orderId' => $order->id], 'Заказ успешно создан.');
+        return new ApiSuccessResponse(['orderId' => $orderId], 'Заказ успешно создан.');
     }
 
     /**
@@ -287,25 +244,15 @@ class OrderController extends BaseApiController
      */
     public function cancelOrder(int $orderId): ApiSuccessResponse|ApiErrorResponse
     {
-        $order = Order::find($orderId);
+        $result = $this->orderService->cancelOrder($orderId);
 
-        if ($order === null || $order->user_id !== Auth::user()->id) {
+        if ($result === false) {
             return new ApiErrorResponse('Заказ не найден.');
         }
 
-        if ($order->status === 1) {
+        if ($result === null) {
             return new ApiErrorResponse('Заказ уже отменён.', [], Response::HTTP_BAD_REQUEST);
         }
-
-        $order->status = 1;
-        $order->save();
-
-        Mail::to(Auth::user()->id->email)
-            ->queue((new OrderCancelMail($order->id))
-        );
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new OrderCancelMail($order->id))
-        );
 
         return new ApiSuccessResponse([], 'Заказ успешно отменён.');
     }

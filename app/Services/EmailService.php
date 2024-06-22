@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Mail\FeedbackFormMail;
+use App\Mail\OrderCancelMail;
+use App\Mail\OrderCreateAdminMail;
+use App\Mail\OrderCreateUserMail;
 use App\Mail\RegisterAdminMail;
 use App\Mail\RegisterUserMail;
 use App\Models\User;
@@ -32,6 +35,46 @@ class EmailService
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
             ->queue((new FeedbackFormMail($fio, $email, $message))
+        );
+    }
+
+    /**
+     * @param $user
+     * @param $order
+     * @param $orderProperty
+     * @return void
+     */
+    public function sendOrderCreatedUserMail($user, $order, $orderProperty): void
+    {
+        Mail::to($user->email)
+            ->queue(new OrderCreateUserMail($order, $orderProperty)
+        );
+    }
+
+    /**
+     * @param $order
+     * @param $orderProperty
+     * @return void
+     */
+    public function sendOrderCreatedAdminMail($order, $orderProperty): void
+    {
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue(new OrderCreateAdminMail($order, $orderProperty)
+        );
+    }
+
+    /**
+     * @param $user
+     * @param $orderId
+     * @return void
+     */
+    public function sendOrderCancelledMail($user, $orderId): void
+    {
+        Mail::to($user->email)
+            ->queue(new OrderCancelMail($orderId)
+        );
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue(new OrderCancelMail($orderId)
         );
     }
 }
