@@ -11,6 +11,7 @@ use App\Services\PageService;
 use App\Services\ProductService;
 use App\Services\ReviewService;
 use App\Services\SectionService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PageService::class, fn() => new PageService());
         $this->app->singleton(ReviewService::class, fn() => new ReviewService());
         $this->app->singleton(SectionService::class, fn() => new SectionService());
+        $this->app->singleton(UserService::class, fn() => new UserService());
     }
 
     /**

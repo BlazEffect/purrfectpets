@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\User;
 use OpenApi\Annotations as OA;
 
 class UserController extends BaseApiController
 {
+    public function __construct(
+        private readonly UserService $userService
+    ){}
+
     /**
      * @OA\Get(
      *     path="/user/profile",
@@ -41,9 +44,9 @@ class UserController extends BaseApiController
      */
     public function getUserProfile(): ApiSuccessResponse
     {
-        $user = auth()->user();
+        $userProfile = $this->userService->getUserProfile();
 
-        return new ApiSuccessResponse($user->load('profile'), '');
+        return new ApiSuccessResponse($userProfile, '');
     }
 
     /**
@@ -105,19 +108,11 @@ class UserController extends BaseApiController
     {
         $request->validated();
 
-        $authUser = auth()->user();
-        $user = User::find($authUser->id);
-
         $updateUser = $request->only(['email', 'password']);
         $updateUserProfile = $request->only(['first_name', 'surname', 'last_name', 'phone']);
 
-        if (!empty($updateUser)) {
-            $user->update($updateUser);
-        }
-        if (!empty($updateUserProfile)) {
-            $user->profile()->update($updateUserProfile);
-        }
+        $updatedUserProfile = $this->userService->updateUserProfile($updateUser, $updateUserProfile);
 
-        return new ApiSuccessResponse($user->load('profile'), 'Профиль успешно обновлен');
+        return new ApiSuccessResponse($updatedUserProfile, 'Профиль успешно обновлен');
     }
 }
