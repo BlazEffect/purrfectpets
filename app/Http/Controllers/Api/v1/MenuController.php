@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Services\MenuService;
 use OpenApi\Annotations as OA;
 
 class MenuController extends BaseApiController

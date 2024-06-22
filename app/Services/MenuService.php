@@ -23,18 +23,12 @@ class MenuService
     {
         $menuType = MenuType::query()->where('key', $menuKey)->active()->first();
 
-        if ($menuType === null) {
-            return null;
-        }
-
-        $menuItems = $menuType
-            ->items()
-            ->with('children', function($query) {
+        return $menuType
+            ?->items()
+            ->with('children', function ($query) {
                 $query->active();
             })
             ->active()
             ->get();
-
-        return $menuItems;
     }
 }
