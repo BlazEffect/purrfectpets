@@ -65,7 +65,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::controller(ReviewController::class)->prefix('review')->group(function () {
-            Route::patch('/create', 'createReview');
+            Route::post('/create', 'createReview');
             Route::patch('/{reviewId}', 'editReview');
             Route::delete('/{reviewId}', 'deleteReview');
         });
