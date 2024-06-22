@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\Page;
+use App\Services\PageService;
 use OpenApi\Annotations as OA;
 
 class PageController extends BaseApiController
 {
+    public function __construct(
+        private readonly PageService $pageService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/getPage/{url}",
@@ -48,10 +52,7 @@ class PageController extends BaseApiController
      */
     public function index(string $url): ApiSuccessResponse|ApiErrorResponse
     {
-        $page = Page::query()
-            ->where('url', $url)
-            ->active()
-            ->get();
+        $page = $this->pageService->getPageByUrl($url);
 
         if ($page === null) {
             return new ApiErrorResponse('Страницы не найдено.');

@@ -7,6 +7,7 @@ use App\Services\BrandService;
 use App\Services\EmailService;
 use App\Services\MenuService;
 use App\Services\OrderService;
+use App\Services\PageService;
 use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             );
         });
         $this->app->singleton(ProductService::class, fn() => new ProductService());
+        $this->app->singleton(PageService::class, fn() => new PageService());
     }
 
     /**
