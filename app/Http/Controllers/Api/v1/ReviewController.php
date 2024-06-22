@@ -121,6 +121,15 @@ class ReviewController extends BaseApiController
      *     security={
      *         { "Bearer":{} }
      *     },
+     *     @OA\Parameter(
+     *         name="reviewId",
+     *         description="ID отзыва",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             allOf={
@@ -171,11 +180,11 @@ class ReviewController extends BaseApiController
      * @param EditReviewRequest $request
      * @return ApiErrorResponse|ApiSuccessResponse
      */
-    public function editReview(EditReviewRequest $request): ApiErrorResponse|ApiSuccessResponse
+    public function editReview(EditReviewRequest $request, int $reviewId): ApiErrorResponse|ApiSuccessResponse
     {
         $request->validated();
 
-        $review = $this->reviewService->editReview($request->input('review_id'), $request->all());
+        $review = $this->reviewService->editReview($reviewId, $request->all());
 
         if ($review === null) {
             return new ApiErrorResponse('Отзыв не найден');
