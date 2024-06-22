@@ -8,6 +8,7 @@ use App\Mail\OrderCreateAdminMail;
 use App\Mail\OrderCreateUserMail;
 use App\Mail\RegisterAdminMail;
 use App\Mail\RegisterUserMail;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -75,6 +76,28 @@ class EmailService
         );
         Mail::to(env('MAIL_FROM_ADDRESS'))
             ->queue(new OrderCancelMail($orderId)
+        );
+    }
+
+    /**
+     * @param Review $review
+     * @return void
+     */
+    public function sendCreateReviewMail(Review $review): void
+    {
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue(new CreateReviewMail($review)
+        );
+    }
+
+    /**
+     * @param Review $review
+     * @return void
+     */
+    public function sendEditReviewMail(Review $review): void
+    {
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue(new EditReviewMail($review)
         );
     }
 }

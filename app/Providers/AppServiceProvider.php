@@ -9,6 +9,7 @@ use App\Services\MenuService;
 use App\Services\OrderService;
 use App\Services\PageService;
 use App\Services\ProductService;
+use App\Services\ReviewService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(ProductService::class, fn() => new ProductService());
         $this->app->singleton(PageService::class, fn() => new PageService());
+        $this->app->singleton(ReviewService::class, fn() => new ReviewService());
     }
 
     /**

@@ -6,15 +6,18 @@ use App\Http\Requests\CreateReviewRequest;
 use App\Http\Requests\EditReviewRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Mail\CreateReviewMail;
-use App\Mail\EditReviewMail;
-use App\Models\Review;
+use App\Services\EmailService;
+use App\Services\ReviewService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use OpenApi\Annotations as OA;
 
 class ReviewController extends BaseApiController
 {
+    public function __construct(
+        private readonly ReviewService $reviewService,
+        private readonly EmailService $emailService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/reviews",
@@ -36,9 +39,11 @@ class ReviewController extends BaseApiController
      *
      * @return ApiSuccessResponse
      */
-    public function getReviews()
+    public function getReviews(): ApiSuccessResponse
     {
-        return new ApiSuccessResponse(Review::moderated()->get(), '');
+        $reviews = $this->reviewService->getModeratedReviews();
+
+        return new ApiSuccessResponse($reviews, '');
     }
 
     /**
@@ -100,11 +105,9 @@ class ReviewController extends BaseApiController
         $data['user_id'] = auth()->user()->id;
         $data['status'] = 0;
 
-        $review = Review::create($data);
+        $review = $this->reviewService->createReview($data);
 
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new CreateReviewMail($review))
-        );
+        $this->emailService->sendCreateReviewMail($review);
 
         return new ApiSuccessResponse($review, 'Отзыв был создан.');
     }
@@ -172,20 +175,13 @@ class ReviewController extends BaseApiController
     {
         $request->validated();
 
-        $review = Review::find($request->input('review_id'));
+        $review = $this->reviewService->editReview($request->input('review_id'), $request->all());
 
-        if ($review === null || $review->user_id !== auth()->user()->id) {
+        if ($review === null) {
             return new ApiErrorResponse('Отзыв не найден');
         }
 
-        $data = $request->all();
-        $data['status'] = 0;
-
-        $review->update($data);
-
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new EditReviewMail($review))
-        );
+        $this->emailService->sendEditReviewMail($review);
 
         return new ApiSuccessResponse($review, 'Отзыв был изменён.');
     }
@@ -240,15 +236,11 @@ class ReviewController extends BaseApiController
      */
     public function deleteReview(Request $request)
     {
-        $reviewId = $request->get('reviewId');
+        $deleted = $this->reviewService->deleteReview($request->get('reviewId'));
 
-        $review = Review::find($reviewId);
-
-        if ($review === null || $review->user_id !== auth()->user()->id) {
+        if (!$deleted) {
             return new ApiErrorResponse('Отзыв не найден');
         }
-
-        $review->delete();
 
         return new ApiSuccessResponse('', 'Отзыв был удален.');
     }
