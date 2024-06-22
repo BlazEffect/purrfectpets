@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\CatalogProduct;
-use App\Models\CatalogSection;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\ProductService;
+use App\Services\SectionService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class SectionController extends BaseApiController
 {
+    public function __construct(
+        private readonly SectionService $sectionService,
+        private readonly ProductService $productService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/sections",
@@ -36,11 +39,7 @@ class SectionController extends BaseApiController
      */
     public function getSections(): ApiSuccessResponse
     {
-        $sections = CatalogSection::active()->get();
-
-        if ($sections->isNotEmpty()) {
-            $sections->map(fn(CatalogSection $section) => $section->image = Storage::disk('sections')->url($section->image));
-        }
+        $sections = $this->sectionService->getActiveSections();
 
         return new ApiSuccessResponse($sections, '');
     }
@@ -86,16 +85,10 @@ class SectionController extends BaseApiController
      */
     public function getChildSections(int $sectionId): ApiSuccessResponse|ApiErrorResponse
     {
-        $section = CatalogSection::find($sectionId);
+        $childSections = $this->sectionService->getChildSections($sectionId);
 
-        if ($section === null) {
+        if ($childSections === null) {
             return new ApiErrorResponse('Раздел не найден.');
-        }
-
-        $childSections = $section->childSections()->active()->get();
-
-        if ($childSections->isNotEmpty()) {
-            $childSections->map(fn(CatalogSection $section) => $section->image = Storage::disk('sections')->url($section->image));
         }
 
         return new ApiSuccessResponse($childSections, '');
@@ -151,26 +144,12 @@ class SectionController extends BaseApiController
      */
     public function getProducts(Request $request, int $sectionId): ApiSuccessResponse|ApiErrorResponse
     {
-        $section = CatalogSection::find($sectionId);
+        $result = $this->productService->getProductsBySection($request, $sectionId);
 
-        if ($section === null) {
+        if ($result === null) {
             return new ApiErrorResponse('Раздел не найден');
         }
 
-        $allProducts = $section->products()
-            ->active()
-            ->get();
-
-        $offsetProducts = $allProducts->when($request->get('page'), fn(Collection $collection) =>
-            $collection->slice(($request->get('page') - 1) * 20, 20)
-        );
-
-        if ($offsetProducts->isNotEmpty()) {
-            $offsetProducts->map(fn(CatalogProduct $catalogProduct) =>
-                $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image)
-            );
-        }
-
-        return new ApiSuccessResponse($offsetProducts, $allProducts->count());
+        return new ApiSuccessResponse($result['products'], $result['total']);
     }
 }

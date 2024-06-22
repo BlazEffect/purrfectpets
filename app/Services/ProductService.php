@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Models\CatalogProduct;
+use App\Models\CatalogSection;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
@@ -35,5 +38,33 @@ class ProductService
         $product->image = Storage::disk('products')->url($product->image);
 
         return $product;
+    }
+
+    public function getProductsBySection(Request $request, int $sectionId): ?array
+    {
+        $section = CatalogSection::find($sectionId);
+
+        if ($section === null) {
+            return null;
+        }
+
+        $allProducts = $section->products()
+            ->active()
+            ->get();
+
+        $offsetProducts = $allProducts->when($request->get('page'), fn(Collection $collection) =>
+            $collection->slice(($request->get('page') - 1) * 20, 20)
+        );
+
+        if ($offsetProducts->isNotEmpty()) {
+            $offsetProducts->map(fn(CatalogProduct $catalogProduct) =>
+                $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image)
+            );
+        }
+
+        return [
+            'products' => $offsetProducts,
+            'total' => $allProducts->count()
+        ];
     }
 }
