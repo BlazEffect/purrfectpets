@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use App\Mail\CreateReviewMail;
+use App\Mail\EditReviewMail;
 use App\Mail\FeedbackFormMail;
 use App\Mail\OrderCancelMail;
 use App\Mail\OrderCreateAdminMail;
 use App\Mail\OrderCreateUserMail;
 use App\Mail\RegisterAdminMail;
 use App\Mail\RegisterUserMail;
+use App\Models\Order;
+use App\Models\OrderProperty;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -22,8 +26,10 @@ class EmailService
      */
     public function sendRegistrationEmails(User $user, array $profileData, string $password): void
     {
-        Mail::to($user->email)->queue(new RegisterUserMail($user, $profileData, $password));
-        Mail::to(env('MAIL_FROM_ADDRESS'))->queue(new RegisterAdminMail($user, $profileData));
+        Mail::to($user->email)
+            ->queue(new RegisterUserMail($user, $profileData, $password));
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue(new RegisterAdminMail($user, $profileData));
     }
 
     /**
@@ -35,48 +41,43 @@ class EmailService
     public function sendFeedbackEmail(string $fio, string $email, string $message): void
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new FeedbackFormMail($fio, $email, $message))
-        );
+            ->queue((new FeedbackFormMail($fio, $email, $message)));
     }
 
     /**
-     * @param $user
-     * @param $order
-     * @param $orderProperty
+     * @param User $user
+     * @param Order $order
+     * @param OrderProperty $orderProperty
      * @return void
      */
-    public function sendOrderCreatedUserMail($user, $order, $orderProperty): void
+    public function sendOrderCreatedUserMail(User $user, Order $order, OrderProperty $orderProperty): void
     {
         Mail::to($user->email)
-            ->queue(new OrderCreateUserMail($order, $orderProperty)
-        );
+            ->queue(new OrderCreateUserMail($order, $orderProperty));
     }
 
     /**
-     * @param $order
-     * @param $orderProperty
+     * @param Order $order
+     * @param OrderProperty $orderProperty
      * @return void
      */
-    public function sendOrderCreatedAdminMail($order, $orderProperty): void
+    public function sendOrderCreatedAdminMail(Order $order, OrderProperty $orderProperty): void
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue(new OrderCreateAdminMail($order, $orderProperty)
-        );
+            ->queue(new OrderCreateAdminMail($order, $orderProperty));
     }
 
     /**
-     * @param $user
-     * @param $orderId
+     * @param User $user
+     * @param int $orderId
      * @return void
      */
-    public function sendOrderCancelledMail($user, $orderId): void
+    public function sendOrderCancelledMail(User $user, int $orderId): void
     {
         Mail::to($user->email)
-            ->queue(new OrderCancelMail($orderId)
-        );
+            ->queue(new OrderCancelMail($orderId));
         Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue(new OrderCancelMail($orderId)
-        );
+            ->queue(new OrderCancelMail($orderId));
     }
 
     /**
@@ -86,8 +87,7 @@ class EmailService
     public function sendCreateReviewMail(Review $review): void
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue(new CreateReviewMail($review)
-        );
+            ->queue(new CreateReviewMail($review));
     }
 
     /**
@@ -97,7 +97,6 @@ class EmailService
     public function sendEditReviewMail(Review $review): void
     {
         Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue(new EditReviewMail($review)
-        );
+            ->queue(new EditReviewMail($review));
     }
 }

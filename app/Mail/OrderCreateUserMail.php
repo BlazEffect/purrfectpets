@@ -16,9 +16,9 @@ class OrderCreateUserMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public function __construct(
-        public Order $order,
-        public OrderProperty $orderProperty,
-    ) {}
+        public readonly Order $order,
+        public readonly OrderProperty $orderProperty,
+    ){}
 
     public function envelope(): Envelope
     {

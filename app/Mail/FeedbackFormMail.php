@@ -14,9 +14,9 @@ class FeedbackFormMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public function __construct(
-        public string $fio,
-        public string $email,
-        public string $message
+        public readonly string $fio,
+        public readonly string $email,
+        public readonly string $message
     ){}
 
     public function envelope(): Envelope

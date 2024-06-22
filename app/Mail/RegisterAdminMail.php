@@ -15,9 +15,9 @@ class RegisterAdminMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public function __construct(
-        public User $user,
-        public array $userProfile
-    ) {}
+        public readonly User $user,
+        public readonly array $userProfile
+    ){}
 
     public function envelope(): Envelope
     {

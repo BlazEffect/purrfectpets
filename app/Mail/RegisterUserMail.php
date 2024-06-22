@@ -15,10 +15,10 @@ class RegisterUserMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public function __construct(
-        public User $user,
-        public array $userProfile,
-        public string $password
-    ) {}
+        public readonly User $user,
+        public readonly array $userProfile,
+        public readonly string $password
+    ){}
 
     public function envelope(): Envelope
     {
