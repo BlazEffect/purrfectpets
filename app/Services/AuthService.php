@@ -28,13 +28,12 @@ class AuthService
     public function createUserProfile(User $user, array $fio, ?string $phone): UserProfile
     {
         $profileData = [
-            'user_id' => $user->id,
             'first_name' => $fio[1],
             'surname' => $fio[0],
             'last_name' => $fio[2],
             'phone' => $phone,
         ];
-        return UserProfile::create($profileData);
+        return $user->profile()->create($profileData);
     }
 
     /**
