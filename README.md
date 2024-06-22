@@ -1,6 +1,6 @@
 # Интернет-магазин PurrfectPets
 
-Добро пожаловать в PurrfectPets API, backend для интернет-магазина продажи зоотоваров. Этот проект построен на Laravel и предоставляет API.
+Добро пожаловать в репозиторий PurrfectPets API, backend для интернет-магазина продажи зоотоваров. Этот проект построен на Laravel и предоставляет API.
 
 ## Содержание
 
@@ -46,6 +46,12 @@
 
     ```bash
     php artisan key:generate
+    ```
+
+6. Создать линки для папок storage:
+
+    ```bash
+    php artisan storage:link
     ```
 
 ## Конфигурация
