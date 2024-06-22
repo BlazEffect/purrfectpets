@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\MenuType;
 use OpenApi\Annotations as OA;
 
 class MenuController extends BaseApiController
 {
+    public function __construct(
+        private readonly MenuService $menuService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/menus",
@@ -32,7 +35,8 @@ class MenuController extends BaseApiController
      */
     public function getMenus(): ApiSuccessResponse
     {
-        return new ApiSuccessResponse(MenuType::active()->get(), '');
+        $menus = $this->menuService->getMenus();
+        return new ApiSuccessResponse($menus, '');
     }
 
     /**
@@ -67,21 +71,12 @@ class MenuController extends BaseApiController
      */
     public function getMenuItems(string $menuKey)
     {
-        $menuType = MenuType::query()->where('key', $menuKey)->active()->first();
+        $menuItems = $this->menuService->getMenuItems($menuKey);
 
-        if ($menuType === null) {
+        if ($menuItems === null) {
             return new ApiErrorResponse('Меню не найдено.');
         }
 
-        return new ApiSuccessResponse(
-            $menuType
-                ->items()
-                ->with('children', function($query) {
-                    $query->active();
-                })
-                ->active()
-                ->get(),
-            ''
-        );
+        return new ApiSuccessResponse($menuItems, '');
     }
 }
