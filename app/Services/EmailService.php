@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Mail\FeedbackFormMail;
 use App\Mail\RegisterAdminMail;
 use App\Mail\RegisterUserMail;
 use App\Models\User;
@@ -19,5 +20,12 @@ class EmailService
     {
         Mail::to($user->email)->queue(new RegisterUserMail($user, $profileData, $password));
         Mail::to(env('MAIL_FROM_ADDRESS'))->queue(new RegisterAdminMail($user, $profileData));
+    }
+
+    public function sendFeedbackEmail(string $fio, string $email, string $message): void
+    {
+        Mail::to(env('MAIL_FROM_ADDRESS'))
+            ->queue((new FeedbackFormMail($fio, $email, $message))
+        );
     }
 }

@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FeedbackFormRequest;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Mail\FeedbackFormMail;
-use Illuminate\Support\Facades\Mail;
+use App\Services\EmailService;
 use OpenApi\Annotations as OA;
 
 class FormController extends Controller
 {
+    public function __construct(
+        private readonly EmailService $emailService
+    ){}
+
     /**
      * @OA\Post (
      *     path="/form/feedback",
@@ -57,9 +60,7 @@ class FormController extends Controller
 
         $data = $request->all();
 
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new FeedbackFormMail($data['FIO'], $data['email'], $data['message']))
-        );
+        $this->emailService->sendFeedbackEmail($data['FIO'], $data['email'], $data['message']);
 
         return new ApiSuccessResponse('', 'Сообщение успешно отправлено.');
     }
