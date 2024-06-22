@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Mail\RegisterAdminMail;
-use App\Mail\RegisterUserMail;
-use App\Models\User;
-use App\Models\UserProfile;
+use App\Services\AuthService;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseApiController
 {
+    public function __construct(
+        private readonly AuthService $userService,
+        private readonly EmailService $emailService
+    ){}
+
     /**
      * Register api
      *
@@ -67,7 +68,6 @@ class AuthController extends BaseApiController
         $request->validated();
 
         $input = $request->all();
-
         $fio = explode(' ', $input['FIO']);
 
         if (count($fio) < 2 || count($fio) > 3) {
@@ -78,29 +78,11 @@ class AuthController extends BaseApiController
             );
         }
 
-        $password = $input['password'];
-
-        $input['password'] = bcrypt($input['password']);
-        $input['active'] = true;
-        $user = User::create($input);
-
-        $profileData = [
-            'user_id' => $user->id,
-            'first_name' => $fio[1],
-            'surname' => $fio[0],
-            'last_name' => $fio[2],
-            'phone' => $input['phone'] ?? null,
-        ];
-        $userProfile = UserProfile::create($profileData);
+        $user = $this->userService->registerUser($input);
+        $userProfile = $this->userService->createUserProfile($user, $fio, $input['phone'] ?? null);
+        $this->emailService->sendRegistrationEmails($user, $userProfile->toArray(), $input['password']);
 
         $success['token'] = $user->createToken('auth_token')->plainTextToken;
-
-        Mail::to($user->email)
-            ->queue((new RegisterUserMail($user, $userProfile->toArray(), $password))
-        );
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->queue((new RegisterAdminMail($user, $userProfile->toArray()))
-        );
 
         return new ApiSuccessResponse($success, 'Пользователь успешно зарегистрирован.');
     }
@@ -152,10 +134,10 @@ class AuthController extends BaseApiController
      */
     public function login(Request $request): ApiSuccessResponse|ApiErrorResponse
     {
-        if (Auth::attempt(['email' => $request->post('email'), 'password' => $request->post('password')])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('auth_token')->plainTextToken;
+        $user = $this->userService->attemptLogin($request->post('email'), $request->post('password'));
 
+        if ($user) {
+            $success['token'] = $user->createToken('auth_token')->plainTextToken;
             return new ApiSuccessResponse($success, 'Пользователь успешно вошел.');
         }
 
@@ -196,7 +178,7 @@ class AuthController extends BaseApiController
      */
     public function logout(): ApiSuccessResponse
     {
-        Auth()->user()->tokens()->delete();
+        $this->userService->logoutUser();
 
         return new ApiSuccessResponse([], 'Пользователь успешно вышел.');
     }
