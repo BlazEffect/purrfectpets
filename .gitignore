@@ -1,0 +1,9 @@
+.idea
+
+.env
+
+logs/**/*.log
+
+mysql-data
+
+etc/nginx/ssl

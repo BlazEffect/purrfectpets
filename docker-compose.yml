@@ -1,0 +1,130 @@
+version: '3.9'
+name: ${NAME}
+services:
+  ngrok:
+    image: ngrok/ngrok
+    container_name: ${NAME}-ngrok
+    restart: always
+    tty: true
+    ports:
+      - "4040:4040"
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_TOKEN}
+    command: 'http nginx:443'
+    depends_on:
+      - nginx
+    networks:
+      - network
+
+  mysql:
+    image: mysql
+    container_name: ${NAME}-mysql
+    restart: always
+    tty: true
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: ${DATA_BASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${DATA_BASE_PASSWORD}
+    volumes:
+      - ./etc/mysql/my.cnf:/etc/mysql/my.cnf:ro
+      - ./logs/mysql:/var/log/mysql
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - network
+
+  nginx:
+    image: nginx
+    container_name: ${NAME}-nginx
+    restart: always
+    tty: true
+    ports:
+      - "${LISTEN_IP}:8080:80"
+      - "${LISTEN_IP}:8443:443"
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - "${BACKEND_DIR}:/var/www/backend"
+      - ./etc/nginx/ssl:/etc/nginx/ssl:ro
+      - ./etc/nginx/sites-enabled:/etc/nginx/conf.d/:ro
+      - ./logs/nginx/:/var/log/nginx/
+    networks:
+      - network
+
+  # PHP-FPM with backend
+  backend:
+    container_name: ${NAME}-php-fpm
+    build:
+      context: .
+      dockerfile: build/backend/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    working_dir: /var/www/backend
+    restart: always
+    tty: true
+    depends_on:
+      - mysql
+    volumes:
+      - "${BACKEND_DIR}:/var/www/backend"
+      - ./etc/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./logs/php/:/var/log/php/
+    networks:
+      - network
+
+  # Supervisor
+  supervisor:
+    container_name: ${NAME}-supervisor
+    build:
+      context: .
+      dockerfile: build/supervisor/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    working_dir: /var/www/backend
+    restart: always
+    tty: true
+    depends_on:
+      - backend
+    volumes:
+      - "${BACKEND_DIR}:/var/www/backend"
+      - ./etc/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf:ro
+      - ./logs/supervisor/:/etc/supervisor/logs/
+    networks:
+      - network
+
+  # NodeJs with frontend
+  frontend:
+    container_name: ${NAME}-frontend
+    build:
+      context: .
+      dockerfile: build/frontend/Dockerfile
+    working_dir: /var/www/frontend
+    restart: always
+    tty: true
+    volumes:
+      - "${FRONTEND_DIR}:/var/www/frontend"
+    depends_on:
+      - backend
+    networks:
+      - network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${NAME}-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_ARBITRARY: 1
+    networks:
+      - network
+
+networks:
+  network:
+    name: ${NAME}-network
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "${LISTEN_IP}"
