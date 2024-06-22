@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\Brand;
-use App\Models\CatalogProduct;
+use App\Services\BrandService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use OpenApi\Annotations as OA;
 
 class BrandController extends BaseApiController
 {
+    public function __construct(
+        private readonly BrandService $brandService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/brands",
@@ -35,17 +37,8 @@ class BrandController extends BaseApiController
      */
     public function getBrands(): ApiSuccessResponse
     {
-        $brand = Brand::query()
-            ->active()
-            ->orderBy('order')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $brand->map(fn(Brand $brand) =>
-            $brand->image = Storage::disk('brands')->url($brand->image)
-        );
-
-        return new ApiSuccessResponse($brand, '');
+        $brands = $this->brandService->getBrands();
+        return new ApiSuccessResponse($brands, '');
     }
 
     /**
@@ -87,13 +80,11 @@ class BrandController extends BaseApiController
      */
     public function getBrandById(int $brandId): ApiSuccessResponse|ApiErrorResponse
     {
-        $brand = Brand::find($brandId);
+        $brand = $this->brandService->getBrandById($brandId);
 
         if ($brand === null) {
             return new ApiErrorResponse('Бренд не найден.');
         }
-
-        $brand->image = Storage::disk('brands')->url($brand->image);
 
         return new ApiSuccessResponse($brand, '');
     }
@@ -146,22 +137,11 @@ class BrandController extends BaseApiController
      */
     public function getProductsByBrandId(Request $request, int $brandId): ApiSuccessResponse|ApiErrorResponse
     {
-        $brandWithProducts = Brand::with(['products' => function ($query) use ($request) {
-            $query->when($request->has('page'), function ($subQuery) use ($request) {
-                $subQuery->offset(($request->has('page') - 1) * 4)
-                    ->limit(4);
-            });
-        }])->find($brandId);
+        $brandWithProducts = $this->brandService->getProductsByBrandId($request, $brandId);
 
         if ($brandWithProducts === null) {
             return new ApiErrorResponse('Бренд не найден.');
         }
-
-        $brandWithProducts->image = Storage::disk('brands')->url($brandWithProducts->image);
-
-        $brandWithProducts->products->map(fn(CatalogProduct $catalogProduct) =>
-            $catalogProduct->image = Storage::disk('products')->url($catalogProduct->image)
-        );
 
         return new ApiSuccessResponse($brandWithProducts, $brandWithProducts->products()->count());
     }
