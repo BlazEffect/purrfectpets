@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\CatalogProduct;
-use Illuminate\Support\Facades\Storage;
+use App\Services\ProductService;
 use OpenApi\Annotations as OA;
 
 class ProductController extends BaseApiController
 {
+    public function __construct(
+        private readonly ProductService $productService
+    ){}
+
     /**
      * @OA\Get (
      *     path="/product/{productId}",
@@ -94,15 +97,11 @@ class ProductController extends BaseApiController
      */
     public function getProduct(int $productId): ApiSuccessResponse|ApiErrorResponse
     {
-        $product = CatalogProduct::find($productId);
+        $product = $this->productService->getProductById($productId);
 
-        if ($product === null || $product->active === false) {
+        if ($product === null) {
             return new ApiErrorResponse('Товар не найден.');
         }
-
-        $product = $product->with('brand', 'comments', 'propertyValues')->first();
-
-        $product->image = Storage::disk('products')->url($product->image);
 
         return new ApiSuccessResponse($product, '');
     }
