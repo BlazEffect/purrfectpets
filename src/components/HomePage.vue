@@ -44,7 +44,9 @@
     </div>
 
     <footer class="footer">
-      <p>© 2024 PurfectPets. Все права защищены.</p>
+      <div class="container">
+        <p>© 2024 PurfectPets. Все права защищены.</p>
+      </div>
     </footer>
   </div>
 </template>
@@ -59,11 +61,10 @@ import purfect3 from '/src/assets/purfect3.jpg'
 import logo from '/src/assets/shopping-cart_711897.png'
 import '/src/assets/main.css'
 
-const isLoggedIn = ref(false) // Переменная для отслеживания статуса входа пользователя
-const username = ref('') // Переменная для хранения имени пользователя
+const isLoggedIn = ref(false)
+const username = ref('')
 
 const checkLoginStatus = () => {
-  // Ваш код для проверки статуса авторизации пользователя
 }
 
 const login = (name) => {
@@ -71,21 +72,21 @@ const login = (name) => {
   username.value = name
 }
 
-checkLoginStatus() // Вызываем функцию при загрузке страницы
+checkLoginStatus()
 </script>
 
 <style scoped>
-/* Стили для ссылок в шапке */
+
 .login, .username {
-  text-decoration: none; /* Убираем подчеркивание */
-  color: blue; /* Задаем синий цвет */
+  text-decoration: none;
+  color: blue;
   font-weight: bold;
   font-size: large;
 }
 
 #homepage {
-  height: 90vh; /* Фиксированная высота 90% от высоты экрана */
-  overflow: hidden; /* Обрезаем контент, выходящий за пределы контейнера */
+  height: 90vh;
+  overflow: hidden;
 }
 
 .content {
@@ -120,17 +121,17 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   color: black;
   font-size: 54px;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Добавляем тень для текста */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 10px;
 }
 
 .text-overlay2 {
   position: absolute;
-  margin: auto; /* Adjust vertical position */
+  margin: auto;
   left: 10%;
   transform: translate(50%, -50%);
   color: black;
-  font-size: 1.5rem; /* Adjust font size */
+  font-size: 1.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 10px;
@@ -161,8 +162,8 @@ checkLoginStatus() // Вызываем функцию при загрузке с
 }
 
 .menu a {
-  text-decoration: none; /* Убираем подчеркивание */
-  color: gray; /* Задаем серый цвет */
+  text-decoration: none;
+  color: gray;
 }
 
 .login {
@@ -172,11 +173,10 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   font-size: large;
 }
 
-/* Стили для ссылок в каталоге */
 .catalog a {
-  text-decoration: none; /* Убираем подчеркивание */
-  color: black; /* Задаем черный цвет */
-  font-size: 18px; /* Увеличиваем размер текста */
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
 }
 
 .menu li {
@@ -188,7 +188,6 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   font-size: 15px;
 }
 
-/* Стиль для формы поиска */
 .content_search {
   position: static;
   display: flex;
@@ -205,7 +204,7 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   background-color: #F5F5F5;
   border-radius: 5px;
   padding: 5px;
-  width: 400px; /* Уменьшаем ширину поля ввода */
+  width: 400px;
   height: 25px;
 }
 
@@ -218,8 +217,8 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   background-color: #FFD000;
   color: black;
   font-size: large;
-  width: 80px; /* Уменьшаем ширину кнопки */
-  height: 30px; /* Уменьшаем высоту кнопки */
+  width: 80px;
+  height: 30px;
   transition: transform 700ms ease;
 }
 
@@ -229,24 +228,22 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   border: #d3ad07 solid 1px;
 }
 
-/* Стиль для корзины */
 .logo_trashbin {
   display: flex;
-  align-items: center; /* Выравнивание элементов по вертикали */
+  align-items: center;
   text-decoration: none;
 }
 
 #logo {
-  width: 30px; /* Размер изображения корзины */
-  height: 30px; /* Размер изображения корзины */
-  margin-right: 5px; /* Отступ между изображением и текстом "Кор*/
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
 }
 #trashbin {
   font-weight: bold;
   color: #9b800a;
 }
 
-/* Стиль для личного кабинета */
 .account {
   text-decoration: none;
   color: black;
@@ -254,24 +251,22 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   font-size: large;
 }
 
-/* Стиль для линии */
 #hr {
   border: 0;
   height: 4px;
-  margin: 20px 0; /* Уменьшаем вертикальные отступы */
+  margin: 20px 0;
   background-image: linear-gradient(to right, #71bb4f 50%, #4d8bc2 50%, #549ad6 60%, #ff9100 60%, #ff9100 70%, #05b5e6 70%, #05b5e6 80%, #b959bd 80%, #c96acc 90%, #71bb4f 90%, #71bb4f 100%);
 }
 
-/* Стиль для каталога */
 .catalog {
-  text-align: center; /* Центрируем элементы списка */
+  text-align: center;
   padding: 10px;
 }
 
 .catalog li {
-  display: inline-block; /* Располагаем элементы списка в одну линию */
-  margin-right: 100px; /* Уменьшаем отступ между элементами списка */
-  list-style-type: none; /* Убираем маркеры списка */
+  display: inline-block;
+  margin-right: 100px;
+  list-style-type: none;
   font-weight: bold;
 }
 
@@ -282,10 +277,9 @@ checkLoginStatus() // Вызываем функцию при загрузке с
 }
 
 .catalog .cart-item img {
-  margin-right: 5px; /* Отступ между изображением и текстом "Корзина" */
+  margin-right: 5px;
 }
 
-/* Стиль для картинки purfect1 */
 .text-overlay1 {
   position: absolute;
   top: 55%;
@@ -294,11 +288,10 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   color: black;
   font-size: 54px;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Добавляем тень для текста */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 10px;
 }
 
-/* Стиль для картинки purfect2 */
 .text-overlay2 {
   position: absolute;
   top: 47%;
@@ -307,19 +300,24 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   color: black;
   font-size: 20px;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Добавляем тень для текста */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 10px;
 }
 
-/* Стиль для футера */
 .footer {
-  background-color: #333; /* Темно-серый цвет футера */
-  color: white; /* Цвет текста в футере */
-  padding: 30px 0; /* Увеличенные вертикальные отступы внутри футера */
-  text-align: center; /* Выравнивание текста по центру */
-  position: fixed; /* Фиксированное позиционирование */
-  bottom: 0; /* Помещаем футер внизу экрана */
-  width: 100%; /* Ширина футера равна ширине экрана */
+  background-color: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (max-width: 885px) {
@@ -376,7 +374,7 @@ checkLoginStatus() // Вызываем функцию при загрузке с
   .text-overlay1 {
     position: absolute;
     top: 25%;
-    left: 5px; /* Отступ слева */
+    left: 5px;
     transform: translateY(-50%); 
     color: black;
     font-size: 20px;
