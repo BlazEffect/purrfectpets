@@ -26,6 +26,10 @@
     </form>
     <p class="home-link"><router-link to="/">Вернуться на главную</router-link></p>
     <p>Уже есть аккаунт? <router-link to="/loginpage">Войдите</router-link></p>
+
+    <transition name="fade">
+      <div v-if="showAlert" :class="['alert', alertType]" @click="closeAlert">{{ alertMessage }}</div>
+    </transition>
   </div>
 </template>
 
@@ -41,13 +45,18 @@ export default {
         phone: '',
         password: '',
         confirmPassword: ''
-      }
+      },
+      showAlert: false,
+      alertMessage: '',
+      alertType: '' 
     };
   },
   methods: {
     register() {
       if (this.registrationForm.password !== this.registrationForm.confirmPassword) {
-        alert('Пароли не совпадают');
+        this.alertMessage = 'Пароли не совпадают';
+        this.alertType = 'alert-error';
+        this.showAlert = true;
         return;
       }
 
@@ -62,7 +71,9 @@ export default {
       axios.post('https://api.purrfectpets.ru/api/v1/auth/register', data)
         .then(response => {
           console.log('Успешная регистрация', response.data);
-          alert('Регистрация прошла успешно!');
+          this.alertMessage = 'Регистрация прошла успешно!';
+          this.alertType = 'alert-success';
+          this.showAlert = true;
           this.$router.push('/');
         })
         .catch(error => {
@@ -74,12 +85,17 @@ export default {
               Object.keys(error.response.data.data).forEach(field => {
                 console.error(`${field}: ${error.response.data.data[field][0]}`);
                 if (field === 'email' && error.response.data.data[field][0].includes('уже существует')) {
-                  alert('Аккаунт с таким email уже существует');
+                  this.alertMessage = 'Аккаунт с таким email уже существует';
+                  this.alertType = 'alert-error';
+                  this.showAlert = true;
                 }
               });
             }
           }
         });
+    },
+    closeAlert() {
+      this.showAlert = false;
     }
   }
 };
@@ -157,5 +173,31 @@ a:hover {
 
 .home-link {
   text-align: center;
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to{
+  opacity: 0;
 }
 </style>
