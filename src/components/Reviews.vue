@@ -25,8 +25,8 @@
       <h2>Список отзывов</h2>
       <div v-for="review in reviews" :key="review.id" class="review-item">
         <h3>{{ review.name }}</h3>
-        <p>{{ review.review }}</p>
-        <p>Рейтинг: {{ review.rating }}</p>
+        <p>{{ review.text }}</p>
+        <p>Рейтинг: {{ review.rating_value }}</p>
       </div>
     </div>
   </div>
@@ -46,16 +46,20 @@ export default {
       reviews: [],
       showAlert: false,
       alertMessage: '',
-      alertType: '' // Для управления цветом алерта
+      alertType: ''
     };
   },
   methods: {
     async submitReview() {
       try {
-        await axios.get('/sanctum/csrf-cookie');
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          throw new Error('Authorization token is missing');
+        }
+
         const response = await axios.post('https://api.purrfectpets.ru/api/v1/review/create', this.reviewForm, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Используем токен из localStorage
+            'Authorization': `Bearer ${token}`
           }
         });
 
@@ -64,19 +68,17 @@ export default {
         this.showAlert = true;
         console.log('Отзыв успешно добавлен', response.data);
 
-        // Добавить новый отзыв в список отзывов
-        this.reviews.push(response.data);
+        this.reviews.push(response.data.data);
         this.reviewForm.name = '';
         this.reviewForm.review = '';
         this.reviewForm.rating = 1;
 
-        // Скрыть алерт через 2 секунды
         setTimeout(() => {
           this.showAlert = false;
         }, 2000);
       } catch (error) {
-        console.error('Ошибка при добавлении отзыва', error.response);
-        this.alertMessage = 'Произошла ошибка. Пожалуйста, попробуйте снова позже.';
+        console.error('Ошибка при добавлении отзыва', error);
+        this.alertMessage = error.response?.data?.message || 'Произошла ошибка. Пожалуйста, попробуйте снова позже.';
         this.alertType = 'alert-error';
         this.showAlert = true;
       }
@@ -87,14 +89,19 @@ export default {
   },
   async mounted() {
     try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        throw new Error('Authorization token is missing');
+      }
+
       const response = await axios.get('https://api.purrfectpets.ru/api/v1/reviews', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Используем токен из localStorage
+          'Authorization': `Bearer ${token}`
         }
       });
-      this.reviews = response.data;
+      this.reviews = response.data.data;
     } catch (error) {
-      console.error('Ошибка при загрузке отзывов', error.response);
+      console.error('Ошибка при загрузке отзывов', error);
     }
   }
 };
@@ -147,7 +154,6 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 button:hover {
   background-color: #0056b3;
 }
@@ -188,11 +194,10 @@ button:hover {
   margin: 10px 0 0;
 }
 
-/* Добавим стили для анимации */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+.fade-enter, .fade-leave-to{
   opacity: 0;
 }
 </style>

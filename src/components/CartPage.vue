@@ -6,7 +6,6 @@
         <img :src="item.image" :alt="item.name" class="cart-item-image">
         <div class="cart-item-details">
           <h2>{{ item.name }}</h2>
-          <p>{{ item.description }}</p>
           <p>{{ item.price }} руб.</p>
           <div class="quantity-controls">
             <button @click="decreaseQuantity(item.id)" class="quantity-button">-</button>
