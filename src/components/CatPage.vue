@@ -9,7 +9,6 @@
   <div v-for="product in products" :key="product.id" class="product">
   <img :src="getImageUrl(product.image)" :alt="product.name">
   <h2>{{ product.name }}</h2>
-  <p>{{ product.description }}</p>
   <p>{{ product.price }} руб.</p>
   <div class="button-container">
   <button @click="handleAddToCart(product.id)">Добавить в корзину</button>
@@ -37,7 +36,7 @@
   ...mapActions(['addToCart']),
   async fetchData() {
   try {
-  const response = await axios.get('http://api.blazeffect.beget.tech/api/v1/section/4/children');
+  const response = await axios.get('https://api.purrfectpets.ru/api/v1/section/222/products');
   this.products = response.data.data;
   } catch (error) {
   console.error('Error fetching products:', error);
@@ -48,7 +47,7 @@
   console.log(`Товар с id ${productId} добавлен в корзину.`);
   },
   getImageUrl(url) {
-  // Replace 'http://' with 'https://' if your site is served over HTTPS
+
   return url.replace('http://', 'https://');
   }
   },
@@ -58,77 +57,108 @@
   };
   </script>
   
-<style scoped>
-#cat-catalog-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-h1 {
-  margin-bottom: 50px;
-}
-
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.product {
-  width: calc(33.33% - 40px); /* Ширина 1/3 контейнера за вычетом маржинов */
-  margin: 0 20px 40px; /* Вертикальный отступ между товарами */
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative; /* Для позиционирования кнопки */
-}
-
-.product img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.product h2 {
-  margin-top: 10px;
-}
-
-.product p {
-  color: #666;
-}
-
-.button-container {
-  margin-top: 10px;
-}
-
-.product button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.product button:hover {
-  background-color: #0056b3;
-}
-
-.cart-link, .home-link {
-  display: inline-block;
-  margin-top: 20px;
-  text-decoration: none;
-  color: #007bff;
-  border: 2px solid #007bff;
-  padding: 5px 10px;
-  border-radius: 7px;
-}
-
-.cart-link:hover, .home-link:hover {
-  color: #0056b3;
-}
-</style>
+  <style scoped>
+  #cat-catalog-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    color: #333;
+  }
+  
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .product {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .product img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 15px;
+    border-radius: 10px;
+  }
+  
+  .product h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .product p {
+    color: #777;
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .button-container {
+    margin-top: auto;
+  }
+  
+  .product button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .product button:hover {
+    background-color: #0056b3;
+  }
+  
+  .cart-link, .home-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  
+  .cart-link:hover, .home-link:hover {
+    color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  .loading-message {
+    font-size: 1.5em;
+    color: #777;
+    margin-top: 50px;
+  }
+  </style>
+  
+  

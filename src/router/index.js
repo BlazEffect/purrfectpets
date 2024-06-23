@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../components/HomePage.vue';
 import WhyWe from '../components/WhyWe.vue';
-import NewsPage from '../components/NewsPage.vue'; // Импортируем компонент страницы новостей
+import Reviews from '../components/Reviews.vue'; // Импортируем компонент страницы новостей
 import LoginPage from '../components/LoginPage.vue';
 import RegistrationPage from '../components/RegistrationPage.vue';
 import ContactsPage from '../components/ContactsPage.vue';
@@ -20,8 +20,7 @@ import AboutPage from '@/components/AboutPage.vue';
 const routes = [
   { path: '/', component: HomePage },
   { path: '/WhyWe', component: WhyWe },
-  { path: '/news', component: NewsPage }, // Добавляем маршрут для страницы новостей
-  { path: '/newspage', component: NewsPage }, // Добавляем маршрут для пути "/newspage"
+  { path: '/reviews', component: Reviews }, // Добавляем маршрут для страницы новостей
   { path: '/loginpage', component: LoginPage },
   { path: '/registration', component: RegistrationPage},
   { path: '/contactspage', component: ContactsPage},
