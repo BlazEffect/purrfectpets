@@ -5,7 +5,7 @@
         <li><router-link to="/about">О компании</router-link></li>
         <li><router-link to="/contactspage">Контакты</router-link></li>
         <li><router-link to="/brands">Бренды</router-link></li>
-        <li><router-link to="/newspage">Новости</router-link></li>
+        <li><router-link to="/reviews">Отзывы</router-link></li>
         <li><router-link to="/whywe">Почему PurfectPets</router-link></li>
       </ul>
       <p class="phone">📞 +7 (951) 505-14-91</p>
@@ -126,8 +126,8 @@ checkLoginStatus() // Вызываем функцию при загрузке с
 
 .text-overlay2 {
   position: absolute;
-  top: 50%; /* Adjust vertical position */
-  right: 10%; /* Adjust horizontal position */
+  margin: auto; /* Adjust vertical position */
+  left: 10%;
   transform: translate(50%, -50%);
   color: black;
   font-size: 1.5rem; /* Adjust font size */
