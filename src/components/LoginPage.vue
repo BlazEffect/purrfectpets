@@ -1,7 +1,7 @@
 <template>
   <div id="registration-page">
     <h1>Вход</h1>
-    <form @submit.prevent="login">
+    <form v-if="!isLoggedIn" @submit.prevent="login">
       <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="loginForm.email" required>
@@ -12,13 +12,15 @@
       </div>
       <button type="submit">Войти</button>
     </form>
+    <div v-else>
+      <button @click="logout">Выйти из аккаунта</button>
+    </div>
     <p class="home-link"><router-link to="/">Вернуться на главную</router-link></p>
-    <p>Нет аккаунта? <router-link to="/registration">Зарегистрируйтесь</router-link></p>
+    <p v-if="!isLoggedIn">Нет аккаунта? <router-link to="/registration">Зарегистрируйтесь</router-link></p>
 
     <transition name="fade">
       <div v-if="showAlert" :class="['alert', alertType]" @click="closeAlert">{{ alertMessage }}</div>
     </transition>
-
   </div>
 </template>
 
@@ -32,20 +34,22 @@ export default {
         email: '',
         password: ''
       },
+      isLoggedIn: false,
       showAlert: false,
       alertMessage: '',
-      alertType: '' 
+      alertType: ''
     };
   },
   methods: {
     login() {
-      axios.get('/sanctum/csrf-cookie').then(response => {
+      axios.get('https://api.purrfectpets.ru/sanctum/csrf-cookie').then(response => {
         axios.post('https://api.purrfectpets.ru/api/v1/auth/login', this.loginForm)
           .then(response => {
             this.alertMessage = 'Успешная авторизация';
             this.alertType = 'alert-success';
             this.showAlert = true;
-            console.log('Успешная авторизация', response.data);
+            localStorage.setItem('authToken', response.data.data.token);
+            this.isLoggedIn = true;
 
             setTimeout(() => {
               this.showAlert = false;
@@ -58,24 +62,59 @@ export default {
               this.alertMessage = 'Неверный логин или пароль';
               this.alertType = 'alert-error';
               this.showAlert = true;
-              console.error('Ошибка валидации данных:', error.response.data);
-
-              if (error.response.data.errors) {
-                Object.keys(error.response.data.errors).forEach(field => {
-                  console.error(`${field}: ${error.response.data.errors[field][0]}`);
-                });
-              }
             } else {
               this.alertMessage = 'Произошла ошибка. Пожалуйста, попробуйте снова позже.';
               this.alertType = 'alert-error';
               this.showAlert = true;
             }
           });
+      }).catch(error => {
+        console.error('Ошибка при получении CSRF-cookie', error.response);
+        this.alertMessage = 'Не удалось получить CSRF-cookie. Попробуйте позже.';
+        this.alertType = 'alert-error';
+        this.showAlert = true;
+      });
+    },
+    logout() {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        this.alertMessage = 'Вы уже вышли из системы';
+        this.alertType = 'alert-error';
+        this.showAlert = true;
+        return;
+      }
+
+      axios.post('https://api.purrfectpets.ru/api/v1/auth/logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        this.alertMessage = 'Успешный выход из системы';
+        this.alertType = 'alert-success';
+        this.showAlert = true;
+        localStorage.removeItem('authToken');
+        this.isLoggedIn = false;
+        
+        setTimeout(() => {
+          this.showAlert = false;
+          this.$router.push('/');
+        }, 2000);
+      })
+      .catch(error => {
+        console.error('Ошибка при выходе из системы', error);
+        this.alertMessage = 'Произошла ошибка. Пожалуйста, попробуйте снова позже.';
+        this.alertType = 'alert-error';
+        this.showAlert = true;
       });
     },
     closeAlert() {
       this.showAlert = false;
     }
+  },
+  mounted() {
+    const token = localStorage.getItem('authToken');
+    this.isLoggedIn = !!token;
   }
 };
 </script>
@@ -172,11 +211,11 @@ a:hover {
   color: #155724;
 }
 
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to{
+
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>

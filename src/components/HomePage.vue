@@ -9,8 +9,9 @@
         <li><router-link to="/whywe">Почему PurfectPets</router-link></li>
       </ul>
       <p class="phone">📞 +7 (951) 505-14-91</p>
-      <img id="account_img" :src="account" alt="account">
+      
       <router-link v-if="!isLoggedIn" to="/loginpage" class="login">Вход</router-link>
+      <button v-if="isLoggedIn" @click="logout" class="logout">Выход</button>
       <span v-if="isLoggedIn" class="username">{{ username }}</span>
     </div>
 
@@ -37,7 +38,7 @@
       <img class="box1" id="purfect1" :src="purfect1" style="width: 100%; height: auto;">
       <div class="text-overlay1">Purfect Pets</div>
       
-      <img class="box2" id="purfect2" :src="purfect2" style="width: 100%; height: auto;">
+      <img class="box2" id="purfect2" style="width: 100%; height: auto;" :src="purfect2">
       <div class="text-overlay2">Питательные корма<br>для ваших животных</div>
       
       <img class="box3" id="purfect3" :src="purfect3" style="width: 100%; height: auto;">
@@ -53,35 +54,76 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RouterView } from 'vue-router'
+import { useRouter } from 'vue-router'
 import account from '/src/assets/account.png'
 import purfect1 from '/src/assets/purfect1.jpg'
 import purfect2 from '/src/assets/purfect2.jpg'
 import purfect3 from '/src/assets/purfect3.jpg'
 import logo from '/src/assets/shopping-cart_711897.png'
 import '/src/assets/main.css'
+import axios from 'axios'
 
 const isLoggedIn = ref(false)
 const username = ref('')
+const router = useRouter()
 
 const checkLoginStatus = () => {
+  const token = localStorage.getItem('authToken')
+  if (token) {
+    isLoggedIn.value = true
+    // Here you can set the username if you have it stored somewhere
+    // username.value = 'StoredUsername'
+  } else {
+    isLoggedIn.value = false
+  }
 }
 
-const login = (name) => {
-  isLoggedIn.value = true
-  username.value = name
+const logout = () => {
+  const token = localStorage.getItem('authToken')
+  if (!token) return
+
+  axios.post('https://api.purrfectpets.ru/api/v1/auth/logout', {}, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(response => {
+    localStorage.removeItem('authToken')
+    isLoggedIn.value = false
+    router.push('/')
+  })
+  .catch(error => {
+    console.error('Ошибка при выходе из системы', error)
+  })
 }
 
 checkLoginStatus()
 </script>
 
 <style scoped>
-
 .login, .username {
   text-decoration: none;
   color: blue;
   font-weight: bold;
   font-size: large;
+}
+
+.logout {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.logout:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
 #homepage {
@@ -254,7 +296,7 @@ checkLoginStatus()
 #hr {
   border: 0;
   height: 4px;
-  margin: 20px 0;
+  margin: 30px 0;
   background-image: linear-gradient(to right, #71bb4f 50%, #4d8bc2 50%, #549ad6 60%, #ff9100 60%, #ff9100 70%, #05b5e6 70%, #05b5e6 80%, #b959bd 80%, #c96acc 90%, #71bb4f 90%, #71bb4f 100%);
 }
 
@@ -415,5 +457,80 @@ checkLoginStatus()
   #homepage {
     height: 100vh;
   }
+}
+
+@media (max-width: 375px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .menu {
+    flex-direction: column;
+    width: 40%;
+  }
+.header{
+  width:100%;
+}
+  .menu li {
+    width: 100%;
+    text-align: left;
+    margin: 5px 0;
+  }
+
+  .phone, .account, .login, .logout, .username {
+
+    text-align: left;
+    margin: 5px 0;
+  }
+.logout{
+  margin-left:-27%;
+  margin-top:20%;
+}
+  .catalog ul {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+  }
+
+  .catalog li {
+    width: 100%;
+  }
+  .content {
+    display: block;
+
+    padding: 10px;
+  }
+
+  .box1, .box2, .box3 {
+
+    margin: 0;
+  }
+
+  .text-overlay1 {
+    top: 20%;
+    left: 10px;
+    font-size: 16px;
+  }
+
+  .text-overlay2 {
+    top: 60%;
+    left: 60%;
+    font-size: 13px;
+    padding:0;
+  }
+
+  .footer {
+    position: static;
+    padding: 10px;
+    height:5%;
+  }
+
+  .container {
+    width: 100%;
+  }
+#hr{
+  margin-top:35%;
+}
 }
 </style>

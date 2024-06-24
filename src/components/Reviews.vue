@@ -3,7 +3,7 @@
     <h1>Отзывы</h1>
     <form @submit.prevent="submitReview">
       <div class="form-group">
-        <label for="name">Имя:</label>
+        <label for="name">Название:</label>
         <input type="text" id="name" v-model="reviewForm.name" required>
       </div>
       <div class="form-group">
@@ -57,7 +57,11 @@ export default {
           throw new Error('Authorization token is missing');
         }
 
-        const response = await axios.post('https://api.purrfectpets.ru/api/v1/review/create', this.reviewForm, {
+        const response = await axios.post('https://api.purrfectpets.ru/api/v1/review/create', {
+          name: this.reviewForm.name,
+          text: this.reviewForm.review,
+          rating_value: this.reviewForm.rating
+        }, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -69,6 +73,7 @@ export default {
         console.log('Отзыв успешно добавлен', response.data);
 
         this.reviews.push(response.data.data);
+        localStorage.setItem('reviews', JSON.stringify(this.reviews));
         this.reviewForm.name = '';
         this.reviewForm.review = '';
         this.reviewForm.rating = 1;
@@ -78,13 +83,24 @@ export default {
         }, 2000);
       } catch (error) {
         console.error('Ошибка при добавлении отзыва', error);
-        this.alertMessage = error.response?.data?.message || 'Произошла ошибка. Пожалуйста, попробуйте снова позже.';
+        if (error.response && error.response.status === 422) {
+          const errors = error.response.data.errors;
+          this.alertMessage = Object.values(errors).flat().join(', ');
+        } else {
+          this.alertMessage = 'Произошла ошибка. Пожалуйста, попробуйте снова позже.';
+        }
         this.alertType = 'alert-error';
         this.showAlert = true;
       }
     },
     closeAlert() {
       this.showAlert = false;
+    },
+    loadReviews() {
+      const storedReviews = localStorage.getItem('reviews');
+      if (storedReviews) {
+        this.reviews = JSON.parse(storedReviews);
+      }
     }
   },
   async mounted() {
@@ -100,9 +116,12 @@ export default {
         }
       });
       this.reviews = response.data.data;
+      localStorage.setItem('reviews', JSON.stringify(this.reviews));
     } catch (error) {
       console.error('Ошибка при загрузке отзывов', error);
     }
+
+    this.loadReviews();
   }
 };
 </script>
@@ -197,7 +216,7 @@ button:hover {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to{
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>
